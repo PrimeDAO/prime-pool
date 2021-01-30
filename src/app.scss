@@ -113,6 +113,15 @@
     grid-area: mainContent;
     background-color: $color-white;
     color: $color-black;
-    padding: 60px;
+
+    .page {
+      padding: 60px;
+
+      .title {
+        font-size: 34px;
+        font-family: "Cera Pro";
+        margin-bottom: 18px;
+      }
+    }
   }
 }
