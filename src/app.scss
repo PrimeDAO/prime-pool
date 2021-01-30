@@ -27,7 +27,6 @@
     display: flex;
     align-items: center;
     background-color: $color-black;
-    z-index: 10000; // so everything will scroll under it
     height: 76px;
 
     .networkfeedback {
@@ -48,6 +47,7 @@
   }
 
   .sidebarContainer {
+    z-index: 10000; // so stays above model screen
     .sidebar {
       grid-area: sidebar;
       padding: 20px 0;
