@@ -42,7 +42,7 @@ export class Pools {
     if (!this.pools?.length) {
       try {
         if (this.poolService.initializing) {
-          await Utils.sleep(100);
+          await Utils.sleep(200);
           this.eventAggregator.publish("dashboard.loading", true);
           await this.poolService.ensureInitialized();
         }
