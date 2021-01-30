@@ -48,11 +48,19 @@
 .bannerContainer.warning .body {
   color: $color-orange;
   background-color: $color-black;
+  border-color: $color-white;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
 }
 
 .bannerContainer.failure .body {
   color: $color-red;
   background-color: $color-black;
+  border-color: $color-white;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
 }
 
 .bannerContainer.info .body {
