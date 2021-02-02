@@ -100,7 +100,7 @@ export class App {
         name: "primeToken",
         route: ["primeToken"],
         title: "The PRIME Token",
-        settings: {icon: "/PrimeTokenIcon.svg"}
+        settings: {icon: "/PrimePoolIcon.svg"}
       }
       , 
       {
