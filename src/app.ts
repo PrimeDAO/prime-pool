@@ -27,7 +27,7 @@ export class App {
     return false;
   }
 
-  public async attached(): Promise<void> {
+  public attached() {
     // so all elements with data-tippy-content will automatically have a tooltip
     tippy("[data-tippy-content]");
 
@@ -52,6 +52,7 @@ export class App {
     });
 
     if (!this.pools?.length) {
+      setTimeout(async () => {
       try {
         if (this.poolService.initializing) {
           await this.poolService.ensureInitialized();
@@ -61,6 +62,7 @@ export class App {
       } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }
+      }, 0);
     }
   }
 
