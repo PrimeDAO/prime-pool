@@ -15,6 +15,7 @@ export function configure(config: FrameworkConfiguration): void {
     PLATFORM.moduleName("./elements/NetworkFeedback/NetworkFeedback"),
     PLATFORM.moduleName("./elements/modalscreen/modalscreen"),
     PLATFORM.moduleName("./elements/loading-dots/loading-dots"),
+    PLATFORM.moduleName("./elements/metamask-token-button/metamask-token-button"),
     PLATFORM.moduleName("./elements/inline-svg"),
     PLATFORM.moduleName("./value-converters/number"),
     PLATFORM.moduleName("./value-converters/ethwei"),

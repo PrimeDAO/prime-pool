@@ -28,18 +28,6 @@
 
     .mmButton {
       grid-area: mmButton;
-
-      button {
-        width: 245px;
-        padding: 8px 30px;
-        white-space: normal;
-        display: flex;
-        align-items: center;
-        margin-left: auto;
-        img {
-          margin-right: 7px;
-        }
-      }
     }
 
     .secondRow {
