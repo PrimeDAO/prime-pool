@@ -17,13 +17,16 @@
       <div class="sidebarContainer">
         <div class="sidebar">
           <div class="menuitems">
-            <span repeat.for="row of router.navigation">
+            <template repeat.for="row of router.navigation">
               <a class="item ${row.isActive ? 'active' : ''}"
                 href.bind="row.href">
                 <div class="text"><img src="${row.settings.icon}" />${row.title}</div>
               </a>
-              <div show.to-view="row.config.name === 'pools'">
-                <div class="poolItems">
+              <div if.to-view="row.config.name === 'pools'">
+                <div if.to-view="$parent.initializing" class="initialize">
+                  <loading-dots></loading-dots>
+                </div>
+                <div else class="poolItems">
                   <a repeat.for="pool of $parent.pools"
                     class="item"
                     href="#"
@@ -32,7 +35,7 @@
                   </a>
                 </div>
               </div>
-            </span>
+            </template>
           </div>
           <div class="appFooter">
             <div class="links">

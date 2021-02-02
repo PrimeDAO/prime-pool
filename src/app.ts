@@ -19,6 +19,7 @@ export class App {
   router: Router;
   onOff = false;
   modalMessage: string;
+  initializing = true;
   pools = new Array<Pool>();
 
   errorHandler = (ex: unknown): boolean => {
@@ -56,6 +57,7 @@ export class App {
           await this.poolService.ensureInitialized();
         }
         this.pools = this.poolService.poolConfigsArray;
+        this.initializing = false;
       } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }
