@@ -1,6 +1,6 @@
 import { bindable, containerless, customElement, inject, inlineView } from 'aurelia-framework';
 
-@containerless()
+@containerless
 @inlineView('<template></template>')
 @customElement('inline-svg')
 @inject(Element)
