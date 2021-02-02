@@ -1,7 +1,7 @@
 @import "styles/colors.scss";
 .appWrapper {
   display: grid;
-  grid-template-columns: 190px 1fr;
+  grid-template-columns: 200px 1fr;
   grid-template-rows: auto;
   grid-template-areas:
     "logo header"
@@ -63,6 +63,16 @@
           &:hover {
             background-color: #9478ff;
             border-right: 6px solid #694ae2;
+          }
+
+          .text {
+            display: flex;
+            justify-items: center;
+
+            img {
+              width: 14px;
+              padding-right: 8px;
+            }
           }
         }
       }

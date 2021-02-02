@@ -19,7 +19,8 @@
           <div class="menuitems">
             <a repeat.for="row of router.navigation"
               class="item ${row.isActive ? 'active' : ''}"
-              href.bind="row.href">${row.title}
+              href.bind="row.href">
+              <div class="text"><img src="${row.settings.icon}" /> ${row.title}</div>
             </a>
           </div>
           <div class="appFooter">

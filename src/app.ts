@@ -68,6 +68,7 @@ export class App {
         name: "home",
         route: ["", "/", "home"],
         title: "Home",
+        settings: {icon: "/HomeIcon.svg"}
       }
       , {
         moduleId: PLATFORM.moduleName("./pools/pools"),
@@ -75,6 +76,7 @@ export class App {
         name: "pools",
         route: ["pools"],
         title: "All Pools",
+        settings: {icon: "/AllPoolsIcon.svg"}
       }
       , {
         moduleId: PLATFORM.moduleName("./txHistory/tx-history"),
@@ -82,6 +84,7 @@ export class App {
         name: "txHistory",
         route: ["txHistory"],
         title: "Transaction History",
+        settings: {icon: "/txHistoryIcon.svg"}
       }
       , {
         moduleId: PLATFORM.moduleName("./documentation/documentation"),
@@ -89,6 +92,7 @@ export class App {
         name: "documentation",
         route: ["documentation"],
         title: "Documentation",
+        settings: { icon: "/DocumentationIcon.svg"}
       }
       , {
         moduleId: PLATFORM.moduleName("./primeToken/prime-token"),
@@ -96,6 +100,7 @@ export class App {
         name: "primeToken",
         route: ["primeToken"],
         title: "The PRIME Token",
+        settings: {icon: "/PrimeTokenIcon.svg"}
       }
       , 
       {
@@ -103,6 +108,7 @@ export class App {
         name: "pool",
         route: ["pool/:poolAddress"],
         title: "Pool",
+        settings: { icon: "/PoolMenuBullet.svg" }
       }
             , {
         moduleId: PLATFORM.moduleName("./liquidity/remove"),
