@@ -7,22 +7,26 @@ import "./styles/styles.scss";
 import "./app.scss";
 import { Utils } from "services/utils";
 import tippy from "tippy.js";
+import { Pool } from "entities/pool";
+import { PoolService } from "services/PoolService";
 
 @autoinject
 export class App {
   constructor (
-    private eventAggregator: EventAggregator) { }
+    private eventAggregator: EventAggregator,
+    private poolService: PoolService) { }
 
-  private router: Router;
-  private onOff = false;
-  private modalMessage: string;
+  router: Router;
+  onOff = false;
+  modalMessage: string;
+  pools = new Array<Pool>();
 
-  private errorHandler = (ex: unknown): boolean => {
+  errorHandler = (ex: unknown): boolean => {
     this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an unexpected error occurred", ex));
     return false;
   }
 
-  public attached(): void {
+  public async attached(): Promise<void> {
     // so all elements with data-tippy-content will automatically have a tooltip
     tippy("[data-tippy-content]");
 
@@ -46,6 +50,16 @@ export class App {
       this.onOff = false;
     });
 
+    if (!this.pools?.length) {
+      try {
+        if (this.poolService.initializing) {
+          await this.poolService.ensureInitialized();
+        }
+        this.pools = this.poolService.poolConfigsArray;
+      } catch (ex) {
+        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
+      }
+    }
   }
 
   private configureRouter(config: RouterConfiguration, router: Router) {
@@ -135,5 +149,9 @@ export class App {
 
   contactUs() {
     window.open('mailto:hello@primedao.io', '#', 'noopener noreferrer');
+  }
+
+  gotoPool(pool: Pool) {
+    this.router.navigate(`pool/${pool.address}`);
   }
 }

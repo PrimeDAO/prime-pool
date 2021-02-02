@@ -71,8 +71,31 @@
 
             img {
               width: 14px;
-              padding-right: 8px;
+              padding-right: 16px;
             }
+          }
+        }
+
+        .poolItems {
+          > a.item {
+            padding-top: 0;
+            padding-bottom: 16px;
+
+            > .text {
+              font-size: 11px;
+              display: flex;
+              justify-items: center;
+
+              > img {
+                padding-left: 3px;
+                padding-right: 19px;
+                width: 9px;
+              }
+            }
+          }
+
+          > a.item:last-child {
+            padding-bottom: 0;
           }
         }
       }

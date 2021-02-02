@@ -17,11 +17,22 @@
       <div class="sidebarContainer">
         <div class="sidebar">
           <div class="menuitems">
-            <a repeat.for="row of router.navigation"
-              class="item ${row.isActive ? 'active' : ''}"
-              href.bind="row.href">
-              <div class="text"><img src="${row.settings.icon}" /> ${row.title}</div>
-            </a>
+            <span repeat.for="row of router.navigation">
+              <a class="item ${row.isActive ? 'active' : ''}"
+                href.bind="row.href">
+                <div class="text"><img src="${row.settings.icon}" />${row.title}</div>
+              </a>
+              <div show.to-view="row.config.name === 'pools'">
+                <div class="poolItems">
+                  <a repeat.for="pool of $parent.pools"
+                    class="item"
+                    href="#"
+                    click.delegate="gotoPool(pool)">
+                    <div class="text"><img src="/PoolMenuBullet.svg" />${pool.name}</div>
+                  </a>
+                </div>
+              </div>
+            </span>
           </div>
           <div class="appFooter">
             <div class="links">
