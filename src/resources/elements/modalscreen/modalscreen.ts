@@ -43,29 +43,26 @@ export class ModalScreen {
       if (onOff) {
         this.onResize();
         this.mask.style.display = "flex";
+        if (!this.subscription) {
+          this.subscription = this.aureliaHelperService.createPropertyWatch(this.container, "scrollHeight", (newValue: boolean, oldValue: boolean) => {
+            /**
+             * catch when we've navigated
+             */
+            if (this.onOff && (newValue !== oldValue)) {
+              this.onResize();
+            }
+          });
+        }
       } else {
         this.mask.style.display = "none";
+        if (this.subscription) {
+          this.subscription.dispose();
+          this.subscription = null;
+        }
       }
     }
   }
   public attached(): void {
     this.showHide(this.onOff);
-    if (!this.subscription) {
-      this.subscription = this.aureliaHelperService.createPropertyWatch(this.container, "scrollHeight", (newValue: boolean, oldValue: boolean) => {
-        /**
-         * catch when we've navigated
-         */
-        if (this.onOff && (newValue !== oldValue)) {
-          this.onResize();
-        }
-      });
-    }
-  }
-
-  public detached() {
-    if (this.subscription) {
-      this.subscription.dispose();
-      this.subscription = null;
-    }
   }
 }
