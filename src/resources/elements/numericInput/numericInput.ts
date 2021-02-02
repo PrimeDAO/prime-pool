@@ -12,18 +12,18 @@ import { NumberService } from "services/numberService";
 export class NumericInput {
 
   @bindable({ defaultBindingMode: bindingMode.oneTime }) public decimal = true;
-  @bindable({ defaultBindingMode: bindingMode.toView }) public css?: string;
+  @bindable public css?: string;
   @bindable({ defaultBindingMode: bindingMode.oneTime }) public id?: string;
   /**
    * what to display when there is no value
    */
-  @bindable({ defaultBindingMode: bindingMode.toView }) public defaultText = "";
+  @bindable public defaultText = "";
   /**
    * handle should return falsey to accept the key.  Only fired on key strokes that have
    * already passed the default character filter.
    */
-  @bindable({ defaultBindingMode: bindingMode.toView }) public handleChange: ({ keyCode: number }) => boolean;
-  @bindable({ defaultBindingMode: bindingMode.toView }) public autocomplete = "off";
+  @bindable public handleChange: ({ keyCode: number }) => boolean;
+  @bindable public autocomplete = "off";
   /**
    * Assumed to be in Wei and will be converted to ETH for the user and back to Wei for parent component.
    * Else value us set to  whatever string the user types.

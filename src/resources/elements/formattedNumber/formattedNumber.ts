@@ -10,13 +10,13 @@ import { Utils } from "services/utils";
 import tippy from "tippy.js";
 
 @autoinject
-@containerless()
+@containerless
 export class FormattedNumber {
 
   /**
    * how many significant digits we want to display
    */
-  //  @bindable({ defaultBindingMode: bindingMode.toView }) public format?: string;
+  //  @bindable public format?: string;
   @bindable public precision?: string | number;
   @bindable public average?: string | boolean;
   @bindable public mantissa?: string | number;

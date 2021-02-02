@@ -9,9 +9,9 @@ import { IErc20Token, TokenService } from "services/TokenService";
 @containerless
 @customElement("tokenbalance")
 export class TokenBalance {
-  @bindable({ defaultBindingMode: bindingMode.toView }) public tokenAddress: Address;
-  @bindable({ defaultBindingMode: bindingMode.toView }) public placement = "top";
-  @bindable({ defaultBindingMode: bindingMode.toView }) public formatted;
+  @bindable public tokenAddress: Address;
+  @bindable public placement = "top";
+  @bindable public formatted;
 
   private balance: BigNumber = null;
   private subscriptions = new DisposableCollection();

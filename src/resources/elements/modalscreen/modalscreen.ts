@@ -10,8 +10,8 @@ import { IDisposable } from "services/IDisposable";
 @customElement("modalscreen")
 export class ModalScreen {
 
-  @bindable({ defaultBindingMode: bindingMode.toView }) public onOff: boolean;
-  @bindable({ defaultBindingMode: bindingMode.toView }) public message: string;
+  @bindable public onOff: boolean;
+  @bindable public message: string;
 
   private container: HTMLElement;
   private mask: HTMLElement;
