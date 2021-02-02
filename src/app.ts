@@ -5,15 +5,13 @@ import { Router, RouterConfiguration } from "aurelia-router";
 import { PLATFORM } from "aurelia-pal";
 import "./styles/styles.scss";
 import "./app.scss";
-import { ConsoleLogService } from "services/ConsoleLogService";
 import { Utils } from "services/utils";
 import tippy from "tippy.js";
 
 @autoinject
 export class App {
   constructor (
-    private eventAggregator: EventAggregator,
-    private consoleLogService: ConsoleLogService) { }
+    private eventAggregator: EventAggregator) { }
 
   private router: Router;
   private onOff = false;

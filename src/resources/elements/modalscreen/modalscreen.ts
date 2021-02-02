@@ -1,5 +1,7 @@
 import "./modalscreen.scss";
 import { bindable, bindingMode, containerless, customElement } from "aurelia-framework";
+import { AureliaHelperService } from "services/AureliaHelperService";
+import { IDisposable } from "services/IDisposable";
 
 /**
  * wrap this element around some content and set `onOff` to true when you want to disable and dim the contained content.
@@ -13,8 +15,11 @@ export class ModalScreen {
 
   private container: HTMLElement;
   private mask: HTMLElement;
+  private subscription: IDisposable;
 
-  constructor() {
+  constructor(
+    private aureliaHelperService: AureliaHelperService,
+  ) {
     window.onresize = () => this.onResize();
   }
 
@@ -45,5 +50,22 @@ export class ModalScreen {
   }
   public attached(): void {
     this.showHide(this.onOff);
+    if (!this.subscription) {
+      this.subscription = this.aureliaHelperService.createPropertyWatch(this.container, "scrollHeight", (newValue: boolean, oldValue: boolean) => {
+        /**
+         * catch when we've navigated
+         */
+        if (this.onOff && (newValue !== oldValue)) {
+          this.onResize();
+        }
+      });
+    }
+  }
+
+  public detached() {
+    if (this.subscription) {
+      this.subscription.dispose();
+      this.subscription = null;
+    }
   }
 }
