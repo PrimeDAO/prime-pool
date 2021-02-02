@@ -1,7 +1,7 @@
 @import "styles/colors.scss";
 .appWrapper {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 205px 1fr;
   grid-template-rows: auto;
   grid-template-areas:
     "logo header"
