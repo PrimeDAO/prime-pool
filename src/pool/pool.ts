@@ -176,37 +176,10 @@ export class PoolDashboard {
       try {
         if (!initializing) {
         // timeout to allow styles to load on startup to modalscreen sizes correctly
-          // setTimeout(() => this.eventAggregator.publish("dashboard.loading", true), 100);
+          setTimeout(() => this.eventAggregator.publish("dashboard.loading", true), 100);
         }
-        // comment out to run DISCONNECTED
-        // const provider = this.ethereumService.readOnlyProvider;
 
-        // const userTokenBalances = new Map();
-        // userTokenBalances.set(this.primeTokenAddress, await this.primeToken.balanceOf(this.ethereumService.defaultAccountAddress));
-        // userTokenBalances.set(this.wethTokenAddress, await this.weth.balanceOf(this.ethereumService.defaultAccountAddress));
-        // userTokenBalances.set(this.bPrimeTokenAddress, await this.bPrimeToken.balanceOf(this.ethereumService.defaultAccountAddress));
-        // userTokenBalances.set("ETH", await provider.getBalance(this.ethereumService.defaultAccountAddress));
-        // this.userTokenBalances = userTokenBalances;
-
-        // /**
-        //  * this is user's % of bprime in the total
-        //  */
-        // this.poolUsersBPrimeShare = toBigNumberJs(this.userBPrimeBalance).div(toBigNumberJs(await this.bPrimeToken.totalSupply())).toNumber();
-
-        // const getUserTokenBalance = (tokenAddress: Address): BigNumber => {
-        //   // (user's BPRIME share %) * (the pool's balance of the given token)
-        //   // note you need to have called getLiquidityAmounts prior
-        //   return BigNumber.from(toBigNumberJs(this.poolBalances.get(tokenAddress)).times(this.poolUsersBPrimeShare).integerValue().toString());
-        // };
-
-        // const poolUsersTokenShare = new Map();
-        // poolUsersTokenShare.set(this.primeTokenAddress, getUserTokenBalance(this.primeTokenAddress));
-        // poolUsersTokenShare.set(this.wethTokenAddress, getUserTokenBalance(this.wethTokenAddress));
-        // this.poolUsersTokenShare = poolUsersTokenShare;
-
-        // this.primeFarmed = await this.stakingRewards.earned(this.ethereumService.defaultAccountAddress);
-
-        // this.bPrimeStaked = await this.stakingRewards.balanceOf(this.ethereumService.defaultAccountAddress);
+        await this.pool.hydrateUserValues(this.ethereumService.defaultAccountAddress);
 
         // await this.getTokenAllowances();
 
@@ -221,12 +194,6 @@ export class PoolDashboard {
         }
       }
     } else {
-      // this.bPrimeStaked =
-      //   this.poolUsersBPrimeShare =
-      //   this.primeFarmed =
-      //   this.poolUsersTokenShare =
-      //   this.userTokenBalances = undefined;
-
       this._connected = false;
     }
   }

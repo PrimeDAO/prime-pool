@@ -82,12 +82,8 @@ export class Pool implements IPoolConfig {
     private contractsService: ContractsService,
     private numberService: NumberService,
     private tokenService: TokenService,
-    private eventAggregator: EventAggregator,
     private ethereumService: EthereumService,
     ) {
-    this.eventAggregator.subscribe("Network.Changed.Account", async (accountAddress: Address) => {
-      this.hydrateUserValues(accountAddress);
-    });
   }
 
   public async initialize(config: IPoolConfig): Promise<Pool> {
@@ -171,7 +167,7 @@ export class Pool implements IPoolConfig {
     }
   }
 
-  private async hydrateUserValues(accountAddress: Address): Promise<void> {
+  public async hydrateUserValues(accountAddress: Address): Promise<void> {
 
     if (accountAddress) {
       this.userPoolTokenBalance = await this.poolToken.tokenContract.balanceOf(accountAddress);
