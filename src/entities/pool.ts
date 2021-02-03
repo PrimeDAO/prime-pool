@@ -4,17 +4,27 @@ import { IPoolConfig } from "services/PoolService";
 import { IErc20Token, ITokenInfo, TokenService } from "services/TokenService";
 import { autoinject } from "aurelia-framework";
 import { ContractNames, ContractsService } from "services/ContractsService";
-import { Address, fromWei } from "services/EthereumService";
+import { Address, EthereumService, fromWei } from "services/EthereumService";
 import { NumberService } from "services/numberService";
+import { toBigNumberJs } from "services/BigNumberService";
+import { EventAggregator } from "aurelia-event-aggregator";
 
 export interface IPoolTokenInfo extends ITokenInfo {
   tokenContract: IErc20Token;
   balanceInPool: BigNumber;
-  // userShareInPool: number;
   denormWeight: BigNumber;
   denormWeightPercentage: number;
   normWeight: BigNumber;
   normWeightPercentage: number;
+  /**
+   * amount tokens held by the user, in the pool or not
+   */
+  userBalance?: BigNumber;
+  /**
+   * amount of tokens held in the pool weighted by the propertion of
+   * pool tokens held by the user
+   */
+  userShareInPool?: BigNumber;
 }
 
 @autoinject
@@ -45,8 +55,10 @@ export class Pool implements IPoolConfig {
    */
   poolTokenPrice: number;
   poolTokenTotalSupply: BigNumber;
+  poolTokenMarketCap: number;
   totalDenormWeight: BigNumber;
   swapfee: BigNumber;
+  swapfeePercentage: number;
   /**
    * market cap or liquidity.  Total asset token amounts * their prices.
    */
@@ -54,12 +66,28 @@ export class Pool implements IPoolConfig {
   totalMarketCapChangePercentage_24h: number;
   totalMarketCapChangePercentage_7d: number;
   totalMarketCapChangePercentage_30d: number;
+  /**
+   * amount of pool tokens held by the user
+   */
+  userPoolTokenBalance?: BigNumber;
+  /**
+   * amount of pool tokens held by the user as a proportion of the total supply of pool tokens
+   */
+  userPoolTokenShare?: number;
+  userPoolTokenSharePercentage?: number;
+
+  public connected = false;
 
   public constructor(
     private contractsService: ContractsService,
     private numberService: NumberService,
     private tokenService: TokenService,
+    private eventAggregator: EventAggregator,
+    private ethereumService: EthereumService,
     ) {
+    this.eventAggregator.subscribe("Network.Changed.Account", async (accountAddress: Address) => {
+      this.hydrateUserValues(accountAddress);
+    });
   }
 
   public async initialize(config: IPoolConfig): Promise<Pool> {
@@ -103,8 +131,12 @@ export class Pool implements IPoolConfig {
 
     this.poolTokenTotalSupply = await this.poolToken.tokenContract.totalSupply();
     this.poolTokenPrice = this.marketCap / this.numberService.fromString(fromWei(this.poolTokenTotalSupply));
+    this.poolTokenMarketCap = this.numberService.fromString(fromWei(this.poolTokenTotalSupply)) * this.poolTokenPrice;
     this.totalDenormWeight = await this.bPool.getTotalDenormalizedWeight();
     this.swapfee = await this.bPool.getSwapFee();
+    this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
+
+    await this.hydrateUserValues(this.ethereumService.defaultAccountAddress);
 
     return this;
   }
@@ -139,12 +171,33 @@ export class Pool implements IPoolConfig {
     }
   }
 
-  // async hydratePoolUserTokenShares(tokens: Array<IPoolTokenInfo>): Promise<void> {
-  //   for (const token of tokens) {
-  //     // (user's BPRIME share %) * (the pool's balance of the given token)
-  //     // note you need to have called getLiquidityAmounts prior
-  //     token.userShareInPool = BigNumber.from(toBigNumberJs(token.balanceInPool).times(this.poolUsersBPrimeShare).integerValue().toString());
-  //     // token.balanceInPool.mul(token.price / this.marketCap);
-  //   }
-  // }
+  private async hydrateUserValues(accountAddress: Address): Promise<void> {
+
+    if (accountAddress) {
+      this.userPoolTokenBalance = await this.poolToken.tokenContract.balanceOf(accountAddress);
+      this.userPoolTokenShare = toBigNumberJs(this.userPoolTokenBalance).div(this.poolTokenTotalSupply.toString()).toNumber();
+      this.userPoolTokenSharePercentage = this.userPoolTokenShare / 100;
+
+      for (const token of this.assetTokensArray) {
+
+        token.userBalance = await token.tokenContract.balanceOf(accountAddress);
+
+        token.userShareInPool = BigNumber.from(toBigNumberJs(token.balanceInPool).times(this.userPoolTokenShare).integerValue().toString());
+      }
+      // this.primeFarmed = await this.stakingRewards.earned(accountAddress);
+      // this.bPrimeStaked = await this.stakingRewards.balanceOf(accountAddress);
+      this.connected = true;
+  } else {
+      this.connected = false;
+
+      this.userPoolTokenBalance = 
+      this.userPoolTokenShare = 
+      this.userPoolTokenSharePercentage = undefined;
+
+      for (const token of this.assetTokensArray) {
+        token.userBalance = 
+        token.userShareInPool = undefined;
+      }
+    }  
+  }
 }
