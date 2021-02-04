@@ -86,6 +86,7 @@ html {
       box-shadow: 3px 3px 8px #00000029;
       white-space: nowrap;
       background-color: transparent;
+      cursor: pointer;
 
       &:hover {
         background-color: $color-black;

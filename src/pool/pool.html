@@ -8,8 +8,8 @@
         <div class="name">${pool.name}</div>
         <div class="stuff">
           <div class="cap24">
+            <div class="label">24H:</div>
             <div class="poolDataValue ${pool.totalMarketCapChangePercentage_24h < 0 ? 'negative' : ''}">
-              <div class="label">24H:</div>
               <i class="sign fas fa-caret-${pool.totalMarketCapChangePercentage_24h < 0 ? 'down' : 'up'}"></i>
               <formatted-number
                 value.to-view="pool.totalMarketCapChangePercentage_24h"
@@ -34,33 +34,59 @@
         <div class="stats">
           <div class="marketCap">
             <div class="label">Market Cap</div>
-            $<formatted-number
-              value.to-view="pool.marketCap">
-            </formatted-number>
+            <div class="value">$<formatted-number
+                value.to-view="pool.marketCap">
+              </formatted-number>
+            </div>
           </div>
           <div class="myPoolShare">
             <div class="label">My Pool Share</div>
-            <formatted-number if.to-view="connected" value.to-view="pool.userPoolTokenSharePercentage"
-              average="false"
-              mantissa="2"></formatted-number>
-            <span else>--</span>%
+            <div class="value">
+              <formatted-number if.to-view="connected" value.to-view="pool.userPoolTokenSharePercentage"
+                average="false"
+                mantissa="2"></formatted-number>
+              <span else>--</span>%
+            </div>
           </div>
           <div class="swapFee">
             <div class="label">SwapFee</div>
-            <formatted-number
-              value.to-view="pool.swapfeePercentage">
-              average="false"
-              mantissa="2"
-            </formatted-number>%
+            <div class="value">
+              <formatted-number
+                value.to-view="pool.swapfeePercentage">
+                average="false"
+                mantissa="2"
+              </formatted-number>%
+            </div>
           </div>
         </div>
       </div>
       <div class="tabButtons">
-        <div class="buttonTransparent">Pool Overview</div>
-        <div class="buttonTransparent">Details</div>
-        <div class="buttonTransparent">${pool.name} Price Tracker</div>
+        <div class="button ${poolInfoTab === 1 ? 'active' : ''}" click.delegate="handleSetPoolInfoTab(1)">Pool Overview</div>
+        <div class="button ${poolInfoTab === 2 ? 'active' : ''}" click.delegate="handleSetPoolInfoTab(2)">Details</div>
+        <div class="button ${poolInfoTab === 3 ? 'active' : ''}" click.delegate="handleSetPoolInfoTab(3)">Price Tracker</div>
       </div>
-      <div class="story" innerhtml.to-view="pool.story | sanitizeHTML">
+      <div if.to-view="poolInfoTab === 1" class="story" innerhtml.to-view="pool.story | sanitizeHTML">
+      </div>
+      <div if.to-view="poolInfoTab === 2" class="details">
+        <div class="detail">
+          <div class="label">Accrued Fees</div>
+          <div class="value">
+            <formatted-number value.to-view="pool.accruedFees"></formatted-number>$
+          </div>
+        </div>
+        <div class="detail">
+          <div class="label">Accrued Volume</div>
+          <div class="value">
+            <formatted-number value.to-view="pool.accruedVolume"></formatted-number>
+            </formatted-number>$
+          </div>
+        </div>
+        <div class="detail">
+          <div class="label">Pool Members</div>
+          <div class="value"></div>
+        </div>
+      </div>
+      <div if.to-view="poolInfoTab === 3" class="priceTracker">Price Tracker
       </div>
       <div class="liquidityButtons">
         <div><button class="button3 addLiquidity" click.delegate="gotoLiquidity()">Buy</button></div>

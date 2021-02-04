@@ -21,6 +21,7 @@ export class PoolDashboard {
   poolAddress: Address;
   pool: Pool;
   initialized = false;
+  poolInfoTab = 1;
   // weth: any;
   // crPool: any;
   // bPool: any;
@@ -262,6 +263,10 @@ export class PoolDashboard {
     else {
       return true;
     }
+  }
+
+  handleSetPoolInfoTab(tabNumber: number) {
+    this.poolInfoTab = tabNumber;
   }
 
   // async handleDeposit() {

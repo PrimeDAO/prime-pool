@@ -26,13 +26,15 @@
 
         .cap24 {
           margin-right: 16px;
+          .label {
+            display: inline-block;
+            margin-right: 8px;
+          }
           .poolDataValue {
+            display: inline-block;
+            color: #5aae2a;
             &.negative {
               color: $color-red;
-            }
-            .label {
-              display: inline-block;
-              margin-right: 8px;
             }
           }
         }
@@ -48,8 +50,8 @@
   }
   .mainBody {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto auto;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
       "donutAndStats tabButtons"
       "donutAndStats story"
@@ -68,7 +70,24 @@
       flex-direction: column;
 
       .donut {
-        width: 384px;
+        width: 324px;
+        margin-bottom: 24px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-template-rows: auto;
+        row-gap: 16px;
+        justify-content: space-around;
+
+        .label {
+          font-weight: bold;
+        }
+
+        // .value {
+        //   margin-bottom: 16px;
+        // }
       }
     }
 
@@ -76,12 +95,27 @@
       grid-area: tabButtons;
       display: flex;
       justify-content: space-around;
+
+      .button {
+        color: $color-black;
+      }
+
+      .button:hover,
+      .button.active {
+        color: $color-white;
+        border-color: $color-black;
+        background-color: $color-black;
+      }
+    }
+
+    .story,
+    .details {
+      padding: 32px;
     }
 
     .story {
       grid-area: story;
       border: 2px solid #e6e6e6;
-      padding: 32px;
 
       > .heading {
         color: $color-light-purple;
