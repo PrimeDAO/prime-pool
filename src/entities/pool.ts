@@ -32,16 +32,17 @@ export class Pool implements IPoolConfig {
   /**
    * IPoolConfig properties....
    */
-  name: string;
-  description: string;
   /**
    * crPool address
    */
   address: Address;
+  description: string;
   /**
    * SVG icon for the pool
    */
   icon: string;
+  name: string;
+  story: string;
   /**
    * additional propoerties...
    */

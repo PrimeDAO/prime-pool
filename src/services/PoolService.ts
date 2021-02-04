@@ -14,6 +14,7 @@ interface IPoolConfigInternal {
   description: string;
   icon: string;
   name: string;
+  story: string;
 }
 
 export interface IPoolConfig {
@@ -21,6 +22,7 @@ export interface IPoolConfig {
   description: string;
   icon: string;
   name: string;
+  story: string;
 }
 
 @autoinject
@@ -70,6 +72,7 @@ export class PoolService {
       description: config.description,
       icon: config.icon,
       name: config.name,
+      story: config.story,
     };
     const pool = this.container.get(Pool);
     return pool.initialize(poolConfig);

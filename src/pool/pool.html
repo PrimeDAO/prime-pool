@@ -4,58 +4,69 @@
       <div class="icon">
         <inline-svg svg.to-view="pool.icon"></inline-svg>
       </div>
-      <div class="name">${pool.name}</div>
-      <div class="cap24">
-        <div class="poolDataValue ${pool.totalMarketCapChangePercentage_24h < 0 ? 'negative' : ''}">
-          <i class="sign fas fa-caret-${pool.totalMarketCapChangePercentage_24h < 0 ? 'down' : 'up'}"></i>
-          <formatted-number
-            value.to-view="pool.totalMarketCapChangePercentage_24h"
-            average="false"
-            mantissa="2">
-          </formatted-number>%
+      <div class="nameAndStuff">
+        <div class="name">${pool.name}</div>
+        <div class="stuff">
+          <div class="cap24">
+            <div class="poolDataValue ${pool.totalMarketCapChangePercentage_24h < 0 ? 'negative' : ''}">
+              <div class="label">24H:</div>
+              <i class="sign fas fa-caret-${pool.totalMarketCapChangePercentage_24h < 0 ? 'down' : 'up'}"></i>
+              <formatted-number
+                value.to-view="pool.totalMarketCapChangePercentage_24h"
+                average="false"
+                mantissa="2">
+              </formatted-number>%
+            </div>
+          </div>
+          <div class="anchorArrow"><img src="/anchorArrow.svg" /></div>
+          <div class="gotoBalancer"><a href="https://pools.balancer.exchange/#/pool/${pool.address}/" target="_blank" rel="noopener noreferrer">Go to ${pool.name} on Balancer</a></div>
         </div>
       </div>
-      <div class="farmingActive">Rewards</div>
-      <div class="gotoBalancer"><a href="https://pools.balancer.exchange/#/pool/${pool.address}/" target="_blank" rel="noopener noreferrer">Go to ${pool.name} on Balancer</a></div>
       <div class="mmButton">
         <metamask-token-button token-info.to-view="tokenInfo"></metamask-token-button>
       </div>
     </div>
     <div class="mainBody">
-      <div class="donutchart">
-        <inline-svg svg.to-view="pool.icon"></inline-svg>
+      <div class="donutAndStats">
+        <div class="donut">
+          <inline-svg svg.to-view="pool.icon"></inline-svg>
+        </div>
+        <div class="stats">
+          <div class="marketCap">
+            <div class="label">Market Cap</div>
+            $<formatted-number
+              value.to-view="pool.marketCap">
+            </formatted-number>
+          </div>
+          <div class="myPoolShare">
+            <div class="label">My Pool Share</div>
+            <formatted-number if.to-view="connected" value.to-view="pool.userPoolTokenSharePercentage"
+              average="false"
+              mantissa="2"></formatted-number>
+            <span else>--</span>%
+          </div>
+          <div class="swapFee">
+            <div class="label">SwapFee</div>
+            <formatted-number
+              value.to-view="pool.swapfeePercentage">
+              average="false"
+              mantissa="2"
+            </formatted-number>%
+          </div>
+        </div>
       </div>
-      <div class="stats">
-        <div class="marketCap">
-          <div class="label">Market Cap</div>
-          $<formatted-number
-            value.to-view="pool.marketCap">
-          </formatted-number>
-        </div>
-        <div class="myPoolShare">
-          <div class="label">My Pool Share</div>
-          <formatted-number if.to-view="connected" value.to-view="pool.userPoolTokenSharePercentage"
-            average="false"
-            mantissa="2"></formatted-number>
-          <span else>--</span>%
-        </div>
-        <div class="inceptionDate">
-          <div class="label">Inception Date</div>
-        </div>
-        <div class="swapFee">
-          <div class="label">SwapFee</div>
-          <formatted-number
-            value.to-view="pool.swapfeePercentage">
-            average="false"
-            mantissa="2"
-          </formatted-number>%
-        </div>
+      <div class="tabButtons">
+        <div class="buttonTransparent">Pool Overview</div>
+        <div class="buttonTransparent">Details</div>
+        <div class="buttonTransparent">${pool.name} Price Tracker</div>
       </div>
-      <div class="liquidityDashboard">
-        <div class="liquidityButtons">
-          <div><button class="button1 addLiquidity" click.delegate="gotoLiquidity()">Add Liquidity</button></div>
-          <div><button class="button2 removeLiquidity" click.delegate="gotoLiquidity(true)">Withdraw Liquidity</button></div>
-        </div>
+      <div class="story" innerhtml.to-view="pool.story | sanitizeHTML">
+      </div>
+      <div class="liquidityButtons">
+        <div><button class="button3 addLiquidity" click.delegate="gotoLiquidity()">Buy</button></div>
+        <div><button class="button removeLiquidity" click.delegate="gotoLiquidity(true)">Redeem</button></div>
+      </div>
+      <!-- <div class="liquidityDashboard">
       </div>
       <div class="farmingDashboard">
         <div class="currentAPY">
@@ -87,8 +98,8 @@
           <div><button class="button1" click.delegate="gotoStaking()">Stake ${pool.poolToken.name} tokens</button></div>
           <div><button class="button2" click.delegate="stakingHarvest()">Withdraw Rewards</button></div>
           <div><button class="button3" click.delegate="stakingExit()">Withdraw Rewards and Staked ${pool.poolToken.name} Tokens</button></div>
-        </div>
-      </div>
+        </div> -->
     </div>
+  </div>
   </div>
 </template>
