@@ -154,7 +154,6 @@
         .labelValue {
           display: flex;
           justify-content: space-between;
-          margin-bottom: 16px;
           font-size: 18px;
           font-family: "Cera Pro";
           color: $color-light-purple;
@@ -180,6 +179,7 @@
         .description {
           font-size: 15px;
           line-height: 25px;
+          margin-top: 16px;
         }
       }
 
