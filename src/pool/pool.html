@@ -87,6 +87,7 @@
                 thousands-separated="true"></formatted-number>$
             </div>
           </div>
+          <div class="description">The total collected thus far in fees by pool members in exchange for providing liquidity.</div>
         </div>
         <div class="detail">
           <div class="labelValue">
@@ -102,7 +103,19 @@
         <div class="detail">
           <div class="labelValue">
             <div class="label">Pool Members</div>
-            <div class="value"></div>
+            <div class="value">X,XXX</div>
+          </div>
+          <div class="description">The number of unique member addresses who hold pool tokens.</div>
+        </div>
+        <div class="detail">
+          <div class="labelValue">
+            <div class="label">View on Etherscan</div>
+            <div class="value">
+              <etherscanlink
+                address.to-view="pool.address"
+                text.to-view="pool.address | smallHexString">
+              </etherscanlink>
+            </div>
           </div>
         </div>
       </div>

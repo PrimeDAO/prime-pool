@@ -158,6 +158,17 @@
           font-size: 18px;
           font-family: "Cera Pro";
           color: $color-light-purple;
+
+          .value {
+            .copy-to-clip-button,
+            .copy-to-clip-button:focus {
+              color: $button3-color;
+            }
+
+            .copy-to-clip-button:hover {
+              color: $color-grey-3;
+            }
+          }
         }
 
         .description {
