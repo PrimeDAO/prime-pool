@@ -35,8 +35,17 @@
           <div class="marketCap">
             <div class="label">Market Cap</div>
             <div class="value">$<formatted-number
-                value.to-view="pool.marketCap">
+                value.to-view="pool.marketCap"
+                average="false"
+                mantissa="2"
+                thousands-separated="true">
               </formatted-number>
+            </div>
+          </div>
+          <div class="inceptionDate">
+            <div class="label">Inception Date</div>
+            <div class="value">
+              ${pool.startingDateTime | date:"shortdate"}
             </div>
           </div>
           <div class="myPoolShare">
@@ -69,21 +78,32 @@
       </div>
       <div if.to-view="poolInfoTab === 2" class="details">
         <div class="detail">
-          <div class="label">Accrued Fees</div>
-          <div class="value">
-            <formatted-number value.to-view="pool.accruedFees"></formatted-number>$
+          <div class="labelValue">
+            <div class="label">Accrued Fees</div>
+            <div class="value">
+              <formatted-number value.to-view="pool.accruedFees"
+                average="false"
+                mantissa="2"
+                thousands-separated="true"></formatted-number>$
+            </div>
           </div>
         </div>
         <div class="detail">
-          <div class="label">Accrued Volume</div>
-          <div class="value">
-            <formatted-number value.to-view="pool.accruedVolume"></formatted-number>
-            </formatted-number>$
+          <div class="labelValue">
+            <div class="label">Accrued Volume</div>
+            <div class="value">$<formatted-number value.to-view="pool.accruedVolume"
+                average="false"
+                mantissa="2"
+                thousands-separated="true"></formatted-number>
+            </div>
           </div>
+          <div class="description">The total volume of exchanges made using the pool</div>
         </div>
         <div class="detail">
-          <div class="label">Pool Members</div>
-          <div class="value"></div>
+          <div class="labelValue">
+            <div class="label">Pool Members</div>
+            <div class="value"></div>
+          </div>
         </div>
       </div>
       <div if.to-view="poolInfoTab === 3" class="priceTracker">Price Tracker

@@ -4,7 +4,8 @@ import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject } from "aurelia-framework";
 
 const ContractAddresses = require("../contracts/contractAddresses.json") as INetworkContractAddresses;
-const ConfigurableRightsPoolABI = require("../contracts/ConfigurableRightsPool.json");
+const ConfigurableRightsPool = require("../contracts/ConfigurableRightsPool.json");
+const CRPFactory = require("../contracts/CRPFactory.json");
 const WETHABI = require("../contracts/WETH.json");
 const BPOOL = require("../contracts/BPool.json");
 const STAKINGREWARDS = require("../contracts/StakingRewards.json");
@@ -12,6 +13,7 @@ const ERC20ABI = require("../contracts/ERC20.json");
 
 export enum ContractNames {
   ConfigurableRightsPool = "ConfigurableRightsPool"
+  , CRPFactory = "CRPFactory"
   , BPOOL = "BPool"
   , WETH = "WETH"
   , PRIMETOKEN = "PrimeToken"
@@ -21,8 +23,8 @@ export enum ContractNames {
   ,
 }
 
-export interface IStandardEvent {
-  args: any;
+export interface IStandardEvent<TArgs> {
+  args: TArgs;
   transactionHash: Hash;
   blockNumber: number;
   getBlock(): Promise<IBlockInfoNative>;
@@ -37,7 +39,8 @@ export class ContractsService {
 
   private static ABIs = new Map<ContractNames, any>(
     [
-      [ContractNames.ConfigurableRightsPool, ConfigurableRightsPoolABI.abi]
+      [ContractNames.ConfigurableRightsPool, ConfigurableRightsPool.abi]
+      , [ContractNames.CRPFactory, CRPFactory.abi]
       , [ContractNames.BPOOL, BPOOL.abi]
       , [ContractNames.STAKINGREWARDS, STAKINGREWARDS.abi]
       , [ContractNames.WETH, WETHABI.abi]
@@ -49,6 +52,7 @@ export class ContractsService {
 
   private static Contracts = new Map<ContractNames, Contract>([
     [ContractNames.ConfigurableRightsPool, null]
+    , [ContractNames.CRPFactory, null]
     , [ContractNames.BPOOL, null]
     , [ContractNames.STAKINGREWARDS, null]
     , [ContractNames.WETH, null]

@@ -3,11 +3,31 @@ import { BigNumber } from "ethers";
 import { IPoolConfig } from "services/PoolService";
 import { IErc20Token, ITokenInfo, TokenService } from "services/TokenService";
 import { autoinject } from "aurelia-framework";
-import { ContractNames, ContractsService } from "services/ContractsService";
+import { ContractNames, ContractsService, IStandardEvent } from "services/ContractsService";
 import { Address, EthereumService, fromWei } from "services/EthereumService";
 import { NumberService } from "services/numberService";
 import { toBigNumberJs } from "services/BigNumberService";
 import { EventAggregator } from "aurelia-event-aggregator";
+
+export interface IJoinEventArgs {
+  caller: Address;
+  tokenIn: Address;
+  tokenAmountIn: BigNumber;
+}
+
+export interface IExitEventArgs {
+  caller: Address;
+  tokenOut: Address;
+  tokenAmountOut: BigNumber;
+}
+
+export interface IPoolTokenTransferEventArgs {
+  from: Address;
+  to: Address;
+  value: BigNumber;
+}
+
+
 
 export interface IPoolTokenInfo extends ITokenInfo {
   tokenContract: IErc20Token;
@@ -47,6 +67,7 @@ export class Pool implements IPoolConfig {
    * additional propoerties...
    */
   crPool: any;
+  crpFactory: any;
   bPool: any;
   assetTokens = new Map<Address,IPoolTokenInfo>();
   get assetTokensArray(): Array<IPoolTokenInfo> { return Array.from(this.assetTokens.values()); };
@@ -60,6 +81,9 @@ export class Pool implements IPoolConfig {
   totalDenormWeight: BigNumber;
   swapfee: BigNumber;
   swapfeePercentage: number;
+  //accruedFees: number;
+  accruedVolume: number;
+  members: Array<Address>;
   /**
    * market cap or liquidity.  Total asset token amounts * their prices.
    */
@@ -76,6 +100,11 @@ export class Pool implements IPoolConfig {
    */
   userPoolTokenShare?: number;
   userPoolTokenSharePercentage?: number;
+  /**
+   * when this contract was created
+   */
+  startingBlockNumber: number;
+  startingDateTime: Date;
 
   public connected = false;
 
@@ -99,6 +128,8 @@ export class Pool implements IPoolConfig {
     this.bPool = await this.contractsService.getContractAtAddress(
       ContractNames.BPOOL,
       await this.crPool.bPool());
+
+    this.crpFactory = await this.contractsService.getContractFor(ContractNames.CRPFactory);
 
     const poolTokenInfo = (await this.tokenService.getTokenInfoFromAddress(crPoolAddress)) as IPoolTokenInfo;
     poolTokenInfo.tokenContract = this.crPool;
@@ -125,6 +156,9 @@ export class Pool implements IPoolConfig {
     this.hydrateTotalLiquidity(assetTokensArray);
     
     this.assetTokens = assetTokens;
+
+    await this.hydrateStartingBlock();
+    await this.hydrateVolumes();
 
     this.poolTokenTotalSupply = await this.poolToken.tokenContract.totalSupply();
     this.poolTokenPrice = this.marketCap / this.numberService.fromString(fromWei(this.poolTokenTotalSupply));
@@ -166,6 +200,51 @@ export class Pool implements IPoolConfig {
       token.normWeight = await this.bPool.getNormalizedWeight(token.address);
       token.normWeightPercentage = Number(fromWei(token.normWeight.mul(100)));
     }
+  }
+
+  async hydrateStartingBlock(): Promise<void> {
+    const filter = this.crpFactory.filters.LogNewCrp(undefined, this.address);
+    const txEvents: Array<IStandardEvent<unknown>> = await this.crpFactory.queryFilter(filter);
+    this.startingBlockNumber = txEvents[0].blockNumber;
+    const block = await this.ethereumService.getBlock(this.startingBlockNumber);
+    this.startingDateTime = block.blockDate;
+  }
+
+  public async getJoinEvents(userAddress?: Address): Promise<Array<IStandardEvent<IJoinEventArgs>>> {
+    const filter = this.crPool.filters.LogJoin(userAddress);
+    const txEvents: Array<IStandardEvent<IJoinEventArgs>> = await this.crPool.queryFilter(filter, this.startingBlockNumber);
+    return txEvents;
+  }
+
+  public async getExitEvents(userAddress?: Address): Promise<Array<IStandardEvent<IExitEventArgs>>> {
+    const filter = this.crPool.filters.LogExit(userAddress);
+    const txEvents: Array<IStandardEvent<IExitEventArgs>> = await this.crPool.queryFilter(filter, this.startingBlockNumber);
+    return txEvents;
+  }
+
+  public async getPoolTokenTransferEvents(fromAddress?: Address, destAddress?: Address): Promise<Array<IStandardEvent<IPoolTokenTransferEventArgs>>> {
+    const filter = this.crPool.filters.Transfer(fromAddress, destAddress);
+    const txEvents: Array<IStandardEvent<IPoolTokenTransferEventArgs>> = await this.crPool.queryFilter(filter, this.startingBlockNumber);
+    return txEvents;
+  }
+
+  async hydrateVolumes(): Promise<void> {
+    const txJoinEvents = await this.getJoinEvents();
+    const txExitEvents = await this.getExitEvents();
+
+    let volume = txJoinEvents.reduce((accumulator, currentValue) =>
+      accumulator + 
+        this.numberService.fromString(fromWei(currentValue.args.tokenAmountIn))
+          * this.assetTokens.get(currentValue.args.tokenIn).price
+      , 0);
+
+    volume += txExitEvents.reduce((accumulator, currentValue) =>
+      accumulator +
+      this.numberService.fromString(fromWei(currentValue.args.tokenAmountOut))
+      * this.assetTokens.get(currentValue.args.tokenOut).price
+      , 0);
+
+    this.accruedVolume = volume;
   }
 
   public async hydrateUserValues(accountAddress: Address): Promise<void> {
