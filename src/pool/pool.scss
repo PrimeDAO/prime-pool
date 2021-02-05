@@ -168,6 +168,12 @@
             .copy-to-clip-button:hover {
               color: $color-grey-3;
             }
+
+            .link {
+              a {
+                color: $color-light-purple;
+              }
+            }
           }
         }
 
