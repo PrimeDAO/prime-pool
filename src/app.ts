@@ -128,11 +128,17 @@ export class App {
         title: "Pool",
         settings: { icon: "/PoolMenuBullet.svg" }
       }
-            , {
+      , {
+        moduleId: PLATFORM.moduleName("./liquidity/add"),
+        name: "liquidityAdd",
+        route: ["liquidity/add/:poolAddress"],
+        title: "Buy ${title}",
+      }
+      , {
         moduleId: PLATFORM.moduleName("./liquidity/remove"),
         name: "liquidityRemove",
-        route: ["liquidity/remove"],
-        title: "Remove Liquidity",
+        route: ["liquidity/remove/:poolAddress"],
+        title: "Redeem ${title}",
       }
       , {
         moduleId: PLATFORM.moduleName("./staking/staking"),

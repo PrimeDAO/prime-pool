@@ -1,36 +1,15 @@
-import { autoinject, singleton, computedFrom } from "aurelia-framework";
-import { ContractNames } from "services/ContractsService";
-import { ContractsService } from "services/ContractsService";
+import { autoinject, singleton } from "aurelia-framework";
 import "./pool.scss";
-import { EventAggregator } from "aurelia-event-aggregator";
-import TransactionsService from "services/TransactionsService";
-import { Address, EthereumService, fromWei } from "services/EthereumService";
-import { BigNumber } from "ethers";
-import { EventConfigException, EventConfigFailure } from "services/GeneralEvents";
-import { TokenService } from "services/TokenService";
 import { Router } from "aurelia-router";
-import { toBigNumberJs } from "services/BigNumberService";
-import { NumberService } from "services/numberService";
+import { PoolBase } from "./poolBase";
+import { EventAggregator } from "aurelia-event-aggregator";
+import { EthereumService } from "services/EthereumService";
 import { PoolService } from "services/PoolService";
-import { Pool } from "entities/pool";
-import { Utils } from "services/utils";
 
 @singleton(false)
 @autoinject
-export class PoolDashboard {
-  poolAddress: Address;
-  pool: Pool;
-  initialized = false;
+export class PoolDashboard extends PoolBase {
   poolInfoTab = 1;
-  // weth: any;
-  // crPool: any;
-  // bPool: any;
-  // stakingRewards: any;
-  // primeToken: any;
-  // bPrimeToken: any;
-  _connected = false;
-  @computedFrom("_connected", "pool.connected")
-  get connected() { return this._connected && this.pool?.connected; }
   // liquidityBalance: number;
   // swapfee: BigNumber;
   /**
@@ -77,125 +56,49 @@ export class PoolDashboard {
   // }
 
   constructor(
-    private eventAggregator: EventAggregator,
-    private contractsService: ContractsService,
-    private ethereumService: EthereumService,
-    private transactionsService: TransactionsService,
-    private tokenService: TokenService,
-    private numberService: NumberService,
+    eventAggregator: EventAggregator,
+    ethereumService: EthereumService,
     private router: Router,
-    private poolService: PoolService) {
+    poolService: PoolService) {
+      super(eventAggregator,ethereumService, poolService);
   }
 
-  async activate(model: { poolAddress: Address }): Promise<void> {
-    this.poolAddress = model.poolAddress;
+  // async getUserBalances(initializing = false): Promise<void> {
+  //       // await this.getTokenAllowances();
+
+  // }
+
+  handleSetPoolInfoTab(tabNumber: number) {
+    this.poolInfoTab = tabNumber;
   }
 
-  async attached(): Promise<void> {
-    this.eventAggregator.subscribe("Network.Changed.Account", async () => {
-      await this.loadContracts();
-      this.getUserBalances();
-    });
-    this.eventAggregator.subscribe("Network.Changed.Disconnect", async () => {
-      // TODO: undefine the bound variables
-      this.initialized = false;
-    });
+  gotoAddLiquidity() {
+    if (this.ensureConnected()) {
+      // Object.assign(this,
+      //   {
+      //     bPoolAddress: this.contractsService.getContractAddress(ContractNames.BPOOL),
+      //   });
 
-    await this.loadContracts();
-    await this.initialize();
-    return this.getUserBalances(true);
-  }
+      this.router.navigate(`liquidity/add/${this.pool.address}`);
 
-  /**
-   * have to call this with and without an account
-   */
-  async loadContracts() {
-    // this.crPool = await this.contractsService.getContractFor(ContractNames.ConfigurableRightsPool);
-    // this.bPool = await this.contractsService.getContractFor(ContractNames.BPOOL);
-    // this.stakingRewards = await this.contractsService.getContractFor(ContractNames.STAKINGREWARDS);
-    // this.weth = await this.contractsService.getContractFor(ContractNames.WETH);
-    // this.primeToken = await this.contractsService.getContractFor(ContractNames.PRIMETOKEN);
-    // this.bPrimeToken = this.crPool;
-  }
-  async initialize(): Promise<void> {
-    if (!this.initialized) {
-      try {
-
-        if (this.poolService.initializing) {
-          await Utils.sleep(200);
-          this.eventAggregator.publish("dashboard.loading", true);
-          await this.poolService.ensureInitialized();
-        }
-        this.pool = this.poolService.poolConfigs.get(this.poolAddress);
-
-
-      // timeout to allow styles to load on startup to modalscreen sizes correctly
-        // setTimeout(() => this.eventAggregator.publish("dashboard.loading", true), 100);
-
-        // this.primeTokenAddress = this.contractsService.getContractAddress(ContractNames.PRIMETOKEN);
-        // this.wethTokenAddress = this.contractsService.getContractAddress(ContractNames.WETH);
-        // this.bPrimeTokenAddress = this.contractsService.getContractAddress(ContractNames.ConfigurableRightsPool);
-        // this.poolTokenAddresses = [
-        //   this.primeTokenAddress,
-        //   this.wethTokenAddress,
-        // ];
-
-        // // comment out to run DISCONNECTED
-        // this.swapfee = await this.bPool.getSwapFee();
-        // let weights = new Map();
-        // weights.set(this.primeTokenAddress,
-        //   (await this.bPool.getDenormalizedWeight(this.primeTokenAddress)));
-        // weights.set(this.wethTokenAddress,
-        //   (await this.bPool.getDenormalizedWeight(this.wethTokenAddress)));
-
-        // this.poolTotalDenormWeights = weights;
-
-        // weights = new Map();
-        // weights.set(this.primeTokenAddress,
-        //   (await this.bPool.getNormalizedWeight(this.primeTokenAddress)));
-        // weights.set(this.wethTokenAddress,
-        //   (await this.bPool.getNormalizedWeight(this.wethTokenAddress)));
-
-        // this.poolTokenNormWeights = weights;
-
-        // await this.getLiquidityAmounts();
-        // // do this after liquidity
-        // await this.getStakingAmounts();
-      } catch (ex) {
-        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
-      }
-      finally {
-        this.eventAggregator.publish("dashboard.loading", false);
-        this.initialized = true;
-      }
+      // const theRoute = this.router.routes.find(x => x.name === "liquidityAdd");
+      // theRoute.settings.state = this;
+      // this.router.navigateToRoute("liquidityAdd");
     }
   }
 
-  async getUserBalances(initializing = false): Promise<void> {
+  gotoRemoveLiquidity() {
+    if (this.ensureConnected()) {
+      // Object.assign(this,
+      //   {
+      //     bPoolAddress: this.contractsService.getContractAddress(ContractNames.BPOOL),
+      //   });
 
-    if (this.initialized && this.ethereumService.defaultAccountAddress) {
-      try {
-        if (!initializing) {
-        // timeout to allow styles to load on startup to modalscreen sizes correctly
-          setTimeout(() => this.eventAggregator.publish("dashboard.loading", true), 100);
-        }
+      this.router.navigate(`liquidity/remove/${this.pool.address}`);
 
-        await this.pool.hydrateUserValues(this.ethereumService.defaultAccountAddress);
-
-        // await this.getTokenAllowances();
-
-        this._connected= true;
-      } catch (ex) {
-        this._connected = false;
-        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
-      }
-      finally {
-        if (!initializing) {
-          this.eventAggregator.publish("dashboard.loading", false);
-        }
-      }
-    } else {
-      this._connected = false;
+      // const theRoute = this.router.routes.find(x => x.name === "liquidityAdd");
+      // theRoute.settings.state = this;
+      // this.router.navigateToRoute("liquidityAdd");
     }
   }
 
@@ -254,21 +157,6 @@ export class PoolDashboard {
   //   this.poolTokenAllowances = allowances;
   // }
 
-  ensureConnected(): boolean {
-    if (!this._connected) {
-      // TODO: make this await until we're either connected or not?
-      this.ethereumService.connect();
-      return false;
-    }
-    else {
-      return true;
-    }
-  }
-
-  handleSetPoolInfoTab(tabNumber: number) {
-    this.poolInfoTab = tabNumber;
-  }
-
   // async handleDeposit() {
   //   if (this.ensureConnected()) {
   //     if (this.ethWethAmount.gt(this.userEthBalance)) {
@@ -298,19 +186,6 @@ export class PoolDashboard {
   //   if (this.ensureConnected()) {
   //     await this.transactionsService.send(() => this.stakingRewards.exit());
   //     this.getUserBalances();
-  //   }
-  // }
-
-  // gotoLiquidity(remove = false) {
-  //   if (this.ensureConnected()) {
-  //     Object.assign(this,
-  //       {
-  //         bPoolAddress: this.contractsService.getContractAddress(ContractNames.BPOOL),
-  //       });
-  //     const routeName = remove ? "liquidityRemove" : "liquidityAdd";
-  //     const theRoute = this.router.routes.find(x => x.name === routeName);
-  //     theRoute.settings.state = this;
-  //     this.router.navigateToRoute(routeName);
   //   }
   // }
 
