@@ -111,7 +111,6 @@
     .diveIn {
       .title {
         font-weight: bold;
-        font-family: "Cera Pro";
         font-size: 27px;
         line-height: 56px;
       }
@@ -119,6 +118,8 @@
       .divider {
         margin-left: auto;
         margin-right: auto;
+        margin-bottom: 24px;
+        padding-top: 0;
       }
 
       .already {
