@@ -51,11 +51,10 @@
   .mainBody {
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 1fr auto;
     grid-template-areas:
       "donutAndStats tabButtons"
-      "donutAndStats story"
-      "donutAndStats liquidityButtons";
+      "donutAndStats tabSection";
     column-gap: 40px;
     row-gap: 20px;
     align-items: center;
@@ -111,95 +110,98 @@
       }
     }
 
-    .story,
-    .details {
-      padding: 32px;
-    }
+    .tabSection {
+      grid-area: tabSection;
 
-    .story,
-    .details,
-    .priceTracker {
-      border: 2px solid #e6e6e6;
-      padding-left: 50px;
-      padding-right: 50px;
-    }
-
-    .story {
-      grid-area: story;
-
-      > .heading {
-        color: $color-light-purple;
-        font-family: "Cera Pro";
-        font-size: 18px;
-        margin-bottom: 10px;
+      .story,
+      .details {
+        padding: 32px;
       }
 
-      .para {
-        font-size: 11px;
-        a {
-          text-decoration: underline;
-        }
-      }
-
-      .para:not(:last-child) {
+      .story,
+      .details,
+      .priceTracker {
+        border: 2px solid #e6e6e6;
+        padding-left: 50px;
+        padding-right: 50px;
         margin-bottom: 20px;
       }
-    }
 
-    .details {
-      .detail {
-        border-bottom: 1px solid #eeeeee;
-        padding-bottom: 16px;
-
-        .labelValue {
-          display: flex;
-          justify-content: space-between;
-          font-size: 18px;
-          font-family: "Cera Pro";
+      .story {
+        > .heading {
           color: $color-light-purple;
+          font-family: "Cera Pro";
+          font-size: 18px;
+          margin-bottom: 10px;
+        }
 
-          .value {
-            .copy-to-clip-button,
-            .copy-to-clip-button:focus {
-              color: $button3-color;
-            }
-
-            .copy-to-clip-button:hover {
-              color: $color-grey-3;
-            }
-
-            .link {
-              a {
-                color: $color-light-purple;
-              }
-            }
+        .para {
+          font-size: 11px;
+          a {
+            text-decoration: underline;
           }
         }
 
-        .description {
-          font-size: 15px;
-          line-height: 25px;
-          margin-top: 16px;
+        .para:not(:last-child) {
+          margin-bottom: 20px;
         }
       }
 
-      .detail:not(:first-child) {
-        padding-top: 16px;
-      }
-    }
+      .details {
+        .detail {
+          border-bottom: 1px solid #eeeeee;
+          padding-bottom: 16px;
 
-    .liquidityButtons {
-      grid-area: liquidityButtons;
-      display: flex;
-      justify-content: space-around;
-      .button {
-        color: $color-black;
-        border-color: $button3-color;
+          .labelValue {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-family: "Cera Pro";
+            color: $color-light-purple;
+
+            .value {
+              .copy-to-clip-button,
+              .copy-to-clip-button:focus {
+                color: $button3-color;
+              }
+
+              .copy-to-clip-button:hover {
+                color: $color-grey-3;
+              }
+
+              .link {
+                a {
+                  color: $color-light-purple;
+                }
+              }
+            }
+          }
+
+          .description {
+            font-size: 15px;
+            line-height: 25px;
+            margin-top: 16px;
+          }
+        }
+
+        .detail:not(:first-child) {
+          padding-top: 16px;
+        }
       }
 
-      .button:hover {
-        color: $color-white;
-        border-color: $color-black;
+      .liquidityButtons {
+        grid-area: liquidityButtons;
+        display: flex;
+        justify-content: space-around;
+        .button {
+          color: $color-black;
+          border-color: $button3-color;
+        }
+
+        .button:hover {
+          color: $color-white;
+          border-color: $color-black;
+        }
       }
     }
   }

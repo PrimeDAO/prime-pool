@@ -1,15 +1,16 @@
 import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject, computedFrom } from "aurelia-framework";
+import { autoinject, computedFrom, singleton } from "aurelia-framework";
 import { BigNumber } from "ethers";
 import { toBigNumberJs } from "services/BigNumberService";
 import { calcSingleOutGivenPoolIn } from "services/BalancerPoolLiquidity/helpers/math";
 import { Address } from "services/EthereumService";
-import "./liquidity.scss";
+import "../liquidity.scss";
 import BigNumberJs from "services/BigNumberService";
 import { Redirect } from 'aurelia-router';
 
 const BALANCE_BUFFER = 0.01;
 
+@singleton(false)
 @autoinject
 export class LiquidityRemove {
 

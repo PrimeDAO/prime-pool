@@ -1,80 +1,27 @@
 import { PLATFORM } from "aurelia-pal";
-import { autoinject, singleton } from "aurelia-framework";
-import "./pool.scss";
-// import { Router } from "aurelia-router";
-import { PoolBase } from "./poolBase";
-import { EventAggregator } from "aurelia-event-aggregator";
-import { EthereumService } from "services/EthereumService";
-import { PoolService } from "services/PoolService";
 import { Router, RouterConfiguration } from "aurelia-router";
+import { autoinject, singleton } from "aurelia-framework";
+import { Pool } from "entities/pool";
+import { Address } from "services/EthereumService";
+import { PoolService } from "services/PoolService";
+// import { Router } from "aurelia-router";
+// import { EventAggregator } from "aurelia-event-aggregator";
+// import { EthereumService } from "services/EthereumService";
+// import { PoolService } from "services/PoolService";
 
 @singleton(false)
 @autoinject
-export class PoolDashboard extends PoolBase {
-  poolInfoTab = 1;
+export class Overview {
+  pool: Pool;
   router: Router;
-  // liquidityBalance: number;
-  // swapfee: BigNumber;
-  /**
-   * % number:  the amount of bprime that the user has in proportion to the total supply.
-   */
-  // poolUsersBPrimeShare: number;
-  // currentAPY: number;
-  // primeFarmed: BigNumber;
-  // bPrimeStaked: BigNumber;
-  // poolTotalDenormWeights: Map<Address, BigNumber>;
-  // poolTokenNormWeights: Map<Address, BigNumber>;
-
-  // token balances in bPool
-  // poolBalances: Map<Address, BigNumber>;
-  // poolUsersTokenShare: Map<Address, BigNumber>
-  // // user balance in the given token
-  // userTokenBalances: Map<Address, BigNumber>;
-  // primeTokenAddress: Address;
-  // wethTokenAddress: Address;
-  // bPrimeTokenAddress: Address;
-  // poolTokenAddresses: Array<Address>;
-  // poolTotalBPrimeSupply: BigNumber;
-  // poolTotalDenormWeight: BigNumber;
-  // poolTokenAllowances: Map<Address, BigNumber>;
-  // ethWethAmount: BigNumber;
-  // wethEthAmount: BigNumber;
-  // primePrice: number;
-
-  // @computedFrom("userTokenBalances")
-  // get userPrimeBalance(): BigNumber {
-  //   return this.userTokenBalances?.get(this.primeTokenAddress);
-  // }
-  // @computedFrom("userTokenBalances")
-  // get userWethBalance(): BigNumber {
-  //   return this.userTokenBalances?.get(this.wethTokenAddress);
-  // }
-  // @computedFrom("userTokenBalances")
-  // get userEthBalance(): BigNumber {
-  //   return this.userTokenBalances?.get("ETH");
-  // }
-  // @computedFrom("userTokenBalances")
-  // get userBPrimeBalance(): BigNumber {
-  //   return this.userTokenBalances?.get(this.bPrimeTokenAddress);
-  // }
 
   constructor(
-    eventAggregator: EventAggregator,
-    ethereumService: EthereumService,
-    // private router: Router,
-    poolService: PoolService) {
-      super(eventAggregator,ethereumService, poolService);
+    private poolService: PoolService) {
   }
 
-  // async getUserBalances(initializing = false): Promise<void> {
-  //       // await this.getTokenAllowances();
-
-  // }
-
-  handleSetPoolInfoTab(tabNumber: number) {
-    this.poolInfoTab = tabNumber;
+  protected async activate(model: { poolAddress: Address }): Promise<void> {
+    this.pool = this.poolService.poolConfigs.get(model.poolAddress);
   }
-
 
   private configureRouter(config: RouterConfiguration, router: Router) {
 
@@ -92,64 +39,36 @@ export class PoolDashboard extends PoolBase {
     config.map([
       {
         route: "",
-        redirect: "overview",
+        redirect: "story",
       }
       , {
-        moduleId: PLATFORM.moduleName("./overview/overview"),
-        nav: true,
-        name: "overview",
-        route: "overview",
-        title: "Pool Overview",
+        moduleId: PLATFORM.moduleName("./story/story"),
+        name: "story",
+        route: "story",
+        // title: "Pool ${where}",
       }
       , {
-        moduleId: PLATFORM.moduleName("./details/details"),
-        nav: true,
-        name: "details",
-        route: "details",
-        title: "Details",
+        moduleId: PLATFORM.moduleName("./add/add"),
+        name: "add",
+        route: "add",
+        //title: "Buy ${title}",
       }
       , {
-        moduleId: PLATFORM.moduleName("./price-tracker/price-tracker"),
-        nav: true,
-        name: "priceTracker",
-        route: "priceTracker",
-        title: "Price Tracker",
+        moduleId: PLATFORM.moduleName("./remove/remove"),
+        name: "remove",
+        route: "remove",
+        //title: "Redeem ${title}",
       }
+      // , {
+      //   moduleId: PLATFORM.moduleName("./staking/staking"),
+      //   name: "staking",
+      //   route: ["staking"],
+      //   title: "Staking",
+      // }
     ]);
 
-    config.fallbackRoute("overview");
     this.router = router;
   }
-
-  // gotoAddLiquidity() {
-  //   if (this.ensureConnected()) {
-  //     // Object.assign(this,
-  //     //   {
-  //     //     bPoolAddress: this.contractsService.getContractAddress(ContractNames.BPOOL),
-  //     //   });
-
-  //     this.router.navigate(`liquidity/add/${this.pool.address}`);
-
-  //     // const theRoute = this.router.routes.find(x => x.name === "liquidityAdd");
-  //     // theRoute.settings.state = this;
-  //     // this.router.navigateToRoute("liquidityAdd");
-  //   }
-  // }
-
-  // gotoRemoveLiquidity() {
-  //   if (this.ensureConnected()) {
-  //     // Object.assign(this,
-  //     //   {
-  //     //     bPoolAddress: this.contractsService.getContractAddress(ContractNames.BPOOL),
-  //     //   });
-
-  //     this.router.navigate(`liquidity/remove/${this.pool.address}`);
-
-  //     // const theRoute = this.router.routes.find(x => x.name === "liquidityAdd");
-  //     // theRoute.settings.state = this;
-  //     // this.router.navigateToRoute("liquidityAdd");
-  //   }
-  // }
 
   // async getStakingAmounts(): Promise<void> {
   //   this.currentAPY =

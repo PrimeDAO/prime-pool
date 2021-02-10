@@ -1,18 +1,12 @@
 <template>
-  <require from="./poolOverview.html"></require>
+  <require from="../poolOverview.html"></require>
   <div class="animated-page au-animate liquidityContainer">
     <div class="header">
       <span class="triangle"><img /></span>
       <div class="heading2 title">Remove Liquidity</div>
     </div>
     <div class="leftColumn section">
-      <poolOverview with.bind="model"
-        b-pool-address.to-view="bPoolAddress"
-        connected.to-view="connected"
-        pool-users-b-prime-share.to-view="poolUsersBPrimeShare"
-        swapfee.to-view="swapfee"
-        pool-total-denorm-weights.to-view="poolTotalDenormWeights">
-      </poolOverview>
+      <poolOverview pool.to-view="pool"></poolOverview>
     </div>
     <div class="rightColumn sectionStyles">
       <div class="table sectionStyles">

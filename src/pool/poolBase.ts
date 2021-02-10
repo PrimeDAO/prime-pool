@@ -6,6 +6,7 @@ import { PoolService } from "services/PoolService";
 import { Pool } from "entities/pool";
 import { Utils } from "services/utils";
 import { DisposableCollection } from "services/DisposableCollection";
+import { Router } from "aurelia-router";
 
 /**
  * base class for views that work with a pool, given `poolAddress` in the route model

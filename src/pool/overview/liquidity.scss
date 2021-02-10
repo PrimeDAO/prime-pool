@@ -16,6 +16,10 @@
     "secondRow secondRow secondRow"
     "thirdRow thirdRow thirdRow";
 
+  .poolOverview {
+    background-color: #e6e6e6;
+  }
+
   .header {
     grid-area: header;
     margin-bottom: 20px;
@@ -65,7 +69,6 @@
   .rightColumn {
     grid-area: rightColumn;
     margin-bottom: 0;
-    background-color: transparent;
     .table {
       display: grid;
       margin-bottom: 16px;

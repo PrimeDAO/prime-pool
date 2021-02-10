@@ -1,25 +1,28 @@
 import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject, computedFrom } from "aurelia-framework";
+import { autoinject, computedFrom, singleton } from "aurelia-framework";
 import { BigNumber } from "ethers";
 import { toBigNumberJs } from "services/BigNumberService";
 import { calcPoolOutGivenSingleIn } from "services/BalancerPoolLiquidity/helpers/math";
 import { calcPoolTokensByRatio } from "services/BalancerPoolLiquidity/helpers/utils";
 import { Address, EthereumService } from "services/EthereumService";
-import "./liquidity.scss";
+import "../liquidity.scss";
 import BigNumberJs from "services/BigNumberService";
 import { Redirect } from 'aurelia-router';
-import { PoolBase } from "pool/poolBase";
+import { PoolBase } from "../../poolBase";
 import { PoolService } from "services/PoolService";
+import { Router } from "aurelia-router";
 
 const BALANCE_BUFFER = 0.01;
 
+@singleton(false)
 @autoinject
 export class LiquidityAdd extends PoolBase {
 
   constructor(
     protected eventAggregator: EventAggregator,
     ethereumService: EthereumService,
-    poolService: PoolService) {
+    poolService: PoolService,
+    private router: Router) {
     super(eventAggregator, ethereumService, poolService);
   }
 
@@ -399,6 +402,9 @@ export class LiquidityAdd extends PoolBase {
 
 // }
 
+  goBack() {
+    this.router.navigateBack();
+  }
 }
 
 // interface ILiquidityModel {

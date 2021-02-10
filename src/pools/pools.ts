@@ -4,8 +4,8 @@ import { PoolService } from "services/PoolService";
 import { Pool } from "entities/pool";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { EventConfigException } from "services/GeneralEvents";
-import { Router } from "aurelia-router";
 import { Utils } from "services/utils";
+import { Router } from "aurelia-router";
 
 @singleton(false)
 @autoinject

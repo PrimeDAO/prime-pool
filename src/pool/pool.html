@@ -70,61 +70,12 @@
         </div>
       </div>
       <div class="tabButtons">
-        <div class="button ${poolInfoTab === 1 ? 'active' : ''}" click.delegate="handleSetPoolInfoTab(1)">Pool Overview</div>
-        <div class="button ${poolInfoTab === 2 ? 'active' : ''}" click.delegate="handleSetPoolInfoTab(2)">Details</div>
-        <div class="button ${poolInfoTab === 3 ? 'active' : ''}" click.delegate="handleSetPoolInfoTab(3)">Price Tracker</div>
+        <template repeat.for="row of router.navigation">
+          <a class="button ${row.isActive ? 'active' : ''}" href.to-view="row.href">${row.title}</a>
+        </template>
       </div>
-      <div if.to-view="poolInfoTab === 1" class="story" innerhtml.to-view="pool.story | sanitizeHTML">
-      </div>
-      <div if.to-view="poolInfoTab === 2" class="details">
-        <div class="detail">
-          <div class="labelValue">
-            <div class="label">Accrued Fees</div>
-            <div class="value">X,XXX$
-              <!-- <formatted-number value.to-view="pool.accruedFees"
-                average="false"
-                mantissa="2"
-                thousands-separated="true"></formatted-number>$ -->
-            </div>
-          </div>
-          <div class="description">The total collected thus far in fees by pool members in exchange for providing liquidity.</div>
-        </div>
-        <div class="detail">
-          <div class="labelValue">
-            <div class="label">Accrued Volume</div>
-            <div class="value">$<formatted-number value.to-view="pool.accruedVolume"
-                average="false"
-                mantissa="2"
-                thousands-separated="true"></formatted-number>
-            </div>
-          </div>
-          <div class="description">The total volume of exchanges made using the pool</div>
-        </div>
-        <div class="detail">
-          <div class="labelValue">
-            <div class="label">Pool Members</div>
-            <div class="value">X,XXX</div>
-          </div>
-          <div class="description">The number of unique member addresses who hold pool tokens.</div>
-        </div>
-        <div class="detail">
-          <div class="labelValue">
-            <div class="label">View on Etherscan</div>
-            <div class="value">
-              <etherscanlink
-                address.to-view="pool.address"
-                text.to-view="pool.address | smallHexString"
-                css="link">
-              </etherscanlink>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div if.to-view="poolInfoTab === 3" class="priceTracker">Price Tracker
-      </div>
-      <div class="liquidityButtons">
-        <div><button class="button3 addLiquidity" click.delegate="gotoAddLiquidity()">Buy</button></div>
-        <div><button class="button removeLiquidity" click.delegate="gotoRemoveLiquidity()">Redeem</button></div>
+      <div class="tabSection">
+        <router-view></router-view>
       </div>
       <!-- <div class="liquidityDashboard">
       </div>

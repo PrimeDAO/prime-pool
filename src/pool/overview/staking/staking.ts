@@ -1,10 +1,11 @@
 import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject, computedFrom } from "aurelia-framework";
+import { autoinject, computedFrom, singleton } from "aurelia-framework";
 import { BigNumber } from "ethers";
 import { Address } from "services/EthereumService";
 import "./staking.scss";
 import { Redirect } from 'aurelia-router';
 
+@singleton(false)
 @autoinject
 export class Staking {
 

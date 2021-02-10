@@ -120,32 +120,13 @@ export class App {
         title: "The PRIME Token",
         settings: {icon: "/PrimePoolIcon.svg"}
       }
-      , 
-      {
+      , {
         moduleId: PLATFORM.moduleName("./pool/pool"),
         name: "pool",
         route: ["pool/:poolAddress"],
         title: "Pool",
         settings: { icon: "/PoolMenuBullet.svg" }
       }
-      , {
-        moduleId: PLATFORM.moduleName("./liquidity/add"),
-        name: "liquidityAdd",
-        route: ["liquidity/add/:poolAddress"],
-        title: "Buy ${title}",
-      }
-      , {
-        moduleId: PLATFORM.moduleName("./liquidity/remove"),
-        name: "liquidityRemove",
-        route: ["liquidity/remove/:poolAddress"],
-        title: "Redeem ${title}",
-      }
-      , {
-        moduleId: PLATFORM.moduleName("./staking/staking"),
-        name: "staking",
-        route: ["staking"],
-        title: "Staking",
-      },
     ]);
 
     config.fallbackRoute("home");
