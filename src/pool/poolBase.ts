@@ -6,7 +6,6 @@ import { PoolService } from "services/PoolService";
 import { Pool } from "entities/pool";
 import { Utils } from "services/utils";
 import { DisposableCollection } from "services/DisposableCollection";
-import { Router } from "aurelia-router";
 
 /**
  * base class for views that work with a pool, given `poolAddress` in the route model
@@ -15,7 +14,6 @@ import { Router } from "aurelia-router";
 export abstract class PoolBase {
   protected poolAddress: Address;
   protected pool: Pool;
-  protected initialized = false;
   protected _connected = false;
   protected subscriptions: DisposableCollection = new DisposableCollection();
   @computedFrom("_connected", "pool.connected")
@@ -25,35 +23,40 @@ export abstract class PoolBase {
     protected eventAggregator: EventAggregator,
     protected ethereumService: EthereumService,
     protected poolService: PoolService) {
+
   }
 
-  protected async activate(model: { poolAddress: Address }): Promise<void> {
-    this.poolAddress = model.poolAddress;
-  }
+  protected activate(model: { poolAddress: Address }): void {
 
-  protected async attached(): Promise<void> {
     this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Account", async () => {
       await this.loadContracts();
       this.getUserBalances();
     }));
+
     this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Disconnect", async () => {
-      // TODO: undefine the bound variables
-      this.initialized = false;
+      this.pool = null;
     }));
 
-    await this.loadContracts();
-    await this.initialize();
-    return this.getUserBalances(true);
+    this.poolAddress = model.poolAddress;
+    if (this.pool.address !== this.poolAddress) {
+      this.pool = null;
+    }
   }
 
-  protected async detached(): Promise<void> {
+  deactivate() {
     this.subscriptions.dispose();
+  }
+
+  protected async attached(): Promise<void> {
+    await this.loadContracts();
+    await this.initialize();
+    return this.getUserBalances(false);
   }
 
   protected loadContracts(): Promise<void> { return; }
 
   protected async initialize(): Promise<void> {
-    if (!this.initialized) {
+    if (!this.pool) {
       try {
 
         if (this.poolService.initializing) {
@@ -70,23 +73,22 @@ export abstract class PoolBase {
       }
       finally {
         this.eventAggregator.publish("dashboard.loading", false);
-        this.initialized = true;
       }
     }
   }
 
-  protected async getUserBalances(initializing = false): Promise<void> {
+  protected async getUserBalances(suppressModalLockout = true): Promise<void> {
 
-    if (this.initialized && this.ethereumService.defaultAccountAddress) {
+    if (this.pool && this.ethereumService.defaultAccountAddress) {
       try {
-        if (!initializing) {
+        if (!suppressModalLockout) {
           // timeout to allow styles to load on startup to modalscreen sizes correctly
           setTimeout(() => this.eventAggregator.publish("dashboard.loading", true), 100);
         }
-
-        await this.pool.hydrateUserValues(this.ethereumService.defaultAccountAddress);
-
-        // await this.getTokenAllowances();
+        /**
+         * TODO: add "force" argument to control whether to refresh values that already exist
+         */
+        await this.pool.hydrateUserValues();
 
         this._connected = true;
       } catch (ex) {
@@ -94,7 +96,7 @@ export abstract class PoolBase {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }
       finally {
-        if (!initializing) {
+        if (!suppressModalLockout) {
           this.eventAggregator.publish("dashboard.loading", false);
         }
       }

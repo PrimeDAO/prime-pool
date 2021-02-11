@@ -5,15 +5,16 @@ import { ContractNames, ContractsService } from "services/ContractsService";
 import { Address, EthereumService, Networks } from "services/EthereumService";
 import { ConsoleLogService } from "services/ConsoleLogService";
 import { EventConfigFailure } from "services/GeneralEvents";
+import { TransactionResponse } from "services/TransactionsService";
 
 export interface IErc20Token {
   allowance(owner: Address, spender: Address): Promise<BigNumber>;
-  approve(spender: Address, amount: BigNumber): Promise<boolean>;
+  approve(spender: Address, amount: BigNumber): Promise<TransactionResponse>; // boolean
   balanceOf(account: Address): Promise<BigNumber>;
   name(): Promise<string>;
   totalSupply(): Promise<BigNumber>;
-  transfer(recipient: Address, amount: BigNumber): Promise<boolean>;
-  transferFrom(sender: Address, recipient: Address, amount: BigNumber): Promise<boolean>;
+  transfer(recipient: Address, amount: BigNumber): Promise<TransactionResponse>; // boolean
+  transferFrom(sender: Address, recipient: Address, amount: BigNumber): Promise<TransactionResponse>; // boolean
 }
 
 export interface ITokenPrices {

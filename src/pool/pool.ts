@@ -99,7 +99,7 @@ export class PoolDashboard extends PoolBase {
         nav: true,
         name: "overview",
         route: "overview",
-        title: "Pool Overview",
+        title: "Overview",
       }
       , {
         moduleId: PLATFORM.moduleName("./details/details"),
@@ -191,21 +191,6 @@ export class PoolDashboard extends PoolBase {
   //     this.liquidityBalance = undefined;
   //   }
   // }
-
-  // async getTokenAllowances(): Promise<void> {
-  //   const allowances = new Map();
-  //   await allowances.set(this.primeTokenAddress, await this.primeToken.allowance(
-  //     this.ethereumService.defaultAccountAddress,
-  //     this.contractsService.getContractAddress(ContractNames.ConfigurableRightsPool)));
-  //   await allowances.set(this.wethTokenAddress, await this.weth.allowance(
-  //     this.ethereumService.defaultAccountAddress,
-  //     this.contractsService.getContractAddress(ContractNames.ConfigurableRightsPool)));
-  //   await allowances.set(this.bPrimeTokenAddress, await this.bPrimeToken.allowance(
-  //     this.ethereumService.defaultAccountAddress,
-  //     this.contractsService.getContractAddress(ContractNames.STAKINGREWARDS)));
-  //   this.poolTokenAllowances = allowances;
-  // }
-
   // async handleDeposit() {
   //   if (this.ensureConnected()) {
   //     if (this.ethWethAmount.gt(this.userEthBalance)) {

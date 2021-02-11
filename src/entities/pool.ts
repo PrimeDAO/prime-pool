@@ -7,7 +7,6 @@ import { ContractNames, ContractsService, IStandardEvent } from "services/Contra
 import { Address, EthereumService, fromWei } from "services/EthereumService";
 import { NumberService } from "services/numberService";
 import { toBigNumberJs } from "services/BigNumberService";
-import { EventAggregator } from "aurelia-event-aggregator";
 
 export interface IJoinEventArgs {
   caller: Address;
@@ -45,6 +44,10 @@ export interface IPoolTokenInfo extends ITokenInfo {
    * pool tokens held by the user
    */
   userShareInPool?: BigNumber;
+  /**
+   * allowance for crPool to spend these tokens on the user's behalf
+   */
+  userAllowance?: BigNumber;
 }
 
 @autoinject
@@ -167,7 +170,7 @@ export class Pool implements IPoolConfig {
     this.swapfee = await this.bPool.getSwapFee();
     this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
 
-    await this.hydrateUserValues(this.ethereumService.defaultAccountAddress);
+    await this.hydrateUserValues();
 
     return this;
   }
@@ -247,7 +250,9 @@ export class Pool implements IPoolConfig {
     this.accruedVolume = volume;
   }
 
-  public async hydrateUserValues(accountAddress: Address): Promise<void> {
+  public async hydrateUserValues(): Promise<void> {
+
+    const accountAddress = this.ethereumService.defaultAccountAddress;
 
     if (accountAddress) {
       this.userPoolTokenBalance = await this.poolToken.tokenContract.balanceOf(accountAddress);
@@ -259,7 +264,14 @@ export class Pool implements IPoolConfig {
         token.userBalance = await token.tokenContract.balanceOf(accountAddress);
 
         token.userShareInPool = BigNumber.from(toBigNumberJs(token.balanceInPool).times(this.userPoolTokenShare).integerValue().toString());
+
+        token.userAllowance = await token.tokenContract.allowance(accountAddress, this.address);
       }
+
+      // this.userPoolTokenAllowance = await this.poolToken.tokenContract.allowance(
+      //   accountAddress,
+      //   this.contractsService.getContractAddress(ContractNames.STAKINGREWARDS));
+
       // this.primeFarmed = await this.stakingRewards.earned(accountAddress);
       // this.bPrimeStaked = await this.stakingRewards.balanceOf(accountAddress);
       this.connected = true;

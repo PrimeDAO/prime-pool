@@ -45,19 +45,18 @@ export class Overview {
         moduleId: PLATFORM.moduleName("./story/story"),
         name: "story",
         route: "story",
-        // title: "Pool ${where}",
       }
       , {
         moduleId: PLATFORM.moduleName("./add/add"),
         name: "add",
         route: "add",
-        //title: "Buy ${title}",
+        title: "Buy",
       }
       , {
         moduleId: PLATFORM.moduleName("./remove/remove"),
         name: "remove",
         route: "remove",
-        //title: "Redeem ${title}",
+        title: "Redeem",
       }
       // , {
       //   moduleId: PLATFORM.moduleName("./staking/staking"),
@@ -109,20 +108,6 @@ export class Overview {
   //     this.poolBalances =
   //     this.liquidityBalance = undefined;
   //   }
-  // }
-
-  // async getTokenAllowances(): Promise<void> {
-  //   const allowances = new Map();
-  //   await allowances.set(this.primeTokenAddress, await this.primeToken.allowance(
-  //     this.ethereumService.defaultAccountAddress,
-  //     this.contractsService.getContractAddress(ContractNames.ConfigurableRightsPool)));
-  //   await allowances.set(this.wethTokenAddress, await this.weth.allowance(
-  //     this.ethereumService.defaultAccountAddress,
-  //     this.contractsService.getContractAddress(ContractNames.ConfigurableRightsPool)));
-  //   await allowances.set(this.bPrimeTokenAddress, await this.bPrimeToken.allowance(
-  //     this.ethereumService.defaultAccountAddress,
-  //     this.contractsService.getContractAddress(ContractNames.STAKINGREWARDS)));
-  //   this.poolTokenAllowances = allowances;
   // }
 
   // async handleDeposit() {
