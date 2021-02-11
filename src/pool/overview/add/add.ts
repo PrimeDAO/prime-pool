@@ -1,3 +1,4 @@
+import { BindingSignaler } from 'aurelia-templating-resources';
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, ICollectionObserverSplice, singleton } from "aurelia-framework";
 import { BigNumber } from "ethers";
@@ -30,8 +31,11 @@ export class LiquidityAdd extends PoolBase {
     poolService: PoolService,
     private router: Router,
     private transactionsService: TransactionsService,
-    private aureliaHelperService: AureliaHelperService) {
+    private aureliaHelperService: AureliaHelperService,
+    private signaler: BindingSignaler) {
+
       super(eventAggregator, ethereumService, poolService);
+
   }
 
   private amounts = new Map<Address, string>();
@@ -42,19 +46,8 @@ export class LiquidityAdd extends PoolBase {
 
     super.activate(model);
 
-    this.subscriptions.push(this.aureliaHelperService.createPropertyWatch(this.selectedTokens, "length", this.handleTokenSelectedChange.bind(this)));
+    // this.subscriptions.push(this.aureliaHelperService.createPropertyWatch(this.selectedTokens, "length", this.handleTokenSelectedChange.bind(this)));
     this.subscriptions.push(this.aureliaHelperService.createCollectionWatch(this.selectedTokens, this.handleTokenSelected.bind(this)));
-
-    if (!this.pool || (this.pool.address !== model.poolAddress)) {
-      this.pool.assetTokens.forEach((token) => {
-
-        // Object.defineProperty(token, "showUnlock", {
-        //   get: () => {
-        //     !this.getSelectedInvalidTokenAdd() && !this.getSelectedTokenHasSufficientAllowance()(token as IPoolTokenInfoEx);          }
-        // });
-        this.aureliaHelperService.createPropertyWatch(token, "showUnlock", () => {});
-      });
-    }
   }
 
   private getSelectedToken(): IPoolTokenInfoEx {
@@ -65,13 +58,16 @@ export class LiquidityAdd extends PoolBase {
     return this.getSelectedToken()?.inputAmount;
   }
 
+  private getSelectedTokenAddress(): Address {
+    return this.getSelectedToken()?.address;
+  }
+
   /**
    * true if more than one non-zero assets are entered
    */
   private getIsMultiAsset(): boolean {
     return this.selectedTokens.length > 1;
   }
-
   /**
    * true if exactly one non-zero asset is entered
    */
@@ -79,16 +75,8 @@ export class LiquidityAdd extends PoolBase {
     return this.selectedTokens.length === 1;
   }
 
-  private getSelectedTokenAddress(): Address {
-    return this.getSelectedToken()?.address;
-  }
-
   private getShowTokenUnlock(token: IPoolTokenInfoEx): boolean {
-    return !this.getInvalidTokenAdd(token) && !this.getSelectedTokenHasSufficientAllowance();
-  }
-
-  private getSelectedTokenHasSufficientAllowance(): boolean {
-    return this.getSelectedToken().userAllowance.gte(this.getSelectedTokenAmount() || BigNumber.from(0));
+    return !this.getInvalidTokenAdd(token) && !this.getTokenHasSufficientAllowance(token);
   }
 
   private getTokenHasSufficientAllowance(token: IPoolTokenInfoEx): boolean {
@@ -96,8 +84,8 @@ export class LiquidityAdd extends PoolBase {
   }
 
 
-  private handleTokenSelectedChange(newLength: number) {
-  }
+  // private handleTokenSelectedChange(newLength: number) {
+  // }
 
   private handleTokenSelected(splices: Array<ICollectionObserverSplice<IPoolTokenInfoEx>>) {
     if (splices.length > 1) {
@@ -131,15 +119,16 @@ export class LiquidityAdd extends PoolBase {
 
       this.poolTokens = null;
       this.amounts.delete(token.address);
-      token.inputAmount = null;
-      this.handleAmountChange(token);
+      this.setTokenInput(token, null);
     });
   }
 
-  private handleAmountChange(token: IPoolTokenInfoEx): void {
-      setTimeout(() => this.amountChanged(
-        token.inputAmount,
-        token.address), 100);
+  private setTokenInput(token: IPoolTokenInfoEx, newValue: BigNumber): void {
+    token.inputAmount = newValue;
+    setTimeout(() => { 
+        this.amountChanged(token.inputAmount,token.address);
+        this.signaler.signal("tokenInputChanged");
+      }, 100);
   }
 
 //   @computedFrom("poolTokens", "model.userBPrimeBalance", "model.poolTotalBPrimeSupply")
@@ -431,8 +420,7 @@ export class LiquidityAdd extends PoolBase {
   // }
 
   private handleGetMaxToken(token: IPoolTokenInfoEx) {
-    token.inputAmount = token.userBalance;
-    this.handleAmountChange(token);
+    this.setTokenInput(token, token.userBalance);
   }
 
   private unlock(token: IPoolTokenInfoEx) {
@@ -448,12 +436,17 @@ export class LiquidityAdd extends PoolBase {
 
 //   }
 
+  protected async getUserBalances(suppressModalLockout = true): Promise<void> {
+    await super.getUserBalances(suppressModalLockout);
+    this.signaler.signal("userBalancesChanged");
+  }
+
 private async setTokenAllowance(token: IPoolTokenInfoEx): Promise<void> {
   if (this.ensureConnected()) {
     
     await this.transactionsService.send(() => token.tokenContract.approve(this.pool.address, token.inputAmount));
 
-    this.pool.hydrateUserValues();
+    this.getUserBalances();
   }
 }
 

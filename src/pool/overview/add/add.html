@@ -17,19 +17,19 @@
 
           <div class="cell"><input type="checkbox" model.bind="token" checked.bind="selectedTokens" /></div>
           <div class="cell"><img src.one-time="token.icon" />${token.symbol}
-            <button show.to-view="getShowTokenUnlock(token)" class="unlock button4 small" click.delegate="unlock(token)">Unlock</button>
+            <button show.to-view="getShowTokenUnlock(token) & signal:'tokenInputChanged' & signal:'userBalancesChanged'" class="unlock button4 small" click.delegate="unlock(token)">Unlock</button>
           </div>
           <div class="cell">
             <div if.to-view="model.connected">
               <!-- "Wallet Balance" -->
-              <formatted-number value.to-view="token.userBalance | ethwei"></formatted-number>
+              <formatted-number value.to-view="token.userBalance | ethwei & signal:'userBalancesChanged'"></formatted-number>
             </div>
             <div else>--</div>
           </div>
           <div class="cell">
             <div if.to-view="model.connected">
               <div if.to-view="primeSelected">
-                <label if.to-view="token.userBalance.gt(0)"><button class="button4 small" click.delegate="handleGetMaxToken(token)">Max</button></label>
+                <label if.to-view="token.userBalance.gt(0)  & signal:'userBalancesChanged'"><button class="button4 small" click.delegate="handleGetMaxToken(token)">Max</button></label>
                 <numeric-input id="primeAmount"
                   handle-change.call="handleAmountChange(token, { keyCode: number })"
                   value.two-way="token.inputAmount"
