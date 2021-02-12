@@ -17,49 +17,46 @@
 
           <div class="cell"><input type="checkbox" model.bind="token" checked.bind="selectedTokens" /></div>
           <div class="cell"><img src.one-time="token.icon" />${token.symbol}
-            <button show.to-view="getShowTokenUnlock(token) & signal:'tokenInputChanged' & signal:'userBalancesChanged'" class="unlock button4 small" click.delegate="unlock(token)">Unlock</button>
+            <button show.to-view="getShowTokenUnlock(token) & signal:'updateShowTokenUnlock'" class="unlock button4 small" click.delegate="unlock(token)">Unlock</button>
           </div>
           <div class="cell">
-            <div if.to-view="model.connected">
+            <div if.to-view="connected">
               <!-- "Wallet Balance" -->
-              <formatted-number value.to-view="token.userBalance | ethwei & signal:'userBalancesChanged'"></formatted-number>
+              <formatted-number value.to-view="token.userBalance | ethwei"></formatted-number>
             </div>
             <div else>--</div>
           </div>
           <div class="cell">
-            <div if.to-view="model.connected">
-              <div if.to-view="primeSelected">
-                <label if.to-view="token.userBalance.gt(0)  & signal:'userBalancesChanged'"><button class="button4 small" click.delegate="handleGetMaxToken(token)">Max</button></label>
-                <numeric-input id="primeAmount"
-                  handle-change.call="handleAmountChange(token, { keyCode: number })"
-                  value.two-way="token.inputAmount"
-                  placeholder="0.0"
-                  css="clearInput"></numeric-input>
-              </div>
+            <div if.to-view="connected">
+              <label if.to-view="token.userBalance.gt(0)"><button class="button4 small" click.delegate="handleGetMaxToken(token)">Max</button></label>
+              <numeric-input id="amount"
+                handle-change.call="handleAmountChange(token, { keyCode: number })"
+                value.two-way="token.inputAmount"
+                placeholder="0.0"
+                css="clearInput"></numeric-input>
             </div>
           </div>
         </template>
       </div>
-      <div class="bPrimeAmount section">
-        <div class="label">BPRIME Amount</div>
-        <!-- BPrime Amount:  Add -->
-        <div class="amount">
-          <div if.to-view="userLiquidity.absolute.future" class="value">
+      <div if.to-view="connected" class="poolAmount section">
+        <div class="label">${pool.poolToken.symbol} Amount</div>
+        <div class="amount" with.bind="getUserLiquidity() & signal:'balancesChanged'">
+          <div if.to-view="absolute.future" class="value">
             <formatted-number
-              value.to-view="userLiquidity.absolute.current | ethwei"
+              value.to-view="absolute.current | ethwei"
               placement.to-view="top">
             </formatted-number>
             <span> → </span>
             <formatted-number
-              value.to-view="userLiquidity.absolute.future | ethwei"
+              value.to-view="absolute.future | ethwei"
               placement.to-view="top">
-            </formatted-number> BPRIME
+            </formatted-number> ${$this.pool.poolToken.symbol}
           </div>
           <div else class="value">
             <formatted-number
-              value.to-view="userLiquidity.absolute.current | ethwei"
+              value.to-view="absolute.current | ethwei"
               placement.to-view="top">
-            </formatted-number> BPRIME
+            </formatted-number> ${$this.pool.poolToken.symbol}
           </div>
         </div>
       </div>
@@ -69,7 +66,7 @@
         <div class="icon"><img src="/PD_ASSET_ICON_INFO_01.svg" /></div>
         <div class="body">
           <div>Adding liquidity will incur <formatted-number
-              value.to-view="slippage"
+              value.to-view="getSlippage() & signal:'updateSlippage'"
               average="false"
               mantissa="2"
               placement.to-view="top">

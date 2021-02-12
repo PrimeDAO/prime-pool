@@ -1,7 +1,7 @@
+import { BindingSignaler } from 'aurelia-templating-resources';
 import { PLATFORM } from "aurelia-pal";
 import { autoinject, singleton } from "aurelia-framework";
 import "./pool.scss";
-// import { Router } from "aurelia-router";
 import { PoolBase } from "./poolBase";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { EthereumService } from "services/EthereumService";
@@ -11,7 +11,6 @@ import { Router, RouterConfiguration } from "aurelia-router";
 @singleton(false)
 @autoinject
 export class PoolDashboard extends PoolBase {
-  poolInfoTab = 1;
   router: Router;
   // liquidityBalance: number;
   // swapfee: BigNumber;
@@ -61,20 +60,15 @@ export class PoolDashboard extends PoolBase {
   constructor(
     eventAggregator: EventAggregator,
     ethereumService: EthereumService,
-    // private router: Router,
+    signaler: BindingSignaler,
     poolService: PoolService) {
-      super(eventAggregator,ethereumService, poolService);
+      super(eventAggregator,ethereumService, poolService, signaler);
   }
 
   // async getUserBalances(initializing = false): Promise<void> {
   //       // await this.getTokenAllowances();
 
   // }
-
-  handleSetPoolInfoTab(tabNumber: number) {
-    this.poolInfoTab = tabNumber;
-  }
-
 
   private configureRouter(config: RouterConfiguration, router: Router) {
 

@@ -71,8 +71,7 @@
         padding-bottom: 11px;
         min-height: 24px;
 
-        input#primeAmount,
-        input#wethAmount {
+        input#amount {
           width: 90px;
           text-align: right;
         }
@@ -149,7 +148,7 @@
       }
     }
 
-    .bPrimeAmount {
+    .poolAmount {
       display: flex;
       padding: 11px 20px;
       align-items: center;
@@ -264,7 +263,7 @@
         min-width: unset;
       }
 
-      .bPrimeAmount {
+      .poolAmount {
         input {
           width: 55px;
         }

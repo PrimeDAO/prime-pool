@@ -35,7 +35,7 @@ export class PrimeToken {
     try {
       if (this.poolService.initializing) {
         await Utils.sleep(100);
-        this.eventAggregator.publish("dashboard.loading", true);
+        this.eventAggregator.publish("pools.loading", true);
         await this.poolService.ensureInitialized();
       }
       this.pool = this.poolService.poolConfigs.get(this.contractService.getContractAddress(ContractNames.ConfigurableRightsPool));
@@ -49,7 +49,7 @@ export class PrimeToken {
       this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
     }
     finally {
-      this.eventAggregator.publish("dashboard.loading", false);
+      this.eventAggregator.publish("pools.loading", false);
     }
   }
 }

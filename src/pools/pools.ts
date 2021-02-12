@@ -43,7 +43,7 @@ export class Pools {
       try {
         if (this.poolService.initializing) {
           await Utils.sleep(200);
-          this.eventAggregator.publish("dashboard.loading", true);
+          this.eventAggregator.publish("pools.loading", true);
           await this.poolService.ensureInitialized();
         }
         this.pools = this.poolService.poolConfigsArray;
@@ -51,7 +51,7 @@ export class Pools {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }
       finally {
-        this.eventAggregator.publish("dashboard.loading", false);
+        this.eventAggregator.publish("pools.loading", false);
       }
     }
   }

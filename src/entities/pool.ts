@@ -119,38 +119,60 @@ export class Pool implements IPoolConfig {
     ) {
   }
 
-  public async initialize(config: IPoolConfig): Promise<Pool> {
-    Object.assign(this, config);
-
-    const crPoolAddress = this.address;
-
-    this.crPool = await this.contractsService.getContractAtAddress(
-      ContractNames.ConfigurableRightsPool,
-      crPoolAddress);
-
-    this.bPool = await this.contractsService.getContractAtAddress(
-      ContractNames.BPOOL,
-      await this.crPool.bPool());
-
-    this.crpFactory = await this.contractsService.getContractFor(ContractNames.CRPFactory);
-
-    const poolTokenInfo = (await this.tokenService.getTokenInfoFromAddress(crPoolAddress)) as IPoolTokenInfo;
-    poolTokenInfo.tokenContract = this.crPool;
-    this.poolToken = poolTokenInfo;
-    
-    const assetTokenAddresses = await this.bPool.getCurrentTokens();
-    const assetTokens = new Map<Address, IPoolTokenInfo>();
-    
-    for (const tokenAddress of assetTokenAddresses) {
-      const tokenInfo = (await this.tokenService.getTokenInfoFromAddress(tokenAddress)) as IPoolTokenInfo;
-      tokenInfo.tokenContract =
-        await this.contractsService.getContractAtAddress(
-        ContractNames.IERC20,
-        tokenAddress);
-      assetTokens.set(tokenAddress, tokenInfo);
+  public async initialize(config: IPoolConfig, full = true): Promise<Pool> {
+    /**
+     * do a partial initialization only if the pool has previously been initialized
+     * !full means the list of tokens will be retained, but their values will be refreshed.
+     */
+    if (!full && !this.address) {
+      full = true; // shoudn't ever happen
     }
 
-    const assetTokensArray = Array.from(assetTokens.values());
+    let assetTokens: Map<Address, IPoolTokenInfo>;
+    let assetTokensArray: Array<IPoolTokenInfo>;
+
+    if (full) {
+      Object.assign(this, config);
+
+      const crPoolAddress = this.address;
+
+      this.crPool = await this.contractsService.getContractAtAddress(
+        ContractNames.ConfigurableRightsPool,
+        crPoolAddress);
+
+      this.bPool = await this.contractsService.getContractAtAddress(
+        ContractNames.BPOOL,
+        await this.crPool.bPool());
+
+      this.crpFactory = await this.contractsService.getContractFor(ContractNames.CRPFactory);
+
+      const poolTokenInfo = (await this.tokenService.getTokenInfoFromAddress(crPoolAddress)) as IPoolTokenInfo;
+      poolTokenInfo.tokenContract = this.crPool;
+      this.poolToken = poolTokenInfo;
+      
+      const assetTokenAddresses = await this.bPool.getCurrentTokens();
+      assetTokens = new Map<Address, IPoolTokenInfo>();
+      
+      for (const tokenAddress of assetTokenAddresses) {
+        const tokenInfo = (await this.tokenService.getTokenInfoFromAddress(tokenAddress)) as IPoolTokenInfo;
+        tokenInfo.tokenContract =
+          await this.contractsService.getContractAtAddress(
+          ContractNames.IERC20,
+          tokenAddress);
+        assetTokens.set(tokenAddress, tokenInfo);
+      }
+
+      assetTokensArray = Array.from(assetTokens.values());
+
+      await this.hydrateStartingBlock();
+
+      this.swapfee = await this.bPool.getSwapFee();
+      this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
+
+    } else {
+        assetTokens = this.assetTokens;
+        assetTokensArray = this.assetTokensArray
+    }
 
     await this.hydratePoolTokenBalances(assetTokensArray);
 
@@ -160,19 +182,20 @@ export class Pool implements IPoolConfig {
     
     this.assetTokens = assetTokens;
 
-    await this.hydrateStartingBlock();
     await this.hydrateVolumes();
 
     this.poolTokenTotalSupply = await this.poolToken.tokenContract.totalSupply();
     this.poolTokenPrice = this.marketCap / this.numberService.fromString(fromWei(this.poolTokenTotalSupply));
     this.poolTokenMarketCap = this.numberService.fromString(fromWei(this.poolTokenTotalSupply)) * this.poolTokenPrice;
     this.totalDenormWeight = await this.bPool.getTotalDenormalizedWeight();
-    this.swapfee = await this.bPool.getSwapFee();
-    this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
 
     await this.hydrateUserValues();
 
     return this;
+  }
+
+  public async refresh(full = false): Promise<Pool> {
+    return this.initialize(this, full);
   }
 
   async hydratePoolTokenBalances(tokens: Array<IPoolTokenInfo>): Promise<void> {

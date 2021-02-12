@@ -1,3 +1,4 @@
+import { BindingSignaler } from 'aurelia-templating-resources';
 import { autoinject, computedFrom } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { Address, EthereumService} from "services/EthereumService";
@@ -22,8 +23,8 @@ export abstract class PoolBase {
   constructor(
     protected eventAggregator: EventAggregator,
     protected ethereumService: EthereumService,
-    protected poolService: PoolService) {
-
+    protected poolService: PoolService,
+    protected signaler: BindingSignaler) {
   }
 
   protected activate(model: { poolAddress: Address }): void {
@@ -38,7 +39,7 @@ export abstract class PoolBase {
     }));
 
     this.poolAddress = model.poolAddress;
-    if (this.pool.address !== this.poolAddress) {
+    if (this.pool && (this.pool.address !== this.poolAddress)) {
       this.pool = null;
     }
   }
@@ -61,7 +62,7 @@ export abstract class PoolBase {
 
         if (this.poolService.initializing) {
           await Utils.sleep(200);
-          this.eventAggregator.publish("dashboard.loading", true);
+          this.eventAggregator.publish("pools.loading", true);
           await this.poolService.ensureInitialized();
         }
         this.pool = this.poolService.poolConfigs.get(this.poolAddress);
@@ -72,7 +73,25 @@ export abstract class PoolBase {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }
       finally {
-        this.eventAggregator.publish("dashboard.loading", false);
+        this.eventAggregator.publish("pools.loading", false);
+      }
+    }
+  }
+
+  protected async refresh(full = false): Promise<void> {
+    if (this.pool) {
+      try {
+        this.eventAggregator.publish("pools.loading", true);
+        await this.pool.refresh(full);
+        this.signaler.signal("userBalancesChanged");
+        this.signaler.signal("poolBalancesChanged");
+        // // do this after liquidity
+        // await this.getStakingAmounts();
+      } catch (ex) {
+        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
+      }
+      finally {
+        this.eventAggregator.publish("pools.loading", false);
       }
     }
   }
@@ -83,12 +102,13 @@ export abstract class PoolBase {
       try {
         if (!suppressModalLockout) {
           // timeout to allow styles to load on startup to modalscreen sizes correctly
-          setTimeout(() => this.eventAggregator.publish("dashboard.loading", true), 100);
+          setTimeout(() => this.eventAggregator.publish("pools.loading", true), 100);
         }
         /**
          * TODO: add "force" argument to control whether to refresh values that already exist
          */
         await this.pool.hydrateUserValues();
+        this.signaler.signal("userBalancesChanged");
 
         this._connected = true;
       } catch (ex) {
@@ -97,7 +117,7 @@ export abstract class PoolBase {
       }
       finally {
         if (!suppressModalLockout) {
-          this.eventAggregator.publish("dashboard.loading", false);
+          this.eventAggregator.publish("pools.loading", false);
         }
       }
     } else {
