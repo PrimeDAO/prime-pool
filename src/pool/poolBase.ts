@@ -15,9 +15,9 @@ import { DisposableCollection } from "services/DisposableCollection";
 export abstract class PoolBase {
   protected poolAddress: Address;
   protected pool: Pool;
+  @computedFrom("pool.connected")
   protected get connected() { return this.pool?.connected };
   protected subscriptions: DisposableCollection = new DisposableCollection();
-  @computedFrom("_connected", "pool.connected")
 
   constructor(
     protected eventAggregator: EventAggregator,
