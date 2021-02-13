@@ -28,8 +28,8 @@ export interface IPoolConfig {
 @autoinject
 export class PoolService {
 
-  public poolConfigs: Map<Address, Pool>;
-  public get poolConfigsArray(): Array<Pool> { return Array.from(this.poolConfigs.values()); };
+  public pools: Map<Address, Pool>;
+  public get poolsArray(): Array<Pool> { return Array.from(this.pools.values()); };
   public initializing = true;
   private initializedPromise: Promise<void>;
   
@@ -41,29 +41,33 @@ export class PoolService {
   }
 
   public async initialize(): Promise<void> {
+    return this.createPools();
+  }
+
+  private createPools(): Promise<void> {
     return this.initializedPromise = new Promise(
       async (resolve: (value: void | PromiseLike<void>) => void,
-      reject: (reason?: any) => void): Promise<void> => {
-    if (!this.poolConfigs?.size) {
-      await axios.get("https://raw.githubusercontent.com/PrimeDAO/prime-pool-dapp/master/src/poolConfigurations/pools.json")
-        .then(async (response) => {
-          const poolConfigs = new Map();
-          for (const config of response.data as Array<IPoolConfigInternal>) {
-            const pool = await this.createPoolFromConfig(config);
-            poolConfigs.set(pool.address, pool);
-          }
-          this.poolConfigs = poolConfigs;
-          this.initializing = false;
-          return resolve();
-        })
-        .catch((error) => {
-          this.poolConfigs = new Map();
-          this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", error));
-          this.initializing = false;
-          return reject();
-        });
-      }
-    });
+        reject: (reason?: any) => void): Promise<void> => {
+        if (!this.pools?.size) {
+          await axios.get("https://raw.githubusercontent.com/PrimeDAO/prime-pool-dapp/master/src/poolConfigurations/pools.json")
+            .then(async (response) => {
+              const poolsMap = new Map();
+              for (const config of response.data as Array<IPoolConfigInternal>) {
+                const pool = await this.createPoolFromConfig(config);
+                poolsMap.set(pool.address, pool);
+              }
+              this.pools = poolsMap;
+              this.initializing = false;
+              return resolve();
+            })
+            .catch((error) => {
+              this.pools = new Map();
+              this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", error));
+              this.initializing = false;
+              return reject();
+            });
+        }
+      });
   }
 
   private createPoolFromConfig(config: IPoolConfigInternal): Promise<Pool> {
@@ -77,6 +81,26 @@ export class PoolService {
     const pool = this.container.get(Pool);
     return pool.initialize(poolConfig);
   }
+
+  // private refreshPools(): Promise<void> {
+  //   return this.initializedPromise = new Promise(
+  //     async (resolve: (value: void | PromiseLike<void>) => void,
+  //       reject: (reason?: any) => void): Promise<void> => {
+  //             for (const pool of this.poolsArray) {
+  //               await pool.refresh(false);
+  //               await pool.initialize(pool);
+  //             }
+  //             this.initializing = false;
+  //             return resolve();
+  //           })
+  //           .catch((error) => {
+  //             this.pools = new Map();
+  //             this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", error));
+  //             this.initializing = false;
+  //             return reject();
+  //           });
+  //       }
+  //     });
 
   public ensureInitialized(): Promise<void> {
     return this.initializedPromise;

@@ -57,7 +57,7 @@ export class App {
         if (this.poolService.initializing) {
           await this.poolService.ensureInitialized();
         }
-        this.pools = this.poolService.poolConfigsArray;
+        this.pools = this.poolService.poolsArray;
         this.initializing = false;
       } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));

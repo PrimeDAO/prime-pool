@@ -11,11 +11,11 @@ html {
     min-height: 100vh;
 
     input {
-      border: $section-border;
+      border: $input-border;
       width: 70px;
       background-color: $color-white;
       color: $color-black;
-      border-radius: $section-border-radius;
+      border-radius: $input-border-radius;
       outline: none;
 
       &::placeholder {
@@ -28,10 +28,10 @@ html {
 
     .clearInput {
       background-color: transparent;
-      color: $color-white;
+      color: $color-black;
 
       &::placeholder {
-        color: $color-white;
+        color: $color-black;
       }
     }
 

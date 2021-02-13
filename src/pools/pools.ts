@@ -46,7 +46,7 @@ export class Pools {
           this.eventAggregator.publish("pools.loading", true);
           await this.poolService.ensureInitialized();
         }
-        this.pools = this.poolService.poolConfigsArray;
+        this.pools = this.poolService.poolsArray;
       } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }

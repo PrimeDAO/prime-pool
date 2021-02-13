@@ -13,6 +13,6 @@ export class Story {
   }
 
   protected async activate(model: { poolAddress: Address }): Promise<void> {
-    this.pool = this.poolService.poolConfigs.get(model.poolAddress);
+    this.pool = this.poolService.pools.get(model.poolAddress);
   }
 }

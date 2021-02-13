@@ -15,10 +15,9 @@ import { DisposableCollection } from "services/DisposableCollection";
 export abstract class PoolBase {
   protected poolAddress: Address;
   protected pool: Pool;
-  protected _connected = false;
+  protected get connected() { return this.pool?.connected };
   protected subscriptions: DisposableCollection = new DisposableCollection();
   @computedFrom("_connected", "pool.connected")
-  protected get connected() { return this._connected && this.pool?.connected; }
 
   constructor(
     protected eventAggregator: EventAggregator,
@@ -28,19 +27,9 @@ export abstract class PoolBase {
   }
 
   protected activate(model: { poolAddress: Address }): void {
-
-    this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Account", async () => {
-      await this.loadContracts();
-      this.getUserBalances();
-    }));
-
-    this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Disconnect", async () => {
-      this.pool = null;
-    }));
-
     this.poolAddress = model.poolAddress;
     if (this.pool && (this.pool.address !== this.poolAddress)) {
-      this.pool = null;
+      throw new Error("internal error: cannot change pool address");
     }
   }
 
@@ -49,12 +38,8 @@ export abstract class PoolBase {
   }
 
   protected async attached(): Promise<void> {
-    await this.loadContracts();
     await this.initialize();
-    return this.getUserBalances(false);
   }
-
-  protected loadContracts(): Promise<void> { return; }
 
   protected async initialize(): Promise<void> {
     if (!this.pool) {
@@ -65,7 +50,7 @@ export abstract class PoolBase {
           this.eventAggregator.publish("pools.loading", true);
           await this.poolService.ensureInitialized();
         }
-        this.pool = this.poolService.poolConfigs.get(this.poolAddress);
+        this.pool = this.poolService.pools.get(this.poolAddress);
 
         // // do this after liquidity
         // await this.getStakingAmounts();
@@ -110,9 +95,7 @@ export abstract class PoolBase {
         await this.pool.hydrateUserValues();
         this.signaler.signal("userBalancesChanged");
 
-        this._connected = true;
       } catch (ex) {
-        this._connected = false;
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }
       finally {
@@ -120,13 +103,11 @@ export abstract class PoolBase {
           this.eventAggregator.publish("pools.loading", false);
         }
       }
-    } else {
-      this._connected = false;
     }
   }
 
   protected ensureConnected(): boolean {
-    if (!this._connected) {
+    if (!this.connected) {
       // TODO: make this await until we're either connected or not?
       this.ethereumService.connect();
       return false;

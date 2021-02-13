@@ -104,7 +104,7 @@ export class TxHistory {
          * TODO: need to do this for all pools
          */
         const crPoolAddress = this.contractsService.getContractAddress(ContractNames.ConfigurableRightsPool);
-        const crPool = this.poolService.poolConfigs.get(crPoolAddress);
+        const crPool = this.poolService.pools.get(crPoolAddress);
 
         const txJoinEvents = await crPool.getJoinEvents(this.ethereumService.defaultAccountAddress);
         const txExitEvents = await crPool.getExitEvents(this.ethereumService.defaultAccountAddress);

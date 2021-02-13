@@ -38,7 +38,7 @@ export class PrimeToken {
         this.eventAggregator.publish("pools.loading", true);
         await this.poolService.ensureInitialized();
       }
-      this.pool = this.poolService.poolConfigs.get(this.contractService.getContractAddress(ContractNames.ConfigurableRightsPool));
+      this.pool = this.poolService.pools.get(this.contractService.getContractAddress(ContractNames.ConfigurableRightsPool));
       const primeTokenAddress = this.contractService.getContractAddress(ContractNames.PRIMETOKEN);
       this.tokenInfo = await this.tokenService.getTokenInfoFromAddress(primeTokenAddress);
       this.token = this.tokenService.getTokenContract(primeTokenAddress);

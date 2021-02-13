@@ -149,8 +149,15 @@ export class LiquidityAdd extends PoolBase {
     });
   }
 
+  private handleInputAmountChange(token) {
+    this.setTokenInput(token, token.inputAmount);
+  }
+
   private setTokenInput(token: IPoolTokenInfoEx, newValue: BigNumber): void {
-    token.inputAmount = newValue;
+    // avoid infinite loops with input component
+    if (token.inputAmount?.toString() !== newValue?.toString()) {
+      token.inputAmount = newValue;
+    }
     setTimeout(() => { 
         this.amountChanged(token);
         this.signaler.signal("tokenInputChanged");

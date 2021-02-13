@@ -7,6 +7,8 @@ import { ContractNames, ContractsService, IStandardEvent } from "services/Contra
 import { Address, EthereumService, fromWei } from "services/EthereumService";
 import { NumberService } from "services/numberService";
 import { toBigNumberJs } from "services/BigNumberService";
+import { DisposableCollection } from "services/DisposableCollection";
+import { EventAggregator } from "aurelia-event-aggregator";
 
 export interface IJoinEventArgs {
   caller: Address;
@@ -110,15 +112,77 @@ export class Pool implements IPoolConfig {
   startingDateTime: Date;
 
   public connected = false;
+  private subscriptions: DisposableCollection = new DisposableCollection();
 
   public constructor(
     private contractsService: ContractsService,
     private numberService: NumberService,
     private tokenService: TokenService,
     private ethereumService: EthereumService,
+    private eventAggregator: EventAggregator,
     ) {
+    
+    /**
+     * TODO:  notify the rest of the application that this is happening, because can be lengthy
+     */
+    this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Account", async () => {
+      await this.loadContracts();
+      this.hydrateUserValues();
+    }));
+
+    /**
+     * TODO:  notify the rest of the application that this is happening, because can be lengthy
+     */
+   this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Id", async () => {
+     // this will loadContracts and hydrate everything including user balances
+      this.refresh(true);
+    }));
+
+    this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Disconnect", async () => {
+      this.loadContracts();
+    }));
+
   }
 
+  /**
+   * assumes the relevant properties have been previously loaded.
+   * @param config 
+   * @param full 
+   */
+  private async loadContracts(
+    crPool?: any, 
+    bPool?: any, 
+    assetTokens?: Map<Address, IPoolTokenInfo>, 
+    assetTokensArray?: Array<IPoolTokenInfo>): Promise<void> {
+
+    this.crPool = crPool ?? await this.contractsService.getContractAtAddress(
+      ContractNames.ConfigurableRightsPool,
+      this.address);
+
+    this.bPool = bPool ?? await this.contractsService.getContractAtAddress(
+      ContractNames.BPOOL,
+      await this.crPool.bPool());
+
+    this.crpFactory = await this.contractsService.getContractFor(ContractNames.CRPFactory);
+
+    this.poolToken.tokenContract = this.crPool;
+    
+    assetTokens = assetTokens ?? this.assetTokens;
+    assetTokensArray = assetTokensArray ?? this.assetTokensArray;
+
+    for (const token of assetTokensArray) {
+      const tokenInfo = assetTokens.get(token.address);
+      tokenInfo.tokenContract =
+        await this.contractsService.getContractAtAddress(
+          ContractNames.IERC20,
+          token.address);
+    }
+ }
+
+ /**
+  * @param config pass `this` to refresh
+  * @param full true to load contracts and hydrate everything.  false to keep contracts and the list of tokens.
+  */
   public async initialize(config: IPoolConfig, full = true): Promise<Pool> {
     /**
      * do a partial initialization only if the pool has previously been initialized
@@ -134,35 +198,27 @@ export class Pool implements IPoolConfig {
     if (full) {
       Object.assign(this, config);
 
-      const crPoolAddress = this.address;
-
       this.crPool = await this.contractsService.getContractAtAddress(
         ContractNames.ConfigurableRightsPool,
-        crPoolAddress);
+        this.address);
 
       this.bPool = await this.contractsService.getContractAtAddress(
         ContractNames.BPOOL,
         await this.crPool.bPool());
 
-      this.crpFactory = await this.contractsService.getContractFor(ContractNames.CRPFactory);
-
-      const poolTokenInfo = (await this.tokenService.getTokenInfoFromAddress(crPoolAddress)) as IPoolTokenInfo;
-      poolTokenInfo.tokenContract = this.crPool;
-      this.poolToken = poolTokenInfo;
+      this.poolToken = (await this.tokenService.getTokenInfoFromAddress(this.address)) as IPoolTokenInfo;
       
       const assetTokenAddresses = await this.bPool.getCurrentTokens();
       assetTokens = new Map<Address, IPoolTokenInfo>();
       
       for (const tokenAddress of assetTokenAddresses) {
         const tokenInfo = (await this.tokenService.getTokenInfoFromAddress(tokenAddress)) as IPoolTokenInfo;
-        tokenInfo.tokenContract =
-          await this.contractsService.getContractAtAddress(
-          ContractNames.IERC20,
-          tokenAddress);
         assetTokens.set(tokenAddress, tokenInfo);
       }
 
       assetTokensArray = Array.from(assetTokens.values());
+
+      await this.loadContracts(this.crPool, this.bPool, assetTokens, assetTokensArray);
 
       await this.hydrateStartingBlock();
 
