@@ -10,7 +10,6 @@
     "messageRow messageRow messageRow"
     "secondRow secondRow secondRow"
     "thirdRow thirdRow thirdRow";
-  // margin: 0 166px;
 
   .heading {
     color: $color-light-purple;
@@ -31,6 +30,15 @@
 
       .body > .dataGroup {
         margin-bottom: 11px;
+
+        .copy-to-clip-button,
+        .copy-to-clip-button:focus {
+          color: $button3-color;
+        }
+
+        .copy-to-clip-button:hover {
+          color: $color-grey-3;
+        }
 
         &.token {
           display: flex;
@@ -67,13 +75,17 @@
             display: inline-block;
             label {
               display: block;
-              color: $color-light-purple;
+              color: $color-black;
               margin-bottom: 4px;
             }
             input {
               margin-right: 6px;
             }
           }
+        }
+
+        .inputButtonGroup:not(:last) {
+          margin-right: 6px;
         }
       }
     }
