@@ -10,6 +10,7 @@
     "messageRow messageRow messageRow"
     "secondRow secondRow secondRow"
     "thirdRow thirdRow thirdRow";
+  // margin: 0 166px;
 
   .heading {
     color: $color-light-purple;
@@ -22,6 +23,11 @@
 
     .poolOverview {
       background-color: #e6e6e6;
+      padding: 20px;
+
+      .body {
+        margin-bottom: 20px;
+      }
 
       .body > .dataGroup {
         margin-bottom: 11px;
@@ -43,6 +49,30 @@
 
           .symbol {
             margin-right: 4px;
+          }
+        }
+      }
+
+      .wethEthExchange {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        margin-bottom: 20px;
+
+        .inputButtonGroup {
+          text-align: left;
+          white-space: nowrap;
+
+          .inputGroup {
+            display: inline-block;
+            label {
+              display: block;
+              color: $color-light-purple;
+              margin-bottom: 4px;
+            }
+            input {
+              margin-right: 6px;
+            }
           }
         }
       }
@@ -148,11 +178,16 @@
       }
     }
 
+    // .inputButtonGroup:first-of-type {
+    //   margin-bottom: 16px;
+    // }
+
     .poolAmount {
       display: flex;
       padding: 11px 20px;
       align-items: center;
       height: 20px;
+      margin-bottom: 20px;
 
       .label {
         flex-grow: 2;
@@ -171,48 +206,51 @@
         text-align: right;
       }
     }
-  }
 
-  .messageRow {
-    grid-area: messageRow;
-    padding: 20px;
+    .messageRow {
+      grid-area: messageRow;
+      padding-left: 20px;
+      padding-right: 20px;
+      margin-bottom: 20px;
+      color: $color-orange;
 
-    .liquidityMessage {
-      .icon {
-        display: inline-block;
+      .liquidityMessage {
+        .icon {
+          display: inline-block;
 
-        img {
-          width: 16px;
-          margin-right: 7px;
-          position: relative;
-          top: 2px;
+          img {
+            width: 16px;
+            margin-right: 7px;
+            position: relative;
+            top: 2px;
+          }
         }
+      }
+
+      .body {
+        display: inline-block;
       }
     }
 
-    .body {
-      display: inline-block;
+    .secondRow {
+      grid-area: secondRow;
+      text-align: center;
+      margin-bottom: 20px;
+
+      button {
+        width: 100%;
+      }
     }
-  }
 
-  .secondRow {
-    grid-area: secondRow;
-    text-align: center;
-    margin-bottom: 20px;
-
-    button {
-      width: 100%;
-    }
-  }
-
-  .thirdRow {
-    grid-area: thirdRow;
-    text-align: center;
-    &.back img {
-      margin-right: 6px;
-      width: 16px;
-      position: relative;
-      top: 2px;
+    .thirdRow {
+      grid-area: thirdRow;
+      text-align: center;
+      &.back img {
+        margin-right: 6px;
+        width: 16px;
+        position: relative;
+        top: 2px;
+      }
     }
   }
 }

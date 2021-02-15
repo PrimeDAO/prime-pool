@@ -107,13 +107,6 @@ export abstract class PoolBase {
   }
 
   protected ensureConnected(): boolean {
-    if (!this.connected) {
-      // TODO: make this await until we're either connected or not?
-      this.ethereumService.connect();
-      return false;
-    }
-    else {
-      return true;
-    }
+    return this.pool?.ensureConnected();
   }
 }

@@ -1,5 +1,5 @@
 import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject, containerless, customElement } from "aurelia-framework";
+import { autoinject, containerless, customElement, singleton } from "aurelia-framework";
 import { ContractNames, ContractsService } from "services/ContractsService";
 import { DisposableCollection } from "services/DisposableCollection";
 import { Address, EthereumService, Networks } from "services/EthereumService";
@@ -13,6 +13,7 @@ enum Phase {
   Confirming = "Confirming"
 }
 
+@singleton(false)
 @containerless
 @autoinject
 @customElement("connectbutton")
@@ -68,11 +69,7 @@ export class ConnectButton {
   }
 
   private onConnect() {
-    /**
-     * TODO:  handle connecting from subpages like liquidity and staking
-     * where dashboard doesn't get properly updated
-     */
-    this.ethereumService.connect();
+    return this.ethereumService.ensureConnected();
   }
 
   private gotoTx() {

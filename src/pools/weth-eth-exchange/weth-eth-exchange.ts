@@ -1,0 +1,91 @@
+import { EventAggregator } from "aurelia-event-aggregator";
+import { autoinject, containerless } from 'aurelia-framework';
+import { BigNumber } from "ethers";
+import { ContractNames, ContractsService } from "services/ContractsService";
+import { DisposableCollection } from "services/DisposableCollection";
+import { EthereumService } from "services/EthereumService";
+import { EventConfigFailure } from "services/GeneralEvents";
+import TransactionsService from "services/TransactionsService";
+
+@autoinject
+@containerless
+export class WethEthExchange {
+  private ethWethAmount: BigNumber;
+  private wethEthAmount: BigNumber;
+  private userEthBalance: BigNumber;
+  private userWethBalance: BigNumber;
+  private weth;
+  private subscriptions = new DisposableCollection();
+
+  constructor(
+    private ethereumService: EthereumService,
+    private eventAggregator: EventAggregator,
+    private transactionsService: TransactionsService,
+    private contractsService: ContractsService,
+  ) {
+  }
+
+  async attached() {
+    this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Account",
+      async (_account: string) => {
+        await this.loadContracts();
+        this.getUserBalances();
+      }));
+
+    this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Id",
+      async () => {
+        await this.loadContracts();
+        this.getUserBalances();
+      }));
+
+      // this.subscriptions.push(this.eventAggregator.subscribe("Network.NewBlock",
+      // () => this.getBalance()));
+
+    this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Disconnect", async () => {
+      this.loadContracts();
+    }));
+
+    await this.loadContracts();
+    this.getUserBalances();
+  }
+
+  detached() {
+    this.subscriptions.dispose();
+  }
+
+  async loadContracts() {
+    this.weth = await this.contractsService.getContractFor(ContractNames.WETH);
+  }
+
+  async getUserBalances() {
+    const provider = this.ethereumService.readOnlyProvider;    
+    this.userWethBalance = await this.weth.balanceOf(this.ethereumService.defaultAccountAddress);
+    this.userEthBalance = await provider.getBalance(this.ethereumService.defaultAccountAddress);
+  }
+  
+  private async handleDeposit() {
+    if (this.ethereumService.ensureConnected()) {
+      if (this.ethWethAmount.gt(this.userEthBalance)) {
+        this.eventAggregator.publish("handleValidationError", new EventConfigFailure("You don't have enough ETH to wrap the amount you requested"));
+      } else {
+        await this.transactionsService.send(() => this.weth.deposit({ value: this.ethWethAmount }));
+        this.getUserBalances();
+      }
+    }
+  }
+
+  private async handleWithdraw() {
+    if (this.ethereumService.ensureConnected()) {
+      if (this.wethEthAmount.gt(this.userWethBalance)) {
+        this.eventAggregator.publish("handleValidationError", new EventConfigFailure("You don't have enough WETH to unwrap the amount you requested"));
+      } else {
+        await this.transactionsService.send(() => this.weth.withdraw(this.wethEthAmount));
+        this.getUserBalances();
+      }
+    }
+  }
+
+  private handleGetMax() {
+    this.wethEthAmount = this.userWethBalance;
+  }
+}
