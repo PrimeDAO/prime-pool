@@ -11,10 +11,12 @@ export class LiquidityButtons {
   }
 
   gotoAddLiquidity() {
+    this.pool.ensureConnected();
     this.router.navigate(`/pool/${this.pool.address}/overview/add`);
   }
 
   gotoRemoveLiquidity() {
+    this.pool.ensureConnected();
     this.router.navigate(`/pool/${this.pool.address}/overview/remove`);
   }
 }

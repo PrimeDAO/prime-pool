@@ -14,6 +14,7 @@ import { IPoolTokenInfo } from "entities/pool";
 import { AureliaHelperService } from "services/AureliaHelperService";
 import { PoolBase } from "pool/poolBase";
 import TransactionsService from "services/TransactionsService";
+import { Redirect } from 'aurelia-router';
 
 const BALANCE_BUFFER = 0.01;
 
@@ -49,8 +50,16 @@ export class LiquidityAdd extends PoolBase {
 
     // this.subscriptions.push(this.aureliaHelperService.createPropertyWatch(this.selectedTokens, "length", this.handleTokenSelectedChanged.bind(this)));
     this.subscriptions.push(this.aureliaHelperService.createCollectionWatch(this.selectedTokens, this.handleTokenSelected.bind(this)));
+  }
 
-    this.ensureConnected();
+  public canActivate(model: { poolAddress: Address }): Redirect | boolean | undefined {
+    const pool = this.poolService?.pools?.get(model.poolAddress);
+    if (!pool?.connected) {
+      // this.eventAggregator.publish("handleInfo", "Please connect to a wallet");
+      return false;
+    } else {
+      return true;
+    }
   }
 
   private _selectedToken: IPoolTokenInfoEx;

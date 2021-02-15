@@ -367,4 +367,15 @@ export class Pool implements IPoolConfig {
       }
     }  
   }
+
+  public ensureConnected(): boolean {
+    if (!this.connected) {
+      // TODO: make this await until we're either connected or not?
+      this.ethereumService.connect();
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
 }
