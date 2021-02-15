@@ -99,6 +99,8 @@
     grid-area: rightColumn;
     margin-bottom: 0;
     background-color: $color-white;
+    padding-right: 20px;
+    padding-left: 20px;
 
     .table {
       display: grid;

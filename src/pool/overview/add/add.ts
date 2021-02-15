@@ -20,6 +20,7 @@ const BALANCE_BUFFER = 0.01;
 
 interface IPoolTokenInfoEx extends IPoolTokenInfo {
   inputAmount: BigNumber;
+  selected: boolean;
 }
 
 @singleton(false)
@@ -125,6 +126,7 @@ export class LiquidityAdd extends PoolBase {
         }
         // console.log(`The following values were inserted at ${splice.index}: ${JSON.stringify(valuesAdded)}`);
         token = valuesAdded[0];
+        token.selected = true;
       } else {
         if (splice.removed.length >= 2) {
           throw new Error(`splice.removed.length should be 0 or 1`);
@@ -133,6 +135,7 @@ export class LiquidityAdd extends PoolBase {
         if (splice.removed.length > 0) {
           // console.log(`The following values were removed from ${splice.index}: ${JSON.stringify(splice.removed)}`);
           token = splice.removed[0];
+          token.selected = false;
         }
       }
 
@@ -170,8 +173,9 @@ export class LiquidityAdd extends PoolBase {
     setTimeout(() => { 
         this.amountChanged(token);
         this.signaler.signal("tokenInputChanged");
-      this.signaler.signal("updateSlippage");
-      this.signaler.signal("updateShowTokenUnlock");
+        this.signaler.signal("updateSlippage");
+        this.signaler.signal("updateShowTokenUnlock");
+      this.signaler.signal("updatePoolTokenChange");
       }, 100);
   }
 
@@ -467,7 +471,7 @@ private async joinPool(poolAmountOut, maxAmountsIn): Promise<void> {
     await this.transactionsService.send(() => this.pool.crPool.joinPool(poolAmountOut, maxAmountsIn));
 
     await this.refresh();
-    this.signaler.signal("balancesChanged");
+    this.signaler.signal("updatePoolTokenChange");
     this.signaler.signal("updateSlippage");
     this.signaler.signal("updateShowTokenUnlock");
   }
@@ -481,7 +485,7 @@ private async joinPool(poolAmountOut, maxAmountsIn): Promise<void> {
       minPoolAmountOut));
 
     await this.refresh();
-    this.signaler.signal("balancesChanged");
+    this.signaler.signal("updatePoolTokenChange");
     this.signaler.signal("updateSlippage");
     this.signaler.signal("updateShowTokenUnlock");
   }
@@ -493,7 +497,7 @@ private async setTokenAllowance(token: IPoolTokenInfoEx): Promise<void> {
     await this.transactionsService.send(() => token.tokenContract.approve(this.pool.address, token.inputAmount));
 
     this.getUserBalances();
-    this.signaler.signal("balancesChanged");
+    this.signaler.signal("updatePoolTokenChange");
     this.signaler.signal("updateShowTokenUnlock");
   }
 }
