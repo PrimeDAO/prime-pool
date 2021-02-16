@@ -1,6 +1,6 @@
 import { BindingSignaler } from 'aurelia-templating-resources';
 import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject, ICollectionObserverSplice, singleton, computedFrom } from "aurelia-framework";
+import { autoinject, ICollectionObserverSplice, singleton } from "aurelia-framework";
 import { BigNumber } from "ethers";
 import { toBigNumberJs } from "services/BigNumberService";
 import { calcPoolOutGivenSingleIn } from "services/BalancerPoolLiquidity/helpers/math";
@@ -9,12 +9,11 @@ import { Address, EthereumService } from "services/EthereumService";
 import "../liquidity.scss";
 import BigNumberJs from "services/BigNumberService";
 import { PoolService } from "services/PoolService";
-import { Router } from "aurelia-router";
+import { Router, Redirect } from "aurelia-router";
 import { IPoolTokenInfo } from "entities/pool";
 import { AureliaHelperService } from "services/AureliaHelperService";
 import { PoolBase } from "pool/poolBase";
 import TransactionsService from "services/TransactionsService";
-import { Redirect } from 'aurelia-router';
 
 const BALANCE_BUFFER = 0.01;
 
@@ -49,7 +48,6 @@ export class LiquidityAdd extends PoolBase {
 
     super.activate(model);
 
-    // this.subscriptions.push(this.aureliaHelperService.createPropertyWatch(this.selectedTokens, "length", this.handleTokenSelectedChanged.bind(this)));
     this.subscriptions.push(this.aureliaHelperService.createCollectionWatch(this.selectedTokens, this.handleTokenSelected.bind(this)));
   }
 

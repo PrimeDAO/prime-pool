@@ -89,7 +89,7 @@ export class Staking {
   //   }
   // }
 
-  // private handleGetMaxBPrime() {
+  // private handleGetMaxPoolToken() {
   //   this.bPrimeAmount = this.model.userBPrimeBalance;
   // }
 }

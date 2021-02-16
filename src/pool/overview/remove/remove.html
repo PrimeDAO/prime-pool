@@ -85,7 +85,7 @@
             value.to-view="model.userBPrimeBalance | ethwei"
             placement.to-view="top">
           </formatted-number> BPRIME
-          <label if.to-view="model.userBPrimeBalance.gt(0)"><button class="button4  small" click.delegate="handleGetMaxBPrime()">Max</button></label>
+          <label if.to-view="model.userBPrimeBalance.gt(0)"><button class="button4  small" click.delegate="handleGetMaxPoolToken()">Max</button></label>
           <numeric-input id="bPrimeAmount"
             value.two-way="bPrimeAmount"
             placeholder="0.0"
