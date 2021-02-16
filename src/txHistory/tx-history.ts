@@ -70,7 +70,7 @@ export class TxHistory {
 
   async attached(): Promise<void> {
 
-    this.eventAggregator.subscribe("Network.Changed.Account", async () => {
+    this.eventAggregator.subscribe("Contracts.Changed", async () => {
       await this.loadContracts();
       this.getData(true);
     });

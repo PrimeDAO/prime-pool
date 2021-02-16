@@ -15,8 +15,8 @@ import { PoolBase } from "pool/poolBase";
 import { IPoolTokenInfo } from "entities/pool";
 
 interface IPoolTokenInfoEx extends IPoolTokenInfo {
-  inputAmount: BigNumber;
-  selected: boolean;
+  inputAmount_remove: BigNumber;
+  selected_remove: boolean;
 }
 
 const BALANCE_BUFFER = 0.01;
@@ -114,7 +114,7 @@ export class LiquidityRemove extends PoolBase {
         }
         // console.log(`The following values were inserted at ${splice.index}: ${JSON.stringify(valuesAdded)}`);
         token = valuesAdded[0];
-        token.selected = true;
+        token.selected_remove = true;
       } else {
         if (splice.removed.length >= 2) {
           throw new Error(`splice.removed.length should be 0 or 1`);
@@ -123,7 +123,7 @@ export class LiquidityRemove extends PoolBase {
         if (splice.removed.length > 0) {
           // console.log(`The following values were removed from ${splice.index}: ${JSON.stringify(splice.removed)}`);
           token = splice.removed[0];
-          token.selected = false;
+          token.selected_remove = false;
         }
       }
 
@@ -143,7 +143,7 @@ export class LiquidityRemove extends PoolBase {
 
       // this.poolTokens = null;
       // this.amounts.delete(token.address);
-      // this.setTokenInput(token, null);
+      // token.inputAmount = BigNumber.from(0);
       setTimeout(() => this.syncWithNewPoolTokenAmount(), 100);
       this.signaler.signal("selectedTokenChanged");
     });
@@ -163,7 +163,7 @@ export class LiquidityRemove extends PoolBase {
     /**
      * these will end up in handleTokenSelected
      */
-    if (token.selected !== newValue) {
+    if (token.selected_remove !== newValue) {
       if(newValue) {
         this.selectedTokens.push(token);
       } else {
@@ -189,10 +189,12 @@ export class LiquidityRemove extends PoolBase {
 
   private syncWithNewPoolTokenAmount(): void {
     for (const token of this.selectedTokens) {
-      token.inputAmount = this.computeTokenToRemoveAmount(token);
+      token.inputAmount_remove = this.computeTokenToRemoveAmount(token);
     }
     // TODO: figure out smarter way to handle this dependency
     this.refreshShowSlippage();
+
+    this.signaler.signal("updateSlippage");
   }
 
   private refreshShowSlippage() {
@@ -278,7 +280,7 @@ export class LiquidityRemove extends PoolBase {
 
     const selectedToken = this.selectedToken;
 
-    if (!this.selectedToken.inputAmount || this.selectedToken.inputAmount.eq(0)) return new BigNumberJs(0);
+    if (!this.selectedToken.inputAmount_remove || this.selectedToken.inputAmount_remove.eq(0)) return new BigNumberJs(0);
 
     return calcSingleOutGivenPoolIn(
       toBigNumberJs(selectedToken.balanceInPool),
@@ -297,14 +299,14 @@ export class LiquidityRemove extends PoolBase {
     let message: string;
 
     if (this.isSingleAsset) {
-      if (this.selectedToken.inputAmount.gt(this.selectedToken.balanceInPool)) {
+      if (this.selectedToken.inputAmount_remove.gt(this.selectedToken.balanceInPool)) {
         message = "Can't remove this amount because it exceeds the amount in the pool";
       } else {
         const maxOutRatio = 1 / 3;
         const amount = toBigNumberJs(this.poolTokenAmount);
         const tokenBalance = toBigNumberJs(this.selectedToken.balanceInPool);
         const poolTokenShares = toBigNumberJs(this.pool.poolTokenTotalSupply);
-        const tokenWeight = toBigNumberJs(this.pool.poolToken.denormWeight);
+        const tokenWeight = toBigNumberJs(this.selectedToken.denormWeight);
         const totalWeight = toBigNumberJs(this.pool.totalDenormWeight);
         const swapfee = toBigNumberJs(this.pool.swapfee);
 
@@ -372,8 +374,8 @@ export class LiquidityRemove extends PoolBase {
         .integerValue(BigNumberJs.ROUND_UP)
         .toString();
 
-        this.exitswapPoolAmountIn(
-        this.pool.poolToken.address,
+      this.exitswapPoolAmountIn(
+        this.selectedToken.address,
         this.poolTokenAmount,
         minTokenAmountOut,
       );
@@ -383,41 +385,26 @@ export class LiquidityRemove extends PoolBase {
   async exitPool(poolAmountIn, minAmountsOut): Promise<void> {
     if (this.ensureConnected()) {
       await this.transactionsService.send(() => this.pool.crPool.exitPool(poolAmountIn, minAmountsOut));
-      await this.getLiquidityAmounts();
-      this.getUserBalances();
+      //  TODO: await this.getLiquidityAmounts();
+      await this.getUserBalances();
+      this.signaler.signal("updateSlippage");
     }
   }
 
   async exitswapPoolAmountIn(tokenOutAddress, poolAmountIn, minTokenAmountOut): Promise<void> {
     if (this.ensureConnected()) {
       await this.transactionsService.send(() => this.pool.crPool.exitswapPoolAmountIn(tokenOutAddress, poolAmountIn, minTokenAmountOut));
-      await this.getLiquidityAmounts();
-      this.getUserBalances();
+      // await this.getLiquidityAmounts();
+      await this.getUserBalances();
+      this.signaler.signal("updateSlippage");
     }
   }
 
   private handleGetMaxPoolToken() {
     this.poolTokenAmount = this.pool.userPoolTokenBalance;
   }
-}
 
-interface ILiquidityModel {
-  poolBalances: Map<Address, BigNumber>;
-  connected: boolean;
-  liquidityExit(poolTokenAmount, minAmountsOut): Promise<void>;
-  liquidityExitswapPoolAmountIn(tokenAddress, poolTokenAmount, minTokenAmountOut): Promise<void>;
-  remove: boolean; // if falsy then add
-  swapfee: BigNumber;
-  userBPrimeBalance: BigNumber;
-  poolTotalDenormWeights: Map<string, BigNumber>;
-  poolTokenAddresses: Array<Address>;
-  poolUsersTokenShare: Map<Address, BigNumber>;
-  primeTokenAddress: Address;
-  poolTotalBPrimeSupply: BigNumber;
-  poolTotalDenormWeight: BigNumber;
-  wethTokenAddress: Address;
+  goBack() {
+    this.router.navigateBack();
+  }
 }
-
-/**
- * random TODO:  handle cases where tokens may not have 18 decimals?
- */

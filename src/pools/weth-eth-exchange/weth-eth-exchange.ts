@@ -26,17 +26,14 @@ export class WethEthExchange {
   }
 
   async attached() {
-    this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Account",
-      async (_account: string) => {
-        await this.loadContracts();
-        this.getUserBalances();
+    this.subscriptions.push(this.eventAggregator.subscribe("Contracts.Changed",
+      async () => {
+        this.loadContracts();
       }));
 
-    this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Id",
-      async () => {
-        await this.loadContracts();
-        this.getUserBalances();
-      }));
+    this.eventAggregator.subscribe("Network.Changed.Account", async () => {
+      this.getUserBalances();
+    });
 
       // this.subscriptions.push(this.eventAggregator.subscribe("Network.NewBlock",
       // () => this.getBalance()));

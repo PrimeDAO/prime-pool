@@ -14,7 +14,6 @@
         <div class="cell heading heading3">Deposit</div>
 
         <template repeat.for="token of pool.assetTokensArray">
-
           <div class="cell"><input type="checkbox" model.bind="token" checked.bind="selectedTokens" /></div>
           <div class="cell"><img src.one-time="token.icon" />${token.symbol}
             <button show.to-view="getShowTokenUnlock(token) & signal:'updateShowTokenUnlock'" class="unlock button4 small" click.delegate="unlock(token)">Unlock</button>
@@ -27,11 +26,11 @@
             <div else>--</div>
           </div>
           <div class="cell">
-            <div if.to-view="connected && token.selected">
+            <div if.to-view="connected && token.selected_add">
               <label if.to-view="token.userBalance.gt(0)"><button class="button4 small" click.delegate="handleGetMaxToken(token)">Max</button></label>
               <numeric-input id.one-time="token.address"
                 handle-change.call="handleInputAmountChange(token, { keyCode: number })"
-                value.two-way="token.inputAmount"
+                value.two-way="token.inputAmount_add"
                 placeholder="0.0"
                 css="clearInput"></numeric-input>
             </div>
@@ -74,7 +73,7 @@
         </div>
       </div>
       <div class="secondRow">
-        <button class="button2" click.delegate="handleSubmit()">Add Liquidity</button>
+        <button class="button2" click.delegate="handleSubmit()">Buy ${pool.poolToken.symbol}</button>
       </div>
       <div class="thirdRow back">
         <a click.delegate="goBack()" href="#"><img src="/back.svg"></img> Back</a>

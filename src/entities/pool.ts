@@ -122,10 +122,7 @@ export class Pool implements IPoolConfig {
     private eventAggregator: EventAggregator,
     ) {
     
-    /**
-     * TODO:  notify the rest of the application that this is happening, because can be lengthy
-     */
-    this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Account", async () => {
+    this.subscriptions.push(this.eventAggregator.subscribe("Contracts.Changed", async () => {
       await this.loadContracts();
       this.hydrateUserValues();
     }));
@@ -133,15 +130,10 @@ export class Pool implements IPoolConfig {
     /**
      * TODO:  notify the rest of the application that this is happening, because can be lengthy
      */
-   this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Id", async () => {
-     // this will loadContracts and hydrate everything including user balances
-      this.refresh(true);
-    }));
-
-    this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Disconnect", async () => {
-      this.loadContracts();
-    }));
-
+  //  this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Id", async () => {
+  //    // this will loadContracts and hydrate everything including user balances
+  //     this.refresh(true);
+  //   }));
   }
 
   /**

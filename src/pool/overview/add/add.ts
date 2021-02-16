@@ -18,8 +18,8 @@ import TransactionsService from "services/TransactionsService";
 const BALANCE_BUFFER = 0.01;
 
 interface IPoolTokenInfoEx extends IPoolTokenInfo {
-  inputAmount: BigNumber;
-  selected: boolean;
+  inputAmount_add: BigNumber;
+  selected_add: boolean;
 }
 
 @singleton(false)
@@ -102,7 +102,7 @@ export class LiquidityAdd extends PoolBase {
   }
 
   private getTokenHasSufficientAllowance(token: IPoolTokenInfoEx): boolean {
-    return token.userAllowance.gte(token?.inputAmount ?? BigNumber.from(0));
+    return token.userAllowance.gte(token?.inputAmount_add ?? BigNumber.from(0));
   }
 
   private handleTokenSelected(splices: Array<ICollectionObserverSplice<IPoolTokenInfoEx>>) {
@@ -124,7 +124,7 @@ export class LiquidityAdd extends PoolBase {
         }
         // console.log(`The following values were inserted at ${splice.index}: ${JSON.stringify(valuesAdded)}`);
         token = valuesAdded[0];
-        token.selected = true;
+        token.selected_add = true;
       } else {
         if (splice.removed.length >= 2) {
           throw new Error(`splice.removed.length should be 0 or 1`);
@@ -133,7 +133,7 @@ export class LiquidityAdd extends PoolBase {
         if (splice.removed.length > 0) {
           // console.log(`The following values were removed from ${splice.index}: ${JSON.stringify(splice.removed)}`);
           token = splice.removed[0];
-          token.selected = false;
+          token.selected_add = false;
         }
       }
 
@@ -165,15 +165,15 @@ export class LiquidityAdd extends PoolBase {
 
   private setTokenInput(token: IPoolTokenInfoEx, newValue: BigNumber): void {
     // avoid infinite loops with input component
-    if (token.inputAmount?.toString() !== newValue?.toString()) {
-      token.inputAmount = newValue;
+    if (token.inputAmount_add?.toString() !== newValue?.toString()) {
+      token.inputAmount_add = newValue;
     }
     setTimeout(() => { 
         this.amountChanged(token);
         this.signaler.signal("tokenInputChanged");
         this.signaler.signal("updateSlippage");
         this.signaler.signal("updateShowTokenUnlock");
-      this.signaler.signal("updatePoolTokenChange");
+        this.signaler.signal("updatePoolTokenChange");
       }, 100);
   }
 
@@ -260,7 +260,7 @@ export class LiquidityAdd extends PoolBase {
 
   private amountChanged(token: IPoolTokenInfoEx): void {
 
-    const changedAmount = token.inputAmount ?? BigNumber.from(0);
+    const changedAmount = token.inputAmount_add ?? BigNumber.from(0);
 
     const changedTokenBalance = toBigNumberJs(token.balanceInPool);
     const ratio = toBigNumberJs(changedAmount).div(changedTokenBalance);
@@ -272,7 +272,7 @@ export class LiquidityAdd extends PoolBase {
         toBigNumberJs(poolTokenShares));
     } else if (this.isSingleAsset) {
       const tokenIn = this.selectedToken;
-      const amount = toBigNumberJs(tokenIn.inputAmount);
+      const amount = toBigNumberJs(tokenIn.inputAmount_add);
       const tokenInBalanceIn = toBigNumberJs(tokenIn.balanceInPool);
       const maxInRatio = 1 / 2;
       if (amount.div(tokenInBalanceIn).gt(maxInRatio)) {
@@ -307,7 +307,7 @@ export class LiquidityAdd extends PoolBase {
 
           this.amounts.set(tokenAddr, balancedAmountString);
           const balancedAmount = BigNumber.from(balancedAmountString);
-          assetToken.inputAmount = balancedAmount;
+          assetToken.inputAmount_add = balancedAmount;
         }
       });
     }
@@ -380,10 +380,10 @@ export class LiquidityAdd extends PoolBase {
   private getInvalidTokenAdd(token: IPoolTokenInfoEx): string {
     let message: string;
 
-    if (!token.inputAmount || token.inputAmount.isZero()) {
+    if (!token.inputAmount_add || token.inputAmount_add.isZero()) {
       message = `Please specify an amount of ${token.symbol}`;
     } else {
-      if (token.inputAmount.gt(token.userBalance)) {
+      if (token.inputAmount_add.gt(token.userBalance)) {
         message = `Cannot add this amount of ${token.symbol} because it exceeds your balance`;
       }
     }
@@ -492,7 +492,7 @@ private async joinPool(poolAmountOut, maxAmountsIn): Promise<void> {
 private async setTokenAllowance(token: IPoolTokenInfoEx): Promise<void> {
   if (this.ensureConnected()) {
     
-    await this.transactionsService.send(() => token.tokenContract.approve(this.pool.address, token.inputAmount));
+    await this.transactionsService.send(() => token.tokenContract.approve(this.pool.address, token.inputAmount_add));
 
     this.getUserBalances();
     this.signaler.signal("updatePoolTokenChange");
