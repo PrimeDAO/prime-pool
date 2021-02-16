@@ -51,9 +51,6 @@ export abstract class PoolBase {
           await this.poolService.ensureInitialized();
         }
         this.pool = this.poolService.pools.get(this.poolAddress);
-
-        // // do this after liquidity
-        // await this.getStakingAmounts();
       } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }
@@ -70,8 +67,9 @@ export abstract class PoolBase {
         await this.pool.refresh(full);
         this.signaler.signal("userBalancesChanged");
         this.signaler.signal("poolBalancesChanged");
-        // // do this after liquidity
-        // await this.getStakingAmounts();
+        this.signaler.signal("updatePoolTokenChange");
+        this.signaler.signal("updateSlippage");
+        this.signaler.signal("updateShowTokenUnlock");
       } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }
@@ -94,6 +92,9 @@ export abstract class PoolBase {
          */
         await this.pool.hydrateUserValues();
         this.signaler.signal("userBalancesChanged");
+        this.signaler.signal("updatePoolTokenChange");
+        this.signaler.signal("updateShowTokenUnlock");
+        this.signaler.signal("updateSlippage");
 
       } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));

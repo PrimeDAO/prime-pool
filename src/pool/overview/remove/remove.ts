@@ -143,7 +143,7 @@ export class LiquidityRemove extends PoolBase {
 
       // this.poolTokens = null;
       // this.amounts.delete(token.address);
-      // token.inputAmount = BigNumber.from(0);
+      // token.inputAmount_remove = BigNumber.from(0);
       setTimeout(() => this.syncWithNewPoolTokenAmount(), 100);
       this.signaler.signal("selectedTokenChanged");
     });
@@ -385,18 +385,14 @@ export class LiquidityRemove extends PoolBase {
   async exitPool(poolAmountIn, minAmountsOut): Promise<void> {
     if (this.ensureConnected()) {
       await this.transactionsService.send(() => this.pool.crPool.exitPool(poolAmountIn, minAmountsOut));
-      //  TODO: await this.getLiquidityAmounts();
-      await this.getUserBalances();
-      this.signaler.signal("updateSlippage");
+      this.refresh();
     }
   }
 
   async exitswapPoolAmountIn(tokenOutAddress, poolAmountIn, minTokenAmountOut): Promise<void> {
     if (this.ensureConnected()) {
       await this.transactionsService.send(() => this.pool.crPool.exitswapPoolAmountIn(tokenOutAddress, poolAmountIn, minTokenAmountOut));
-      // await this.getLiquidityAmounts();
-      await this.getUserBalances();
-      this.signaler.signal("updateSlippage");
+      this.refresh();
     }
   }
 

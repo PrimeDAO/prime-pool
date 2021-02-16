@@ -338,11 +338,6 @@ export class Pool implements IPoolConfig {
 
         token.userAllowance = await token.tokenContract.allowance(accountAddress, this.address);
       }
-
-      // this.userPoolTokenAllowance = await this.poolToken.tokenContract.allowance(
-      //   accountAddress,
-      //   this.contractsService.getContractAddress(ContractNames.STAKINGREWARDS));
-
       // this.primeFarmed = await this.stakingRewards.earned(accountAddress);
       // this.bPrimeStaked = await this.stakingRewards.balanceOf(accountAddress);
       this.connected = true;

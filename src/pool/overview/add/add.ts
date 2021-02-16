@@ -160,7 +160,7 @@ export class LiquidityAdd extends PoolBase {
   }
 
   private handleInputAmountChange(token) {
-    this.setTokenInput(token, token.inputAmount);
+    this.setTokenInput(token, token.inputAmount_add);
   }
 
   private setTokenInput(token: IPoolTokenInfoEx, newValue: BigNumber): void {
@@ -332,7 +332,7 @@ export class LiquidityAdd extends PoolBase {
       }
     } else if (this.isSingleAsset) {
       const selectedToken = this.selectedToken;
-      if (this.getTokenHasSufficientAllowance(selectedToken)) {
+      if (!this.getTokenHasSufficientAllowance(selectedToken)) {
         message = `Before adding you need to unlock the ${selectedToken.symbol} tokens for transfer`;
       }
     }
@@ -469,9 +469,6 @@ private async joinPool(poolAmountOut, maxAmountsIn): Promise<void> {
     await this.transactionsService.send(() => this.pool.crPool.joinPool(poolAmountOut, maxAmountsIn));
 
     await this.refresh();
-    this.signaler.signal("updatePoolTokenChange");
-    this.signaler.signal("updateSlippage");
-    this.signaler.signal("updateShowTokenUnlock");
   }
 }
 
@@ -482,10 +479,7 @@ private async joinPool(poolAmountOut, maxAmountsIn): Promise<void> {
       tokenAmountIn,
       minPoolAmountOut));
 
-    await this.refresh();
-    this.signaler.signal("updatePoolTokenChange");
-    this.signaler.signal("updateSlippage");
-    this.signaler.signal("updateShowTokenUnlock");
+    this.refresh();
   }
 }
 
@@ -495,8 +489,6 @@ private async setTokenAllowance(token: IPoolTokenInfoEx): Promise<void> {
     await this.transactionsService.send(() => token.tokenContract.approve(this.pool.address, token.inputAmount_add));
 
     this.getUserBalances();
-    this.signaler.signal("updatePoolTokenChange");
-    this.signaler.signal("updateShowTokenUnlock");
   }
 }
 
