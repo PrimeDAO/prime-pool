@@ -6,6 +6,8 @@ import { Address, EthereumService, Networks } from "services/EthereumService";
 import { ConsoleLogService } from "services/ConsoleLogService";
 import { EventConfigFailure } from "services/GeneralEvents";
 import { TransactionResponse } from "services/TransactionsService";
+import { NumberService } from "services/numberService";
+import { toBigNumberJs } from "services/BigNumberService";
 
 export interface IErc20Token {
   allowance(owner: Address, spender: Address): Promise<BigNumber>;
@@ -34,6 +36,21 @@ export interface ITokenInfo {
   symbol: string; // token symbol,
 }
 
+export interface ITokenHolder {
+  /**
+   * address of holder
+   */
+  address: Address;
+  /**
+   * token balance
+   */
+  balance: BigNumber;
+  /**
+   * share of holder in percent
+   */
+  share: number;
+}
+
 @autoinject
 export class TokenService {
 
@@ -43,7 +60,8 @@ export class TokenService {
   constructor(
     private ethereumService: EthereumService,
     private consoleLogService: ConsoleLogService,
-    contractsService: ContractsService) {
+    contractsService: ContractsService,
+    private numberService: NumberService) {
     this.erc20Abi = contractsService.getContractAbi(ContractNames.IERC20);
   }
 
@@ -82,12 +100,16 @@ export class TokenService {
   //   return this._getBalance(token, accountAddress, inEth);
   // }
 
+  private getEthplorerUrl(api: string) {
+    return `https://${this.ethereumService.targetedNetwork === Networks.Kovan ? "kovan-" : ""}api.ethplorer.io/${api}?apiKey=${process.env.ETHPLORER_KEY}`;
+  }
+
   public async getTokenInfoFromAddress(address: Address): Promise<ITokenInfo> {
 
     let tokenInfo = this.tokenInfos.get(address);
 
     if (!tokenInfo) {
-      const uri = `https://${this.ethereumService.targetedNetwork === Networks.Kovan ? "kovan-" : ""}api.ethplorer.io/getTokenInfo/${address}?apiKey=${process.env.ETHPLORER_KEY}`;
+      const uri = this.getEthplorerUrl(`getTokenInfo/${address}`);
       return axios.get(uri)
         .then(async (response) => {
           tokenInfo = response.data;
@@ -171,5 +193,24 @@ export class TokenService {
       tokenAddress,
       this.erc20Abi,
       this.ethereumService.readOnlyProvider) as unknown as Contract & IErc20Token;
+  }
+
+  public getHolders(tokenAddress: Address): Promise<Array<ITokenHolder>> {
+    const uri = this.getEthplorerUrl(`getTopTokenHolders/${tokenAddress}`);
+    return axios.get(uri)
+      .then(async (response) => {
+        const holders = response?.data?.holders ?? [];
+        return holders.filter((holder: {address: string; balance: string, share: number }) => {
+          holders.balance = BigNumber.from(toBigNumberJs(holder.balance).toString());
+          return true;
+        });
+      })
+      .catch((error) => {
+        this.consoleLogService.handleFailure(
+          new EventConfigFailure(`TokenService: Error fetching token holders: ${error?.response?.data?.error?.message ?? error?.message}`));
+        // throw new Error(`${error.response?.data?.error.message ?? "Error fetching token info"}`);
+        // TODO:  restore the exception?
+        return [];
+      });
   }
 }

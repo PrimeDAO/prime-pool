@@ -82,26 +82,6 @@ export class PoolService {
     return pool.initialize(poolConfig);
   }
 
-  // private refreshPools(): Promise<void> {
-  //   return this.initializedPromise = new Promise(
-  //     async (resolve: (value: void | PromiseLike<void>) => void,
-  //       reject: (reason?: any) => void): Promise<void> => {
-  //             for (const pool of this.poolsArray) {
-  //               await pool.refresh(false);
-  //               await pool.initialize(pool);
-  //             }
-  //             this.initializing = false;
-  //             return resolve();
-  //           })
-  //           .catch((error) => {
-  //             this.pools = new Map();
-  //             this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", error));
-  //             this.initializing = false;
-  //             return reject();
-  //           });
-  //       }
-  //     });
-
   public ensureInitialized(): Promise<void> {
     return this.initializedPromise;
   }
