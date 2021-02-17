@@ -61,19 +61,15 @@ export class TxHistory {
     private transactionsService: TransactionsService,
     private tokenService: TokenService,
     private poolService: PoolService) {
-  }
 
-  async loadContracts(): Promise<void> {
-    this.crPool = await this.contractsService.getContractFor(ContractNames.ConfigurableRightsPool);
-    this.stakingRewards = await this.contractsService.getContractFor(ContractNames.STAKINGREWARDS);
-  }
-
-  async attached(): Promise<void> {
-
-    this.eventAggregator.subscribe("Contracts.Changed", async () => {
+      this.eventAggregator.subscribe("Contracts.Changed", async () => {
       await this.loadContracts();
       this.getData(true);
     });
+
+  }
+
+  async attached(): Promise<void> {
 
     await this.loadContracts();
 
@@ -81,7 +77,12 @@ export class TxHistory {
     this.stakingTokenName = (await this.tokenService.getTokenInfoFromAddress(await this.stakingRewards.stakingToken())).symbol;
     this.stakingRewardTokenName = (await this.tokenService.getTokenInfoFromAddress(await this.stakingRewards.rewardToken())).symbol;
 
-    return this.getData();
+    return this.reload();
+  }
+
+  async loadContracts(): Promise<void> {
+    this.crPool = await this.contractsService.getContractFor(ContractNames.ConfigurableRightsPool);
+    this.stakingRewards = await this.contractsService.getContractFor(ContractNames.STAKINGREWARDS);
   }
 
   reload() {

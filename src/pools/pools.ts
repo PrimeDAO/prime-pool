@@ -38,7 +38,14 @@ export class Pools {
     
   }
 
-  async attached() {
+  async activate() {
+    /**
+     * do this in `activate` instead of `attached` because I'm not sure whether the child components' `attached` methods are invoked
+     * before this one or after (I would bet before), and they need to be able to rely on the pools
+     * already being loaded.
+     * 
+     * In any case, the UX is cleaner this way-- one doesn't see a messy incomplete UI whle loading.
+     */
     if (!this.pools?.length) {
       try {
         if (this.poolService.initializing) {
