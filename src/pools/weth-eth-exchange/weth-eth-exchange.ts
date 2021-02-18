@@ -67,6 +67,7 @@ export class WethEthExchange {
       } else {
         await this.transactionsService.send(() => this.weth.deposit({ value: this.ethWethAmount }));
         this.getUserBalances();
+        this.eventAggregator.publish("ethWethExchanged");
       }
     }
   }
@@ -78,6 +79,7 @@ export class WethEthExchange {
       } else {
         await this.transactionsService.send(() => this.weth.withdraw(this.wethEthAmount));
         this.getUserBalances();
+        this.eventAggregator.publish("ethWethExchanged");
       }
     }
   }

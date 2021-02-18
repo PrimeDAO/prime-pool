@@ -127,6 +127,10 @@ export class Pool implements IPoolConfig {
       this.hydrateUserValues();
     }));
 
+    this.subscriptions.push(this.eventAggregator.subscribe("ethWethExchanged", async () => {
+      this.hydrateUserValues();
+    }));
+
     /**
      * TODO:  notify the rest of the application that this is happening, because can be lengthy
      */
