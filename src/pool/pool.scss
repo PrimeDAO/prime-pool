@@ -203,7 +203,7 @@
           border-color: $button3-color;
         }
 
-        .button:hover {
+        .button:hover:not(:disabled) {
           color: $color-white;
           border-color: $color-black;
         }

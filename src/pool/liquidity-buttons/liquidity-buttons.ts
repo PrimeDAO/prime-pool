@@ -1,22 +1,31 @@
 import { Router } from "aurelia-router";
 import { autoinject, bindable } from "aurelia-framework";
 import { Pool } from "entities/pool";
+import { EthereumService } from "services/EthereumService";
 
 @autoinject
 export class LiquidityButtons {
 
   @bindable pool: Pool;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private ethereumService: EthereumService) {
   }
 
   gotoAddLiquidity() {
-    this.pool.ensureConnected();
-    this.router.navigate(`/pool/${this.pool.address}/overview/add`);
+    if (this.pool.connected) {
+      this.router.navigate(`/pool/${this.pool.address}/overview/add`);
+    }
   }
 
   gotoRemoveLiquidity() {
-    this.pool.ensureConnected();
+    if (this.pool.connected) {
     this.router.navigate(`/pool/${this.pool.address}/overview/remove`);
+    }
+  }
+
+  connect() {
+    this.ethereumService.ensureConnected();
   }
 }

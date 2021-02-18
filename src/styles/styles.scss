@@ -88,7 +88,7 @@ html {
       background-color: transparent;
       cursor: pointer;
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: $color-black;
         border-color: $color-black;
         color: $color-white;
@@ -97,6 +97,10 @@ html {
 
       &.small {
         padding: 3px 13px;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
       }
     }
 
