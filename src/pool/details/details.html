@@ -3,8 +3,7 @@
     <div class="detail">
       <div class="labelValue">
         <div class="label">Accrued Fees</div>
-        <div class="value">$
-          <formatted-number value.to-view="pool.accruedFees"
+        <div class="value">$<formatted-number value.to-view="pool.accruedFees"
             average="false"
             mantissa="2"
             thousands-separated="true"></formatted-number>
@@ -26,8 +25,8 @@
     <div class="detail">
       <div class="labelValue">
         <div class="label">Pool Members</div>
-        <div class="value">
-          <formatted-number value.to-view="poolMembers"
+        <div class="value">${pool.membersCount === 1000 ? ">= " : ""}
+          <formatted-number value.to-view="pool.membersCount"
             average="false"
             mantissa="0"
             thousands-separated="true"></formatted-number>

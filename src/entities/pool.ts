@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BigNumber } from "ethers";
 import { IPoolConfig } from "services/PoolService";
-import { IErc20Token, ITokenInfo, TokenService } from "services/TokenService";
+import { IErc20Token, ITokenHolder, ITokenInfo, TokenService } from "services/TokenService";
 import { autoinject } from "aurelia-framework";
 import { ContractNames, ContractsService, IStandardEvent } from "services/ContractsService";
 import { Address, EthereumService, fromWei, Networks } from "services/EthereumService";
@@ -87,11 +87,11 @@ export class Pool implements IPoolConfig {
   poolTokenTotalSupply: BigNumber;
   poolTokenMarketCap: number;
   totalDenormWeight: BigNumber;
-  swapfee: BigNumber;
+  swapfee: number;
   swapfeePercentage: number;
   accruedFees: number;
   accruedVolume: number;
-  members: Array<Address>;
+  membersCount: number;
   /**
    * market cap or liquidity.  Total asset token amounts * their prices.
    */
@@ -222,8 +222,8 @@ export class Pool implements IPoolConfig {
 
       await this.hydrateStartingBlock();
 
-      this.swapfee = await this.bPool.getSwapFee();
-      this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
+      // this.swapfee = await this.bPool.getSwapFee();
+      // this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
 
     } else {
         assetTokens = this.assetTokens;
@@ -246,6 +246,8 @@ export class Pool implements IPoolConfig {
     this.poolTokenPrice = this.marketCap / this.numberService.fromString(fromWei(this.poolTokenTotalSupply));
     this.poolTokenMarketCap = this.numberService.fromString(fromWei(this.poolTokenTotalSupply)) * this.poolTokenPrice;
     this.totalDenormWeight = await this.bPool.getTotalDenormalizedWeight();
+
+    await this.hydrateMembers();
 
     await this.hydrateUserValues();
 
@@ -373,8 +375,10 @@ export class Pool implements IPoolConfig {
     const uri = this.getBalancerSubgraphUrl();
     const query = {
       pool: {
+        swapFee: true,
         totalSwapFee: true,
         totalSwapVolume: true,
+        // holdersCount: true, // always returns 0
         __args: {
           id: this.bPool.address.toLowerCase()
         },
@@ -394,6 +398,9 @@ export class Pool implements IPoolConfig {
         if (pool) {
           this.accruedFees = pool.totalSwapFee;
           this.accruedVolume = pool.totalSwapVolume;
+          this.swapfee = this.numberService.fromString(pool.swapFee);
+          this.swapfeePercentage = this.swapfee * 100;
+          // this.membersCount = this.numberService.fromString(pool.holdersCount);
         }
       })
       .catch((error) => {
@@ -403,6 +410,14 @@ export class Pool implements IPoolConfig {
         // TODO:  restore the exception?
         this.accruedFees = undefined;
       });
+  }
+
+  public async hydrateMembers(): Promise<void> {
+    const members = (await this.tokenService.getHolders(this.poolToken.address))
+      .map((holder: ITokenHolder) => {
+        return holder.address;
+      });
+    this.membersCount = members.length;
   }
 
   public ensureConnected(): boolean {

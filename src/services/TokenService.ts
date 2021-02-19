@@ -196,7 +196,7 @@ export class TokenService {
   }
 
   public getHolders(tokenAddress: Address): Promise<Array<ITokenHolder>> {
-    const uri = this.getEthplorerUrl(`getTopTokenHolders/${tokenAddress}`);
+    const uri = `${this.getEthplorerUrl(`getTopTokenHolders/${tokenAddress}`)}&limit=1000`;
     return axios.get(uri)
       .then(async (response) => {
         const holders = response?.data?.holders ?? [];
