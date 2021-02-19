@@ -238,9 +238,9 @@ export class Pool implements IPoolConfig {
     
     this.assetTokens = assetTokens;
 
-    await this.hydrateVolumes();
+    await this.fetchBalancerSubgraphData();
 
-    await this.hydrateAssessedFees();
+    // await this.hydrateVolumes();
 
     this.poolTokenTotalSupply = await this.poolToken.tokenContract.totalSupply();
     this.poolTokenPrice = this.marketCap / this.numberService.fromString(fromWei(this.poolTokenTotalSupply));
@@ -312,24 +312,24 @@ export class Pool implements IPoolConfig {
     return txEvents;
   }
 
-  async hydrateVolumes(): Promise<void> {
-    const txJoinEvents = await this.getJoinEvents();
-    const txExitEvents = await this.getExitEvents();
+  // async hydrateVolumes(): Promise<void> {
+  //   const txJoinEvents = await this.getJoinEvents();
+  //   const txExitEvents = await this.getExitEvents();
 
-    let volume = txJoinEvents.reduce((accumulator, currentValue) =>
-      accumulator + 
-        this.numberService.fromString(fromWei(currentValue.args.tokenAmountIn))
-          * this.assetTokens.get(currentValue.args.tokenIn).price
-      , 0);
+  //   let volume = txJoinEvents.reduce((accumulator, currentValue) =>
+  //     accumulator + 
+  //       this.numberService.fromString(fromWei(currentValue.args.tokenAmountIn))
+  //         * this.assetTokens.get(currentValue.args.tokenIn).price
+  //     , 0);
 
-    volume += txExitEvents.reduce((accumulator, currentValue) =>
-      accumulator +
-      this.numberService.fromString(fromWei(currentValue.args.tokenAmountOut))
-      * this.assetTokens.get(currentValue.args.tokenOut).price
-      , 0);
+  //   volume += txExitEvents.reduce((accumulator, currentValue) =>
+  //     accumulator +
+  //     this.numberService.fromString(fromWei(currentValue.args.tokenAmountOut))
+  //     * this.assetTokens.get(currentValue.args.tokenOut).price
+  //     , 0);
 
-    this.accruedVolume = volume;
-  }
+  //   this.accruedVolume = volume;
+  // }
 
   public async hydrateUserValues(): Promise<void> {
 
@@ -369,11 +369,12 @@ export class Pool implements IPoolConfig {
     return `https://api.thegraph.com/subgraphs/name/balancer-labs/balancer${this.ethereumService.targetedNetwork === Networks.Kovan ? "-kovan" : ""}`;
   }
 
-  private hydrateAssessedFees(): Promise<void> {
+  private fetchBalancerSubgraphData(): Promise<void> {
     const uri = this.getBalancerSubgraphUrl();
     const query = {
       pool: {
         totalSwapFee: true,
+        totalSwapVolume: true,
         __args: {
           id: this.bPool.address.toLowerCase()
         },
@@ -389,7 +390,11 @@ export class Pool implements IPoolConfig {
         }
       })
       .then(async (response) => {
-        this.accruedFees = response.data?.data?.pool.totalSwapFee;
+        const pool = response.data?.data?.pool;
+        if (pool) {
+          this.accruedFees = pool.totalSwapFee;
+          this.accruedVolume = pool.totalSwapVolume;
+        }
       })
       .catch((error) => {
         this.consoleLogService.handleFailure(
