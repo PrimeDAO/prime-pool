@@ -4,11 +4,14 @@ import { IPoolConfig } from "services/PoolService";
 import { IErc20Token, ITokenInfo, TokenService } from "services/TokenService";
 import { autoinject } from "aurelia-framework";
 import { ContractNames, ContractsService, IStandardEvent } from "services/ContractsService";
-import { Address, EthereumService, fromWei } from "services/EthereumService";
+import { Address, EthereumService, fromWei, Networks } from "services/EthereumService";
 import { NumberService } from "services/numberService";
 import { toBigNumberJs } from "services/BigNumberService";
 import { DisposableCollection } from "services/DisposableCollection";
 import { EventAggregator } from "aurelia-event-aggregator";
+import { jsonToGraphQLQuery } from "json-to-graphql-query";
+import { EventConfigFailure } from "services/GeneralEvents";
+import { ConsoleLogService } from "services/ConsoleLogService";
 
 export interface IJoinEventArgs {
   caller: Address;
@@ -86,7 +89,7 @@ export class Pool implements IPoolConfig {
   totalDenormWeight: BigNumber;
   swapfee: BigNumber;
   swapfeePercentage: number;
-  //accruedFees: number;
+  accruedFees: number;
   accruedVolume: number;
   members: Array<Address>;
   /**
@@ -97,6 +100,11 @@ export class Pool implements IPoolConfig {
   totalMarketCapChangePercentage_7d: number;
   totalMarketCapChangePercentage_30d: number;
   /**
+   * when this contract was created
+   */
+  startingBlockNumber: number;
+  startingDateTime: Date;
+  /**
    * amount of pool tokens held by the user
    */
   userPoolTokenBalance?: BigNumber;
@@ -105,11 +113,6 @@ export class Pool implements IPoolConfig {
    */
   userPoolTokenShare?: number;
   userPoolTokenSharePercentage?: number;
-  /**
-   * when this contract was created
-   */
-  startingBlockNumber: number;
-  startingDateTime: Date;
 
   public connected = false;
   private subscriptions: DisposableCollection = new DisposableCollection();
@@ -120,6 +123,7 @@ export class Pool implements IPoolConfig {
     private tokenService: TokenService,
     private ethereumService: EthereumService,
     private eventAggregator: EventAggregator,
+    private consoleLogService: ConsoleLogService,
     ) {
     
     this.subscriptions.push(this.eventAggregator.subscribe("Contracts.Changed", async () => {
@@ -235,6 +239,8 @@ export class Pool implements IPoolConfig {
     this.assetTokens = assetTokens;
 
     await this.hydrateVolumes();
+
+    await this.hydrateAssessedFees();
 
     this.poolTokenTotalSupply = await this.poolToken.tokenContract.totalSupply();
     this.poolTokenPrice = this.marketCap / this.numberService.fromString(fromWei(this.poolTokenTotalSupply));
@@ -357,6 +363,41 @@ export class Pool implements IPoolConfig {
         token.userShareInPool = undefined;
       }
     }  
+  }
+
+  private getBalancerSubgraphUrl() {
+    return `https://api.thegraph.com/subgraphs/name/balancer-labs/balancer${this.ethereumService.targetedNetwork === Networks.Kovan ? "-kovan" : ""}`;
+  }
+
+  private hydrateAssessedFees(): Promise<void> {
+    const uri = this.getBalancerSubgraphUrl();
+    const query = {
+      pool: {
+        totalSwapFee: true,
+        __args: {
+          id: this.address
+        },
+      }
+    }
+
+    return axios.post(uri,
+      JSON.stringify({ query: jsonToGraphQLQuery({ query }) }),
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(async (response) => {
+        this.accruedFees = response?.data?.totalSwapFee;
+      })
+      .catch((error) => {
+        this.consoleLogService.handleFailure(
+          new EventConfigFailure(`Pool: Error fetching balancer subgraph info: ${error?.response?.data?.error?.message ?? error?.message}`));
+        // throw new Error(`${error.response?.data?.error.message ?? "Error fetching token info"}`);
+        // TODO:  restore the exception?
+        this.accruedFees = undefined;
+      });
   }
 
   public ensureConnected(): boolean {
