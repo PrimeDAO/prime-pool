@@ -375,7 +375,7 @@ export class Pool implements IPoolConfig {
       pool: {
         totalSwapFee: true,
         __args: {
-          id: this.address
+          id: this.bPool.address.toLowerCase()
         },
       }
     }
@@ -389,7 +389,7 @@ export class Pool implements IPoolConfig {
         }
       })
       .then(async (response) => {
-        this.accruedFees = response?.data?.totalSwapFee;
+        this.accruedFees = response.data?.data?.pool.totalSwapFee;
       })
       .catch((error) => {
         this.consoleLogService.handleFailure(
