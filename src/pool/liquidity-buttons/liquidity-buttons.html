@@ -1,7 +1,17 @@
 <template>
   <div class="liquidityButtons">
-    <div><button class="button3 addLiquidity" click.delegate="gotoAddLiquidity()" disabled.to-view="!pool.connected">Buy ${pool.poolToken.symbol}</button></div>
-    <div><button class="button1 connect" click.delegate="connect()" if.to-view="!pool.connected">Connect to Buy or Redeem</button></div>
-    <div><button class="button removeLiquidity" click.delegate="gotoRemoveLiquidity()" disabled.to-view="!pool.connected">Redeem ${pool.poolToken.symbol}</button></div>
+    <div show.to-view="pool.connected">
+      <button
+        class="button3"
+        click.delegate="gotoAddLiquidity()">Buy ${pool.poolToken.symbol}</button>
+    </div>
+    <div show.to-view="!pool.connected">
+      <button class="button1 connect" click.delegate="connect()">Connect to Buy or Redeem</button>
+    </div>
+    <div show.to-view="pool.connected">
+      <button
+        class="button"
+        click.delegate="gotoRemoveLiquidity()">Redeem ${pool.poolToken.symbol}</button>
+    </div>
   </div>
 </template>
