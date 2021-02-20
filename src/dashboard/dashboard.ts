@@ -1,3 +1,4 @@
+import tippy from "tippy.js";
 import { autoinject, singleton, computedFrom } from "aurelia-framework";
 import { ContractNames } from "services/ContractsService";
 import { ContractsService } from "services/ContractsService";
@@ -91,6 +92,8 @@ export class Dashboard {
 
     await this.loadContracts();
     await this.initialize();
+    tippy(".tippyContainer");
+
     return this.getUserBalances(true);
   }
 
@@ -323,16 +326,18 @@ export class Dashboard {
   }
 
   private gotoStaking(harvest = false) {
-    if (this.ensureConnected()) {
-      Object.assign(this,
-        {
-          harvest,
-        });
+    // disabled because the staking contract has expired
+    return;
+    // if (this.ensureConnected()) {
+    //   Object.assign(this,
+    //     {
+    //       harvest,
+    //     });
 
-      const theRoute = this.router.routes.find(x => x.name === "staking");
-      theRoute.settings.state = this;
-      this.router.navigateToRoute("staking");
-    }
+    //   const theRoute = this.router.routes.find(x => x.name === "staking");
+    //   theRoute.settings.state = this;
+    //   this.router.navigateToRoute("staking");
+    // }
   }
 
   private async liquidityJoinswapExternAmountIn(tokenIn, tokenAmountIn, minPoolAmountOut): Promise<void> {
