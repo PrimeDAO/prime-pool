@@ -17,6 +17,7 @@ export function configure(config: FrameworkConfiguration): void {
     PLATFORM.moduleName("./elements/loading-dots/loading-dots"),
     PLATFORM.moduleName("./elements/sparkChart/spark-chart"),
     PLATFORM.moduleName("./elements/metamask-token-button/metamask-token-button"),
+    PLATFORM.moduleName("./elements/donutChart/donut-chart"),
     PLATFORM.moduleName("./elements/inline-svg"),
     PLATFORM.moduleName("../pool/liquidity-buttons/liquidity-buttons"),
     PLATFORM.moduleName("../pools/weth-eth-exchange/weth-eth-exchange"),
@@ -27,6 +28,7 @@ export function configure(config: FrameworkConfiguration): void {
     PLATFORM.moduleName("./value-converters/boolean"),
     PLATFORM.moduleName("./value-converters/secondsDays"),
     PLATFORM.moduleName("./value-converters/smallHexString"),
+
     // PLATFORM.moduleName("./dialogs/alert/alert"),
     // PLATFORM.moduleName("./bindingBehaviors/asyncBinding"),
   ]);

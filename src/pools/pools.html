@@ -18,7 +18,8 @@
         <div class="poolRow" repeat.for="pool of pools">
           <div class="name">${pool.name}</div>
           <div class="donutchart" click.delegate="gotoPool(pool)">
-            <inline-svg svg.to-view="pool.icon"></inline-svg>
+            <!-- <inline-svg svg.to-view="pool.icon"></inline-svg> -->
+            <donut-chart pool.to-view="pool"></donut-chart>
           </div>
           <div class="marketCap">
             <div class="poolDataHeader">Market Cap</div>
