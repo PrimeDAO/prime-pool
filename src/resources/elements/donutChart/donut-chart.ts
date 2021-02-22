@@ -1,6 +1,6 @@
 import { Pool } from './../../../entities/pool';
 import { bindable } from 'aurelia-framework';
-import * as d3 from 'd3';
+import * as d3 from "d3";
 import  "./donut-chart.scss";
 
 export class DonutChart {
@@ -61,7 +61,7 @@ var width = 300,
 
 var divNode = d3.select("body").node();
 
-var outerRadius :any =145;
+var outerRadius = 145;
 
 var color = d3.scale.ordinal()
   .range(["FF495B","#8668FC","#1EE0FC", "#95D86E", "#FAA04A"]);
@@ -73,7 +73,7 @@ var arc = d3.svg.arc()
 var pie = d3.layout.pie()
   .sort(null)
   .padAngle(0.03)
-  .value(function(d:any) { return d.Value; });
+  .value(function(d) { return d.Value; });
 
 d3.select("#chart").append("div")
   .attr("id","mainPie")
@@ -83,7 +83,7 @@ var svg = d3.select("#mainPie").append("svg")
   .attr("width", width)
   .attr("height", height);
 
-var g:any = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 var defs = svg.append("defs");
 var filter = defs.append("filter")
@@ -128,12 +128,12 @@ var g = g.selectAll(".arc")
     .data(pie(this.data))
   .enter().append("g")
     .attr("class", "arc")
-    .each(function(d:any) { d.outerRadius = outerRadius - 10; });
+    .each(function(d) { d.outerRadius = outerRadius - 10; });
 
 g.append("path")
     .attr("d", arc)
     .style("fill", function(d) { return color(d.data.Value); })
-    .each((d:any) => { d.outerRadius = outerRadius - 10; })
+    .each((d) => { d.outerRadius = outerRadius - 10; })
     .on("mousemove", function(d) {
         d3.select(this)
             .style("filter", "url(#drop-shadow)");
@@ -141,7 +141,7 @@ g.append("path")
           .transition()
           .duration(500)
           .ease('bounce')
-          .attr('transform',function(d:any){
+          .attr('transform',function(d){
             var dist = 1;
             d.midAngle = ((d.endAngle - d.startAngle)/2) + d.startAngle;
             var x = Math.sin(d.midAngle) * dist;
@@ -149,7 +149,7 @@ g.append("path")
             return 'translate(' + x + ',' + y + ')';
           });
         var mousePos = d3.mouse(divNode);
-        d3.select(this).transition().duration(200).delay(0).attrTween("d", function(d:any) {
+        d3.select(this).transition().duration(200).delay(0).attrTween("d", function(d) {
           var i = d3.interpolate(d.outerRadius, outerRadius);
           return function(t) { d.outerRadius = i(t); return arc(d,0); };
         });
