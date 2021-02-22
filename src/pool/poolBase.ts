@@ -1,4 +1,4 @@
-import { BindingSignaler } from 'aurelia-templating-resources';
+import { BindingSignaler } from "aurelia-templating-resources";
 import { autoinject, computedFrom } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { Address, EthereumService} from "services/EthereumService";
@@ -16,7 +16,7 @@ export abstract class PoolBase {
   protected poolAddress: Address;
   protected pool: Pool;
   @computedFrom("pool.connected")
-  protected get connected() { return this.pool?.connected };
+  protected get connected() { return this.pool?.connected; }
   protected subscriptions: DisposableCollection = new DisposableCollection();
 
   constructor(

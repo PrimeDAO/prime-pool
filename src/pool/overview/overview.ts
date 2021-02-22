@@ -57,7 +57,7 @@ export class Overview {
         name: "remove",
         route: "remove",
         title: "Redeem",
-      }
+      },
       // , {
       //   moduleId: PLATFORM.moduleName("./staking/staking"),
       //   name: "staking",

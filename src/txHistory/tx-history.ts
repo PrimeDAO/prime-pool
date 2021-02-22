@@ -62,7 +62,7 @@ export class TxHistory {
     private tokenService: TokenService,
     private poolService: PoolService) {
 
-      this.eventAggregator.subscribe("Contracts.Changed", async () => {
+    this.eventAggregator.subscribe("Contracts.Changed", async () => {
       await this.loadContracts();
       this.getData(true);
     });
@@ -132,7 +132,7 @@ export class TxHistory {
           const transfers = new Array<IAssetTokenTxInfo>();
           joinExitEvents.forEach(async (event) => {
             const tokenName = (await this.tokenService.getTokenInfoFromAddress(event.args[isJoin ? "tokenIn" : "tokenOut"])).symbol;
-            transfers.push({ name: tokenName, amount: event.args[isJoin ? "tokenAmountIn" : "tokenAmountOut"] }); 
+            transfers.push({ name: tokenName, amount: event.args[isJoin ? "tokenAmountIn" : "tokenAmountOut"] });
           });
           return transfers;
         };
@@ -141,15 +141,15 @@ export class TxHistory {
           transferEvents
             .filter((event) => event.transactionHash === txHash)
             .map((event) => { return { name: this.poolTokenName, amount: event.args.value }; });
-        ;
+
 
         const newPoolTx = async (isJoin: boolean, txHash,
           joinExitEvents: Array<IStandardEvent<IExitEventArgs> | IStandardEvent<IJoinEventArgs>>, poolName: string) => {
 
           let assetsIn: Array<IAssetTokenTxInfo>;
           let assetsOut: Array<IAssetTokenTxInfo>;
-          let blockDate = new Date((await joinExitEvents[0].getBlock()).timestamp * 1000);
-          
+          const blockDate = new Date((await joinExitEvents[0].getBlock()).timestamp * 1000);
+
           if (isJoin) {
             assetsIn = await getAssetTransfers(true, joinExitEvents);
             assetsOut = getBpoolTransfers(txJoinBpoolTransferEvents, txHash);
@@ -157,7 +157,7 @@ export class TxHistory {
             assetsOut = await getAssetTransfers(false, joinExitEvents);
             assetsIn = getBpoolTransfers(txExitBpoolTransferEvents, txHash);
           }
-          
+
           return {
             date: blockDate,
             actionDescription: isJoin ? "Buy Pool Shares" : "Sell Pool Shares",
@@ -170,9 +170,9 @@ export class TxHistory {
         };
 
         const newStakingTx = async (withdraw: boolean, event: IStandardEvent<IStakingEventArgs>, poolName: string) => {
-          let blockDate = new Date((await event.getBlock()).timestamp * 1000);
-          let txHash = event.transactionHash;
-          let txInfo = { name: this.stakingTokenName, amount: event.args.amount };
+          const blockDate = new Date((await event.getBlock()).timestamp * 1000);
+          const txHash = event.transactionHash;
+          const txInfo = { name: this.stakingTokenName, amount: event.args.amount };
 
           return {
             date: blockDate,
@@ -189,26 +189,26 @@ export class TxHistory {
         const exits = this.groupBy(txExitEvents, txExitEvent => txExitEvent.transactionHash);
         const transactions = new Array<ITransaction>();
 
-        for (let [txHash, events] of Array.from(joins)) {
+        for (const [txHash, events] of Array.from(joins)) {
           transactions.push(await newPoolTx(true, txHash, events, crPool.name));
         }
 
-        for (let [txHash, events] of Array.from(exits)) {
+        for (const [txHash, events] of Array.from(exits)) {
           transactions.push(await newPoolTx(false, txHash, events, crPool.name));
         }
 
-        for (let event of txStakedEvents) {
+        for (const event of txStakedEvents) {
           transactions.push(await newStakingTx(false, event, crPool.name));
         }
 
-        for (let event of txStakeWithdrawnEvents) {
+        for (const event of txStakeWithdrawnEvents) {
           transactions.push(await newStakingTx(true, event, crPool.name));
         }
 
         this.transactions = transactions.sort((a: ITransaction, b: ITransaction) =>
           SortService.evaluateDateTime(a.date.toISOString(), b.date.toISOString()));
 
-      } catch(ex) {
+      } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }
       finally {
@@ -223,9 +223,9 @@ export class TxHistory {
 
   /**
    * @description
-   * 
+   *
    * From here:  https://stackoverflow.com/a/38327540/4685575
-   * 
+   *
    * Takes an Array<V>, and a grouping function,
    * and returns a Map of the array grouped by the grouping function.
    *

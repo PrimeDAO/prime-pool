@@ -1,4 +1,4 @@
-import { Redirect } from 'aurelia-router';
+import { Redirect } from "aurelia-router";
 
 export class Documentation {
 

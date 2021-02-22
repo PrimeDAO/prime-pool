@@ -77,8 +77,8 @@ export class Pool implements IPoolConfig {
   crPool: any;
   crpFactory: any;
   bPool: any;
-  assetTokens = new Map<Address,IPoolTokenInfo>();
-  get assetTokensArray(): Array<IPoolTokenInfo> { return Array.from(this.assetTokens.values()); };
+  assetTokens = new Map<Address, IPoolTokenInfo>();
+  get assetTokensArray(): Array<IPoolTokenInfo> { return Array.from(this.assetTokens.values()); }
   poolToken: IPoolTokenInfo;
   /**
    * marketCap / poolTokenTotalSupply
@@ -124,8 +124,8 @@ export class Pool implements IPoolConfig {
     private ethereumService: EthereumService,
     private eventAggregator: EventAggregator,
     private consoleLogService: ConsoleLogService,
-    ) {
-    
+  ) {
+
     this.subscriptions.push(this.eventAggregator.subscribe("Contracts.Changed", async () => {
       await this.loadContracts();
       this.hydrateUserValues();
@@ -146,13 +146,13 @@ export class Pool implements IPoolConfig {
 
   /**
    * assumes the relevant properties have been previously loaded.
-   * @param config 
-   * @param full 
+   * @param config
+   * @param full
    */
   private async loadContracts(
-    crPool?: any, 
-    bPool?: any, 
-    assetTokens?: Map<Address, IPoolTokenInfo>, 
+    crPool?: any,
+    bPool?: any,
+    assetTokens?: Map<Address, IPoolTokenInfo>,
     assetTokensArray?: Array<IPoolTokenInfo>): Promise<void> {
 
     this.crPool = crPool ?? await this.contractsService.getContractAtAddress(
@@ -166,7 +166,7 @@ export class Pool implements IPoolConfig {
     this.crpFactory = await this.contractsService.getContractFor(ContractNames.CRPFactory);
 
     this.poolToken.tokenContract = this.crPool;
-    
+
     assetTokens = assetTokens ?? this.assetTokens;
     assetTokensArray = assetTokensArray ?? this.assetTokensArray;
 
@@ -177,9 +177,9 @@ export class Pool implements IPoolConfig {
           ContractNames.IERC20,
           token.address);
     }
- }
+  }
 
- /**
+  /**
   * @param config pass `this` to refresh
   * @param full true to load contracts and hydrate everything.  false to keep contracts and the list of tokens.
   */
@@ -207,10 +207,10 @@ export class Pool implements IPoolConfig {
         await this.crPool.bPool());
 
       this.poolToken = (await this.tokenService.getTokenInfoFromAddress(this.address)) as IPoolTokenInfo;
-      
+
       const assetTokenAddresses = await this.bPool.getCurrentTokens();
       assetTokens = new Map<Address, IPoolTokenInfo>();
-      
+
       for (const tokenAddress of assetTokenAddresses) {
         const tokenInfo = (await this.tokenService.getTokenInfoFromAddress(tokenAddress)) as IPoolTokenInfo;
         assetTokens.set(tokenAddress, tokenInfo);
@@ -226,8 +226,8 @@ export class Pool implements IPoolConfig {
       // this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
 
     } else {
-        assetTokens = this.assetTokens;
-        assetTokensArray = this.assetTokensArray
+      assetTokens = this.assetTokens;
+      assetTokensArray = this.assetTokensArray;
     }
 
     await this.hydratePoolTokenBalances(assetTokensArray);
@@ -235,7 +235,7 @@ export class Pool implements IPoolConfig {
     await this.hydrateWeights(assetTokensArray);
 
     this.hydrateTotalLiquidity(assetTokensArray);
-    
+
     this.assetTokens = assetTokens;
 
     await this.fetchBalancerSubgraphData();
@@ -266,7 +266,7 @@ export class Pool implements IPoolConfig {
 
   hydrateTotalLiquidity(tokens: Array<IPoolTokenInfo>): void {
 
-    this.marketCap = tokens.reduce((accumulator, currentValue) => 
+    this.marketCap = tokens.reduce((accumulator, currentValue) =>
       accumulator + this.numberService.fromString(fromWei(currentValue.balanceInPool)) * currentValue.price, 0);
 
     this.totalMarketCapChangePercentage_24h = tokens.reduce((accumulator, currentValue) =>
@@ -319,7 +319,7 @@ export class Pool implements IPoolConfig {
   //   const txExitEvents = await this.getExitEvents();
 
   //   let volume = txJoinEvents.reduce((accumulator, currentValue) =>
-  //     accumulator + 
+  //     accumulator +
   //       this.numberService.fromString(fromWei(currentValue.args.tokenAmountIn))
   //         * this.assetTokens.get(currentValue.args.tokenIn).price
   //     , 0);
@@ -353,18 +353,18 @@ export class Pool implements IPoolConfig {
       // this.primeFarmed = await this.stakingRewards.earned(accountAddress);
       // this.bPrimeStaked = await this.stakingRewards.balanceOf(accountAddress);
       this.connected = true;
-  } else {
+    } else {
       this.connected = false;
 
-      this.userPoolTokenBalance = 
-      this.userPoolTokenShare = 
+      this.userPoolTokenBalance =
+      this.userPoolTokenShare =
       this.userPoolTokenSharePercentage = undefined;
 
       for (const token of this.assetTokensArray) {
-        token.userBalance = 
+        token.userBalance =
         token.userShareInPool = undefined;
       }
-    }  
+    }
   }
 
   private getBalancerSubgraphUrl() {
@@ -380,18 +380,18 @@ export class Pool implements IPoolConfig {
         totalSwapVolume: true,
         // holdersCount: true, // always returns 0
         __args: {
-          id: this.bPool.address.toLowerCase()
+          id: this.bPool.address.toLowerCase(),
         },
-      }
-    }
+      },
+    };
 
     return axios.post(uri,
       JSON.stringify({ query: jsonToGraphQLQuery({ query }) }),
       {
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
       })
       .then(async (response) => {
         const pool = response.data?.data?.pool;

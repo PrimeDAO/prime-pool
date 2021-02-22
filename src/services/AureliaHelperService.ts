@@ -42,11 +42,11 @@ export class AureliaHelperService {
    * The callback will receive an array of splices which provides information about the change that was detcted.
    * The properties of the splice may vary depending on the type of collection being observed.
    * See for example: https://aurelia.io/docs/binding/observable-properties#observing-collections
-   * @param collection 
+   * @param collection
    * @param func handler
    */
   public createCollectionWatch(
-    collection: Array<any> | Set<any> | Map<any,any>,
+    collection: Array<any> | Set<any> | Map<any, any>,
     func: (splices: Array<ICollectionObserverSplice<string>>) => void): IDisposable {
 
     return this.bindingEngine

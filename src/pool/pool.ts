@@ -1,4 +1,4 @@
-import { BindingSignaler } from 'aurelia-templating-resources';
+import { BindingSignaler } from "aurelia-templating-resources";
 import { PLATFORM } from "aurelia-pal";
 import { autoinject, singleton } from "aurelia-framework";
 import "./pool.scss";
@@ -62,7 +62,7 @@ export class PoolDashboard extends PoolBase {
     ethereumService: EthereumService,
     signaler: BindingSignaler,
     poolService: PoolService) {
-      super(eventAggregator,ethereumService, poolService, signaler);
+    super(eventAggregator, ethereumService, poolService, signaler);
   }
 
   // async getUserBalances(initializing = false): Promise<void> {
@@ -108,7 +108,7 @@ export class PoolDashboard extends PoolBase {
         name: "priceTracker",
         route: "priceTracker",
         title: "Price Tracker",
-      }
+      },
     ]);
 
     config.fallbackRoute("overview");

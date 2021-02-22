@@ -1,5 +1,5 @@
 import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject, bindable, containerless} from 'aurelia-framework';
+import { autoinject, bindable, containerless} from "aurelia-framework";
 import { EventConfigException } from "services/GeneralEvents";
 import { ITokenInfo } from "services/TokenService";
 import "./metamask-token-button.scss";
@@ -24,9 +24,9 @@ export class MetamaskTokenButton {
     try {
       // wasAdded is a boolean. Like any RPC method, an error may be thrown.
       const wasAdded = await window.ethereum.request({
-        method: 'wallet_watchAsset',
+        method: "wallet_watchAsset",
         params: {
-          type: 'ERC20', // Initially only supports ERC20, but eventually more!
+          type: "ERC20", // Initially only supports ERC20, but eventually more!
           options: {
             address: this.tokenInfo.address, // The address that the token is at.
             symbol: this.tokenInfo.symbol, // A ticker symbol or shorthand, up to 5 chars.

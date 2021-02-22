@@ -1,4 +1,4 @@
-import { BindingSignaler } from 'aurelia-templating-resources';
+import { BindingSignaler } from "aurelia-templating-resources";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, ICollectionObserverSplice, singleton } from "aurelia-framework";
 import { BigNumber } from "ethers";
@@ -35,7 +35,7 @@ export class LiquidityAdd extends PoolBase {
     private aureliaHelperService: AureliaHelperService,
     signaler: BindingSignaler) {
 
-      super(eventAggregator, ethereumService, poolService, signaler);
+    super(eventAggregator, ethereumService, poolService, signaler);
 
   }
 
@@ -72,7 +72,7 @@ export class LiquidityAdd extends PoolBase {
   }
 
   private _isMultiAsset: boolean;
-  
+
   /**
    * true if more than one non-zero assets are entered
    */
@@ -86,7 +86,7 @@ export class LiquidityAdd extends PoolBase {
 
   private _isSingleAsset: boolean;
 
-/**
+  /**
  * true if exactly one non-zero asset is entered
  */
   private get isSingleAsset(): boolean {
@@ -107,27 +107,27 @@ export class LiquidityAdd extends PoolBase {
 
   private handleTokenSelected(splices: Array<ICollectionObserverSplice<IPoolTokenInfoEx>>) {
     if (splices.length > 1) {
-      throw new Error(`splices should be equal to 1`);
+      throw new Error("splices should be equal to 1");
     }
 
     splices.forEach(splice => {
       let token: IPoolTokenInfoEx;
       if (splice.addedCount >= 2) {
-        throw new Error(`splice.addedCount should be 0 or 1`);
+        throw new Error("splice.addedCount should be 0 or 1");
       }
 
       const valuesAdded = this.selectedTokens.slice(splice.index, splice.index + splice.addedCount);
 
       if (valuesAdded.length > 0) {
         if (splice.removed.length > 0) {
-          throw new Error(`splice.removed.length should be 0`);
+          throw new Error("splice.removed.length should be 0");
         }
         // console.log(`The following values were inserted at ${splice.index}: ${JSON.stringify(valuesAdded)}`);
         token = valuesAdded[0];
         token.selected_add = true;
       } else {
         if (splice.removed.length >= 2) {
-          throw new Error(`splice.removed.length should be 0 or 1`);
+          throw new Error("splice.removed.length should be 0 or 1");
         }
 
         if (splice.removed.length > 0) {
@@ -168,13 +168,13 @@ export class LiquidityAdd extends PoolBase {
     if (token.inputAmount_add?.toString() !== newValue?.toString()) {
       token.inputAmount_add = newValue;
     }
-    setTimeout(() => { 
-        this.amountChanged(token);
-        this.signaler.signal("tokenInputChanged");
-        this.signaler.signal("updateSlippage");
-        this.signaler.signal("updateShowTokenUnlock");
-        this.signaler.signal("updatePoolTokenChange");
-      }, 100);
+    setTimeout(() => {
+      this.amountChanged(token);
+      this.signaler.signal("tokenInputChanged");
+      this.signaler.signal("updateSlippage");
+      this.signaler.signal("updateShowTokenUnlock");
+      this.signaler.signal("updatePoolTokenChange");
+    }, 100);
   }
 
   private getUserLiquidity() {
@@ -231,26 +231,26 @@ export class LiquidityAdd extends PoolBase {
     const totalWeight = toBigNumberJs(this.pool.totalDenormWeight);
     const swapfee = toBigNumberJs(this.pool.swapfee);
 
-    let amount = toBigNumberJs(this.amounts.get(tokenAddress));
+    const amount = toBigNumberJs(this.amounts.get(tokenAddress));
 
     let amountOut: BigNumberJs;
     let expectedAmount: BigNumberJs;
 
-      const roundedIntAmount = toBigNumberJs(amount.integerValue(BigNumberJs.ROUND_UP));
+    const roundedIntAmount = toBigNumberJs(amount.integerValue(BigNumberJs.ROUND_UP));
 
-      amountOut = calcPoolOutGivenSingleIn(
-        tokenBalance,
-        tokenWeight,
-        poolTokenShares,
-        totalWeight,
-        roundedIntAmount,
-        swapfee);
+    amountOut = calcPoolOutGivenSingleIn(
+      tokenBalance,
+      tokenWeight,
+      poolTokenShares,
+      totalWeight,
+      roundedIntAmount,
+      swapfee);
 
-      expectedAmount = roundedIntAmount
-        .times(tokenWeight)
-        .times(poolTokenShares)
-        .div(tokenBalance)
-        .div(totalWeight);
+    expectedAmount = roundedIntAmount
+      .times(tokenWeight)
+      .times(poolTokenShares)
+      .div(tokenBalance)
+      .div(totalWeight);
 
     return toBigNumberJs(1)
       .minus(amountOut.div(expectedAmount))
@@ -319,7 +319,7 @@ export class LiquidityAdd extends PoolBase {
     let message: string;
     if (this.isMultiAsset) {
       let anyInsufficient = false;
-      
+
       for (const token of this.selectedTokens) {
         if (!this.getTokenHasSufficientAllowance(token)) {
           anyInsufficient = true;
@@ -464,33 +464,33 @@ export class LiquidityAdd extends PoolBase {
   }
 
 
-private async joinPool(poolAmountOut, maxAmountsIn): Promise<void> {
-  if (this.ensureConnected()) {
-    await this.transactionsService.send(() => this.pool.crPool.joinPool(poolAmountOut, maxAmountsIn));
+  private async joinPool(poolAmountOut, maxAmountsIn): Promise<void> {
+    if (this.ensureConnected()) {
+      await this.transactionsService.send(() => this.pool.crPool.joinPool(poolAmountOut, maxAmountsIn));
 
-    await this.refresh();
+      await this.refresh();
+    }
   }
-}
 
   private async joinswapExternAmountIn(tokenIn, tokenAmountIn, minPoolAmountOut): Promise<void> {
-  if (this.ensureConnected()) {
-    await this.transactionsService.send(() => this.pool.crPool.joinswapExternAmountIn(
-      tokenIn,
-      tokenAmountIn,
-      minPoolAmountOut));
+    if (this.ensureConnected()) {
+      await this.transactionsService.send(() => this.pool.crPool.joinswapExternAmountIn(
+        tokenIn,
+        tokenAmountIn,
+        minPoolAmountOut));
 
-    this.refresh();
+      this.refresh();
+    }
   }
-}
 
-private async setTokenAllowance(token: IPoolTokenInfoEx): Promise<void> {
-  if (this.ensureConnected()) {
-    
-    await this.transactionsService.send(() => token.tokenContract.approve(this.pool.address, token.inputAmount_add));
+  private async setTokenAllowance(token: IPoolTokenInfoEx): Promise<void> {
+    if (this.ensureConnected()) {
 
-    this.getUserBalances();
+      await this.transactionsService.send(() => token.tokenContract.approve(this.pool.address, token.inputAmount_add));
+
+      this.getUserBalances();
+    }
   }
-}
 
   goBack() {
     this.router.navigateBack();
