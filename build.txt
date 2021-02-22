@@ -1,0 +1,1105 @@
+
+> @primedao/prime-pool-dapp@2.0.0 build C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp
+> webpack --env.production --extractCss
+
+Hash: ba84a90b325c055f9bd1
+Version: webpack 4.46.0
+Time: 70028ms
+Built at: 02/20/2021 1:27:59 PM
+ 167 assets
+Entrypoint app = runtime~app.79e9b520d4639914211d.bundle.js runtime~app.79e9b520d4639914211d.bundle.map vendors~ac14d26b.0e7c8a74e7fab8df7dd8.chunk.js vendors~ac14d26b.0e7c8a74e7fab8df7dd8.bundle.map vendors~60b88c48.ac1fe266c220e54071e2.chunk.js vendors~60b88c48.ac1fe266c220e54071e2.bundle.map vendors~602a6e35.764adf0a9509f063895f.chunk.js vendors~602a6e35.764adf0a9509f063895f.bundle.map vendors~d6b3b356.6324d71587c585b2bcbb.chunk.js vendors~d6b3b356.6324d71587c585b2bcbb.bundle.map vendors~609de2a7.bbaec483e3b646a8f62d.chunk.js vendors~609de2a7.bbaec483e3b646a8f62d.bundle.map vendors~0c1c1b47.58c362753f15c1c810e1.chunk.js vendors~0c1c1b47.58c362753f15c1c810e1.bundle.map vendors~167fad9f.208068489b27eed19c27.chunk.js vendors~167fad9f.208068489b27eed19c27.bundle.map vendors~6a8b3970.64d89acb0f8540ee93c6.chunk.js vendors~6a8b3970.64d89acb0f8540ee93c6.bundle.map vendors~d65b1b54.2969fab5c50938bfa694.chunk.js vendors~d65b1b54.2969fab5c50938bfa694.bundle.map vendors~163b5920.c77752ec30fba4e7a7c3.chunk.js vendors~163b5920.c77752ec30fba4e7a7c3.bundle.map vendors~bb01f53c.eaf4d77ff6f5bfa2bd06.chunk.js vendors~bb01f53c.eaf4d77ff6f5bfa2bd06.bundle.map vendors~46baedae.7a0eb40569308c047efc.chunk.js vendors~46baedae.7a0eb40569308c047efc.bundle.map vendors~26d1b213.59915d666106d373ddec.chunk.js vendors~26d1b213.59915d666106d373ddec.bundle.map vendors~05c9d1a5.c948b95c39fcc2bab8c5.chunk.js vendors~05c9d1a5.c948b95c39fcc2bab8c5.bundle.map vendors~2a42e354.ecd96ffcc7524643510b.chunk.js vendors~2a42e354.ecd96ffcc7524643510b.bundle.map vendors~8bfb6db2.0fb727483b609f3bf2e2.chunk.js vendors~8bfb6db2.0fb727483b609f3bf2e2.bundle.map vendors~0b2f1beb.baf80db40a33eae1c173.chunk.js vendors~0b2f1beb.baf80db40a33eae1c173.bundle.map vendors~06d2057d.13c040a7f9a8b07a3b58.chunk.js vendors~06d2057d.13c040a7f9a8b07a3b58.bundle.map vendors~6f488c89.a1f186917eeb47263c6e.chunk.js vendors~6f488c89.a1f186917eeb47263c6e.bundle.map vendors~288f420d.8bd990d51f439a787536.chunk.js vendors~288f420d.8bd990d51f439a787536.bundle.map vendors~8c0136eb.467772b3fce83db27d44.chunk.js vendors~8c0136eb.467772b3fce83db27d44.bundle.map vendors~1a12ea54.a82dc91d39bdd64d5197.chunk.js vendors~1a12ea54.a82dc91d39bdd64d5197.bundle.map vendors~7274e1de.6afece1fb0158883822d.chunk.js vendors~7274e1de.6afece1fb0158883822d.bundle.map vendors~62ab5815.b6e920169d65557c424c.chunk.js vendors~62ab5815.b6e920169d65557c424c.bundle.map vendors~5bb1f863.d1b3c783a2aad54e0753.chunk.js vendors~5bb1f863.d1b3c783a2aad54e0753.bundle.map vendors~72f93981.8ccd2ad3114c7725c455.chunk.js vendors~72f93981.8ccd2ad3114c7725c455.bundle.map vendors~2b3519fa.0c1a6b5c0c0af6d09316.chunk.js vendors~2b3519fa.0c1a6b5c0c0af6d09316.bundle.map vendors~e1482973.ce687f8ac4bc53119071.chunk.js vendors~e1482973.ce687f8ac4bc53119071.bundle.map vendors~290dcb02.a63ef7fa5c9277e86195.chunk.js vendors~290dcb02.a63ef7fa5c9277e86195.bundle.map vendors~4c5073de.831f585a23c127359a5c.chunk.js vendors~4c5073de.831f585a23c127359a5c.bundle.map vendors~3cacc324.822431764c32e184be3c.chunk.js vendors~3cacc324.822431764c32e184be3c.bundle.map vendors~23c1f41c.af21735012ab2ae5b65e.chunk.js vendors~23c1f41c.af21735012ab2ae5b65e.bundle.map vendors~9ff6d76b.192d5d3fb479ba776b2e.chunk.js vendors~9ff6d76b.192d5d3fb479ba776b2e.bundle.map vendors~81729548.8d1d3fb2bd241884dbc3.chunk.js vendors~81729548.8d1d3fb2bd241884dbc3.bundle.map vendors~203e0718.a70cd06f9a979460bac8.chunk.js vendors~203e0718.a70cd06f9a979460bac8.bundle.map vendors~7d359b94.0416eca2e375fb358b16.chunk.js vendors~7d359b94.0416eca2e375fb358b16.bundle.map vendors~690b702c.3e94c1f4526f6b604d1a.chunk.js vendors~690b702c.3e94c1f4526f6b604d1a.bundle.map vendors~acda4ad0.b257248100c8461fd84b.chunk.js vendors~acda4ad0.b257248100c8461fd84b.bundle.map vendors~783c59e6.6f7a61542b5f3447f1ef.chunk.js vendors~783c59e6.6f7a61542b5f3447f1ef.bundle.map vendors~4431f5db.47f5034bf17f47a49f1f.chunk.js vendors~4431f5db.47f5034bf17f47a49f1f.bundle.map vendors~1dae1a3b.b7c02bb4093a805bdb98.chunk.js vendors~1dae1a3b.b7c02bb4093a805bdb98.bundle.map vendors~746e70ab.a0763958ac2d651f4bbe.chunk.js vendors~746e70ab.a0763958ac2d651f4bbe.bundle.map vendors~61efd8e5.27215f791330fcc5cd5e.chunk.js vendors~61efd8e5.27215f791330fcc5cd5e.bundle.map vendors~3da8e032.762f5f64679638a8e51a.chunk.js vendors~3da8e032.762f5f64679638a8e51a.bundle.map vendors~8d1b97e4.d1473708fa705efdcce9.chunk.js vendors~8d1b97e4.d1473708fa705efdcce9.bundle.map vendors~b58f7129.c97543a818c0108c5b4c.chunk.js vendors~b58f7129.c97543a818c0108c5b4c.bundle.map vendors~f9ca8911.459f37e9bee4ff496fd4.chunk.js vendors~f9ca8911.459f37e9bee4ff496fd4.bundle.map vendors~3af8bccc.05d81b0b3b86343c6888.chunk.js vendors~3af8bccc.05d81b0b3b86343c6888.bundle.map vendors~ec8c427e.c6ac341d5e4d52c7f524.chunk.css vendors~ec8c427e.774705149daf626ec3e2.chunk.js vendors~ec8c427e.774705149daf626ec3e2.bundle.map vendors~ec8c427e.774705149daf626ec3e2.bundle.map vendors~1c3a2c3f.5750a5625560a8a6ae7b.chunk.js vendors~1c3a2c3f.5750a5625560a8a6ae7b.bundle.map vendors~2900d54e.e52c305fcccd20c1a763.chunk.js vendors~2900d54e.e52c305fcccd20c1a763.bundle.map vendors~e427e25b.d9ed1a8f069b39da88a2.chunk.js vendors~e427e25b.d9ed1a8f069b39da88a2.bundle.map vendors~79da3b5d.545da986c868c2326fd7.chunk.js vendors~79da3b5d.545da986c868c2326fd7.bundle.map vendors~344f9800.68980d8d78f9cf5841d6.chunk.js vendors~344f9800.68980d8d78f9cf5841d6.bundle.map vendors~c4d0825d.3769e3bd7a25747253de.chunk.js vendors~c4d0825d.3769e3bd7a25747253de.bundle.map vendors~b3d90c2f.b7646b62eabef76eeb5a.chunk.js vendors~b3d90c2f.b7646b62eabef76eeb5a.bundle.map vendors~a54901c8.d3ba12842ad89b3d5aa6.chunk.js vendors~a54901c8.d3ba12842ad89b3d5aa6.bundle.map vendors~420b5586.c422bc43580337a5835d.chunk.js vendors~420b5586.c422bc43580337a5835d.bundle.map vendors~97378b1a.0024d0a50386e108f44a.chunk.js vendors~97378b1a.0024d0a50386e108f44a.bundle.map app~f075b844.c3682fa42778d641c61d.chunk.css app~f075b844.c563d79a1d4e09471e95.chunk.js app~f075b844.c563d79a1d4e09471e95.bundle.map app~f075b844.c563d79a1d4e09471e95.bundle.map app~2753e2d0.025dbcef46d9bb94c2fc.chunk.css app~2753e2d0.92eb9e863ff44d613dcd.chunk.js app~2753e2d0.92eb9e863ff44d613dcd.bundle.map app~2753e2d0.92eb9e863ff44d613dcd.bundle.map app~c714bc7b.ea6eeefcac48175012c1.chunk.css app~c714bc7b.3e43276295d79c14022e.chunk.js app~c714bc7b.3e43276295d79c14022e.bundle.map app~c714bc7b.3e43276295d79c14022e.bundle.map app~ea1f58e8.a7cf8c66f20383eedc53.chunk.css app~ea1f58e8.88428ca99d087a42f76b.chunk.js app~ea1f58e8.88428ca99d087a42f76b.bundle.map app~ea1f58e8.88428ca99d087a42f76b.bundle.map
+[0] multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper 52 bytes {4} [built]
+[0N10] ./src/services/PoolService.ts 7.95 KiB {2} [built] [2 errors]
+[3UD+] (webpack)/buildin/harmony-module.js 573 bytes {13} [built]
+[BEPO] ./config/environment.json 31 bytes {4} [built]
+[Hbv3] ./src/services/ContractsService.ts 10.2 KiB {2} [built] [1 error]
+[N0XX] ./src/services/EthereumService.ts 16.6 KiB {2} [built] [1 error]
+[V/e+] ./src/services/GeneralEvents.ts 5.6 KiB {2} [built]
+[app] ./src/app.ts 9.3 KiB {4} [built] [3 errors]
+[aurelia-testing] ./node_modules/aurelia-testing/dist/native-modules/aurelia-testing.js + 2 modules 6.85 KiB {49} [built]
+    |    3 modules
+[main] ./src/main.ts 4.65 KiB {4} [built] [2 errors]
+[qJvG] ./src/services/ConsoleLogService.ts 4.59 KiB {2} [built] [2 errors]
+[rMR3] ./node_modules/aurelia-webpack-plugin/node_modules/aurelia-loader/dist/native-modules/aurelia-loader.js + 1 modules 9.75 KiB {12} [built]
+    |    2 modules
+[resources/index] ./src/resources/index.ts 1.73 KiB {2} [built] [2 errors]
+[yLpj] (webpack)/buildin/global.js 472 bytes {13} [built]
+[ypX7] ./node_modules/aurelia-event-aggregator/dist/native-modules/aurelia-event-aggregator.js + 1 modules 6.33 KiB {31} [built]
+    |    2 modules
+    + 1257 hidden modules
+
+WARNING in Conflict: Multiple assets emit different content to the same filename app~2753e2d0.92eb9e863ff44d613dcd.bundle.map
+
+WARNING in Conflict: Multiple assets emit different content to the same filename app~c714bc7b.3e43276295d79c14022e.bundle.map
+
+WARNING in Conflict: Multiple assets emit different content to the same filename app~ea1f58e8.88428ca99d087a42f76b.bundle.map
+
+WARNING in Conflict: Multiple assets emit different content to the same filename app~f075b844.c563d79a1d4e09471e95.bundle.map
+
+WARNING in Conflict: Multiple assets emit different content to the same filename vendors~ec8c427e.774705149daf626ec3e2.bundle.map
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/helpers/assertThisInitialized' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 8:41207-41262
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/helpers/asyncToGenerator' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 8:21560-21610
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/helpers/classCallCheck' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 8:46276-46324
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/helpers/createClass' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 8:46350-46395
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/helpers/defineProperty' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 8:21636-21684
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/helpers/get' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 8:67256-67293
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/helpers/getPrototypeOf' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 8:41288-41336
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/helpers/inherits' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 8:102799-102841
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/helpers/possibleConstructorReturn' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 8:102867-102926
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/helpers/toConsumableArray' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 16:9741-9792
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/helpers/typeof' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 8:91753-91793
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js
+Module not found: Error: Can't resolve '@babel/runtime/regenerator' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\@toruslabs\torus-embed\dist'
+ @ ./node_modules/@toruslabs/torus-embed/dist/torus.cjs.js 8:19677-19714
+ @ ./src/services/EthereumService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/aurelia-animator-css/node_modules/aurelia-templating/dist/native-modules/aurelia-templating.js
+Module not found: Error: Can't resolve 'aurelia-binding' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\aurelia-animator-css\node_modules\aurelia-templating\dist\native-modules'
+ @ ./node_modules/aurelia-animator-css/node_modules/aurelia-templating/dist/native-modules/aurelia-templating.js 14:0-210 1399:27-49 1399:50-59 1402:27-50 1402:51-60 1590:105-127 1590:153-176 1672:46-67 3368:34-56 3368:76-99 3674:51-72 3730:26-47 3732:26-47 3808:47-67 3902:32-43 3904:32-43 3904:67-78 4171:41-56 5018:37-49
+ @ ./node_modules/aurelia-animator-css/dist/native-modules/aurelia-animator-css.js
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/aurelia-bootstrapper/node_modules/aurelia-framework/dist/native-modules/aurelia-framework.js
+Module not found: Error: Can't resolve 'aurelia-binding' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\aurelia-bootstrapper\node_modules\aurelia-framework\dist\native-modules'
+ @ ./node_modules/aurelia-bootstrapper/node_modules/aurelia-framework/dist/native-modules/aurelia-framework.js 533:0-32 533:0-32
+ @ ./node_modules/aurelia-bootstrapper/dist/native-modules/aurelia-bootstrapper.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/aurelia-bootstrapper/node_modules/aurelia-templating/dist/native-modules/aurelia-templating.js
+Module not found: Error: Can't resolve 'aurelia-binding' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\aurelia-bootstrapper\node_modules\aurelia-templating\dist\native-modules'
+ @ ./node_modules/aurelia-bootstrapper/node_modules/aurelia-templating/dist/native-modules/aurelia-templating.js 14:0-210 1399:27-49 1399:50-59 1402:27-50 1402:51-60 1590:105-127 1590:153-176 1672:46-67 3368:34-56 3368:76-99 3674:51-72 3730:26-47 3732:26-47 3808:47-67 3902:32-43 3904:32-43 3904:67-78 4171:41-56 5018:37-49
+ @ ./node_modules/aurelia-bootstrapper/node_modules/aurelia-framework/dist/native-modules/aurelia-framework.js
+ @ ./node_modules/aurelia-bootstrapper/dist/native-modules/aurelia-bootstrapper.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/aurelia-dialog/node_modules/aurelia-templating/dist/native-modules/aurelia-templating.js
+Module not found: Error: Can't resolve 'aurelia-binding' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\aurelia-dialog\node_modules\aurelia-templating\dist\native-modules'
+ @ ./node_modules/aurelia-dialog/node_modules/aurelia-templating/dist/native-modules/aurelia-templating.js 14:0-210 1399:27-49 1399:50-59 1402:27-50 1402:51-60 1590:105-127 1590:153-176 1672:46-67 3368:34-56 3368:76-99 3674:51-72 3730:26-47 3732:26-47 3808:47-67 3902:32-43 3904:32-43 3904:67-78 4171:41-56 5018:37-49
+ @ ./node_modules/aurelia-dialog/dist/native-modules/aurelia-dialog.js
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./node_modules/aurelia-testing/node_modules/aurelia-templating/dist/native-modules/aurelia-templating.js
+Module not found: Error: Can't resolve 'aurelia-binding' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\aurelia-testing\node_modules\aurelia-templating\dist\native-modules'
+ @ ./node_modules/aurelia-testing/node_modules/aurelia-templating/dist/native-modules/aurelia-templating.js 14:0-210 1399:27-49 1399:50-59 1402:27-50 1402:51-60 1590:105-127 1590:153-176 1672:46-67 3368:34-56 3368:76-99 3674:51-72 3730:26-47 3732:26-47 3808:47-67 3902:32-43 3904:32-43 3904:67-78 4171:41-56 5018:37-49
+ @ ./node_modules/aurelia-testing/dist/native-modules/view-spy.js
+ @ ./node_modules/aurelia-testing/dist/native-modules/aurelia-testing.js
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/services/PoolService.ts
+Module not found: Error: Can't resolve 'aurelia-dependency-injection' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services'
+ @ ./src/services/PoolService.ts 50:0-57 141:49-58 141:78-87
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/services/AureliaHelperService.ts
+Module not found: Error: Can't resolve 'aurelia-dependency-injection' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services'
+ @ ./src/services/AureliaHelperService.ts 10:0-57 45:61-70 45:90-99
+ @ ./src/resources/elements/modalscreen/modalscreen.ts
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/app.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src'
+ @ ./src/app.ts 46:0-47 191:8-18
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/entities/pool.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\entities'
+ @ ./src/entities/pool.ts 49:0-47 497:8-18
+ @ ./src/services/PoolService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/pool.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool'
+ @ ./src/pool/pool.ts 25:0-58 69:8-17 70:8-18
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/poolBase.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool'
+ @ ./src/pool/poolBase.ts 47:0-61 199:8-20 204:8-18
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/details/details.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\details'
+ @ ./src/pool/details/details.ts 47:0-58 61:8-17 62:8-18
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/liquidity-buttons/liquidity-buttons.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\liquidity-buttons'
+ @ ./src/pool/liquidity-buttons/liquidity-buttons.ts 11:0-57 36:8-16 40:8-18
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/overview/overview.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview'
+ @ ./src/pool/overview/overview.ts 47:0-58 88:8-17 89:8-18
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/overview/add/add.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\add'
+ @ ./src/pool/overview/add/add.ts 61:0-58 490:8-17 491:8-18
+ @ ./src/pool/overview/overview.ts
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/overview/remove/remove.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\remove'
+ @ ./src/pool/overview/remove/remove.ts 61:0-72 386:8-20 391:8-17 392:8-18
+ @ ./src/pool/overview/overview.ts
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/overview/story/story.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\story'
+ @ ./src/pool/overview/story/story.ts 47:0-58 61:8-17 62:8-18
+ @ ./src/pool/overview/overview.ts
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/price-tracker/price-tracker.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\price-tracker'
+ @ ./src/pool/price-tracker/price-tracker.ts 47:0-58 73:8-17 74:8-18
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pools/pools.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pools'
+ @ ./src/pools/pools.ts 46:0-58 114:8-17 115:8-18
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pools/weth-eth-exchange/weth-eth-exchange.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pools\weth-eth-exchange'
+ @ ./src/pools/weth-eth-exchange/weth-eth-exchange.ts 47:0-62 178:8-18 179:8-21
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/primeToken/prime-token.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\primeToken'
+ @ ./src/primeToken/prime-token.ts 47:0-58 111:8-17 112:8-18
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/inline-svg.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements'
+ @ ./src/resources/elements/inline-svg.ts 10:0-95 21:8-16 25:8-21 26:8-18 27:8-21 28:8-14
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/ConnectButton/ConnectButton.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\ConnectButton'
+ @ ./src/resources/elements/ConnectButton/ConnectButton.ts 47:0-88 128:8-17 129:8-21 130:8-18 131:8-21
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/EthBalance/EthBalance.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\EthBalance'
+ @ ./src/resources/elements/EthBalance/EthBalance.ts 47:0-87 117:8-16 121:8-16 125:8-18 126:8-21 127:8-21
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/EtherscanLink/EtherscanLink.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\EtherscanLink'
+ @ ./src/resources/elements/EtherscanLink/EtherscanLink.ts 10:0-99 50:8-16 50:39-50 54:8-16 54:39-50 58:8-16 58:39-50 62:8-16 62:39-50 66:8-20 71:8-18 72:8-21
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/NetworkFeedback/NetworkFeedback.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\NetworkFeedback'
+ @ ./src/resources/elements/NetworkFeedback/NetworkFeedback.ts 10:0-77 18:8-18 19:8-21 20:8-21
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/TokenBalance/TokenBalance.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\TokenBalance'
+ @ ./src/resources/elements/TokenBalance/TokenBalance.ts 47:0-87 119:8-16 123:8-16 127:8-16 131:8-18 132:8-21 133:8-21
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/UsersAddress/UsersAddress.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\UsersAddress'
+ @ ./src/resources/elements/UsersAddress/UsersAddress.ts 47:0-85 66:8-16 66:39-50 70:8-16 70:39-50 74:8-18 75:8-21
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/banner/banner.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\banner'
+ @ ./src/resources/elements/banner/banner.ts 48:0-62 213:8-21 214:8-18
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/copyToClipboardButton/copyToClipboardButton.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\copyToClipboardButton'
+ @ ./src/resources/elements/copyToClipboardButton/copyToClipboardButton.ts 11:0-72 32:8-16 36:8-16 40:8-16 44:8-21 45:8-18
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/formattedNumber/formattedNumber.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\formattedNumber'
+ @ ./src/resources/elements/formattedNumber/formattedNumber.ts 10:0-86 61:8-16 65:8-16 69:8-16 73:8-16 77:8-16 81:8-16 85:8-16 89:8-20 94:8-18 95:8-21
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/metamask-token-button/metamask-token-button.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\metamask-token-button'
+ @ ./src/resources/elements/metamask-token-button/metamask-token-button.ts 47:0-72 93:8-16 97:8-21 98:8-18
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/modalscreen/modalscreen.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\modalscreen'
+ @ ./src/resources/elements/modalscreen/modalscreen.ts 11:0-75 61:8-16 65:8-16 69:8-21 70:8-21
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/numericInput/numericInput.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\numericInput'
+ @ ./src/resources/elements/numericInput/numericInput.ts 10:0-85 106:8-16 106:39-50 110:8-16 114:8-16 114:39-50 118:8-16 122:8-16 126:8-16 130:8-16 130:39-50 134:8-16 134:39-50 138:8-16 142:8-20 147:8-18
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/elements/sparkChart/spark-chart.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\sparkChart'
+ @ ./src/resources/elements/sparkChart/spark-chart.ts 12:0-45 24:8-16
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/value-converters/date.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters'
+ @ ./src/resources/value-converters/date.ts 10:0-47 25:8-18
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/value-converters/ethwei.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters'
+ @ ./src/resources/value-converters/ethwei.ts 7:0-47 30:8-18
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/value-converters/number.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters'
+ @ ./src/resources/value-converters/number.ts 10:0-47 20:8-18
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/value-converters/timespan.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters'
+ @ ./src/resources/value-converters/timespan.ts 10:0-47 23:8-18
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/services/EthereumService.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services'
+ @ ./src/services/EthereumService.ts 51:0-47 326:8-18
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/services/ContractsService.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services'
+ @ ./src/services/ContractsService.ts 49:0-47 191:8-18
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/services/PoolService.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services'
+ @ ./src/services/PoolService.ts 46:0-47 139:8-18
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/services/ConsoleLogService.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services'
+ @ ./src/services/ConsoleLogService.ts 11:0-47 12:0-47 19:22-32 93:8-18
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/services/DisposableCollection.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services'
+ @ ./src/services/DisposableCollection.ts 10:0-46 35:8-17
+ @ ./src/services/ConsoleLogService.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/services/TransactionsService.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services'
+ @ ./src/services/TransactionsService.ts 47:0-47 98:8-18
+ @ ./src/txHistory/tx-history.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/services/TokenService.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services'
+ @ ./src/services/TokenService.ts 46:0-47 194:8-18
+ @ ./src/txHistory/tx-history.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/services/DateService.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services'
+ @ ./src/services/DateService.ts 10:0-47 269:8-18
+ @ ./src/resources/value-converters/date.ts
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/services/AureliaHelperService.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services'
+ @ ./src/services/AureliaHelperService.ts 11:0-80 44:8-18 45:151-167 45:187-203 45:255-268 45:288-301
+ @ ./src/resources/elements/modalscreen/modalscreen.ts
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/txHistory/tx-history.ts
+Module not found: Error: Can't resolve 'aurelia-framework' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\txHistory'
+ @ ./src/txHistory/tx-history.ts 46:0-72 361:8-20 366:8-17 367:8-18
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/main.ts
+Module not found: Error: Can't resolve 'aurelia-pal' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src'
+ @ ./src/main.ts 38:0-39
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/app.ts
+Module not found: Error: Can't resolve 'aurelia-pal' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src'
+ @ ./src/app.ts 49:0-39
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/pool.ts
+Module not found: Error: Can't resolve 'aurelia-pal' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool'
+ @ ./src/pool/pool.ts 24:0-39
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/overview/overview.ts
+Module not found: Error: Can't resolve 'aurelia-pal' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview'
+ @ ./src/pool/overview/overview.ts 46:0-39
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/resources/index.ts
+Module not found: Error: Can't resolve 'aurelia-pal' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources'
+ @ ./src/resources/index.ts 1:0-39
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/liquidity-buttons/liquidity-buttons.ts
+Module not found: Error: Can't resolve 'aurelia-router' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\liquidity-buttons'
+ @ ./src/pool/liquidity-buttons/liquidity-buttons.ts 10:0-40 41:61-67 41:87-93
+ @ ./src/resources/index.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/overview/add/add.ts
+Module not found: Error: Can't resolve 'aurelia-router' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\add'
+ @ ./src/pool/overview/add/add.ts 70:0-40 494:45-51 494:71-77
+ @ ./src/pool/overview/overview.ts
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/overview/remove/remove.ts
+Module not found: Error: Can't resolve 'aurelia-router' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\remove'
+ @ ./src/pool/overview/remove/remove.ts 68:0-40 395:45-51 395:71-77
+ @ ./src/pool/overview/overview.ts
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pools/pools.ts
+Module not found: Error: Can't resolve 'aurelia-router' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pools'
+ @ ./src/pools/pools.ts 52:0-40 117:49-55 117:75-81
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/pool.ts
+Module not found: Error: Can't resolve 'aurelia-templating-resources' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool'
+ @ ./src/pool/pool.ts 23:0-63 72:49-64 72:84-99
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/poolBase.ts
+Module not found: Error: Can't resolve 'aurelia-templating-resources' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool'
+ @ ./src/pool/poolBase.ts 46:0-63 207:45-60 207:80-95
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/overview/add/add.ts
+Module not found: Error: Can't resolve 'aurelia-templating-resources' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\add'
+ @ ./src/pool/overview/add/add.ts 59:0-63 495:54-69 495:89-104
+ @ ./src/pool/overview/overview.ts
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in ./src/pool/overview/remove/remove.ts
+Module not found: Error: Can't resolve 'aurelia-templating-resources' in 'C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\remove'
+ @ ./src/pool/overview/remove/remove.ts 59:0-63 396:54-69 396:89-104
+ @ ./src/pool/overview/overview.ts
+ @ ./src/pool/pool.ts
+ @ ./src/app.ts
+ @ ./src/main.ts
+ @ ./node_modules/aurelia-webpack-plugin/runtime/empty-entry.js
+ @ multi aurelia-webpack-plugin/runtime/empty-entry aurelia-webpack-plugin/runtime/pal-loader-entry aurelia-bootstrapper
+
+ERROR in chunk vendors~556c66f2 [initial]
+vendors~556c66f2.3dcdd65e3b2ffd9c0bdf.chunk.js
+C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\aurelia-dialog\node_modules\aurelia-templating\dist\native-modules\aurelia-templating.js bbbde4422383940606c3bbe753aca35c
+Unexpected token (1400:27)
+|             break;
+|           case 'valueConverter':
+|             resource = new !(function webpackMissingModule() { var e = new Error("Cannot find module 'aurelia-binding'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(!(function webpackMissingModule() { var e = new Error("Cannot find module 'aurelia-binding'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(_name || target.name));
+|             break;
+|           case 'bindingBehavior':
+
+ERROR in chunk vendors~c3924f66 [initial]
+vendors~c3924f66.49dc9e09db09a69b15e1.chunk.js
+C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\aurelia-animator-css\node_modules\aurelia-templating\dist\native-modules\aurelia-templating.js ff80bc0af0dd18717c28c77f2fba9cb6
+Unexpected token (1400:27)
+|             break;
+|           case 'valueConverter':
+|             resource = new !(function webpackMissingModule() { var e = new Error("Cannot find module 'aurelia-binding'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(!(function webpackMissingModule() { var e = new Error("Cannot find module 'aurelia-binding'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(_name || target.name));
+|             break;
+|           case 'bindingBehavior':
+
+ERROR in chunk vendors~e720e738 [initial]
+vendors~e720e738.ee1c940d658eec9d9f21.chunk.js
+C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\node_modules\aurelia-testing\node_modules\aurelia-templating\dist\native-modules\aurelia-templating.js 7a427c702393141d3bacbc35facf90ff
+Unexpected token (1400:27)
+|             break;
+|           case 'valueConverter':
+|             resource = new !(function webpackMissingModule() { var e = new Error("Cannot find module 'aurelia-binding'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(!(function webpackMissingModule() { var e = new Error("Cannot find module 'aurelia-binding'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(_name || target.name));
+|             break;
+|           case 'bindingBehavior':
+
+ERROR in vendors~6f488c89.a1f186917eeb47263c6e.chunk.js from Terser
+Unexpected token: operator (!) [./node_modules/aurelia-bootstrapper/node_modules/aurelia-templating/dist/native-modules/aurelia-templating.js:1399,27][vendors~6f488c89.a1f186917eeb47263c6e.chunk.js:1479,27]
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\app.ts
+./src/app.ts 1:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\app.ts(1,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\app.ts
+./src/app.ts 4:44-60
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\app.ts(4,45)
+      TS2307: Cannot find module 'aurelia-router' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\app.ts
+./src/app.ts 5:25-38
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\app.ts(5,26)
+      TS2307: Cannot find module 'aurelia-pal' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\main.ts
+./src/main.ts 1:24-43
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\main.ts(1,25)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\main.ts
+./src/main.ts 3:25-38
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\main.ts(3,26)
+      TS2307: Cannot find module 'aurelia-pal' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\documentation\documentation.ts
+./src/documentation/documentation.ts 1:25-41
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\documentation\documentation.ts(1,26)
+      TS2307: Cannot find module 'aurelia-router' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\entities\pool.ts
+./src/entities/pool.ts 5:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\entities\pool.ts(5,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\pool.ts
+./src/pool/pool.ts 1:32-62
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\pool.ts(1,33)
+      TS2307: Cannot find module 'aurelia-templating-resources' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\pool.ts
+./src/pool/pool.ts 2:25-38
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\pool.ts(2,26)
+      TS2307: Cannot find module 'aurelia-pal' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\pool.ts
+./src/pool/pool.ts 3:38-57
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\pool.ts(3,39)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\pool.ts
+./src/pool/pool.ts 9:44-60
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\pool.ts(9,45)
+      TS2307: Cannot find module 'aurelia-router' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\poolBase.ts
+./src/pool/poolBase.ts 1:32-62
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\poolBase.ts(1,33)
+      TS2307: Cannot find module 'aurelia-templating-resources' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\poolBase.ts
+./src/pool/poolBase.ts 2:41-60
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\poolBase.ts(2,42)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\details\details.ts
+./src/pool/details/details.ts 4:38-57
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\details\details.ts(4,39)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\liquidity-buttons\liquidity-buttons.ts
+./src/pool/liquidity-buttons/liquidity-buttons.ts 1:23-39
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\liquidity-buttons\liquidity-buttons.ts(1,24)
+      TS2307: Cannot find module 'aurelia-router' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\liquidity-buttons\liquidity-buttons.ts
+./src/pool/liquidity-buttons/liquidity-buttons.ts 2:37-56
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\liquidity-buttons\liquidity-buttons.ts(2,38)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\overview.ts
+./src/pool/overview/overview.ts 1:25-38
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\overview.ts(1,26)
+      TS2307: Cannot find module 'aurelia-pal' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\overview.ts
+./src/pool/overview/overview.ts 2:44-60
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\overview.ts(2,45)
+      TS2307: Cannot find module 'aurelia-router' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\overview.ts
+./src/pool/overview/overview.ts 3:38-57
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\overview.ts(3,39)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\add\add.ts
+./src/pool/overview/add/add.ts 1:32-62
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\add\add.ts(1,33)
+      TS2307: Cannot find module 'aurelia-templating-resources' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\add\add.ts
+./src/pool/overview/add/add.ts 3:65-84
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\add\add.ts(3,66)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\add\add.ts
+./src/pool/overview/add/add.ts 12:33-49
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\add\add.ts(12,34)
+      TS2307: Cannot find module 'aurelia-router' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\remove\remove.ts
+./src/pool/overview/remove/remove.ts 1:32-62
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\remove\remove.ts(1,33)
+      TS2307: Cannot find module 'aurelia-templating-resources' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\remove\remove.ts
+./src/pool/overview/remove/remove.ts 3:79-98
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\remove\remove.ts(3,80)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\remove\remove.ts
+./src/pool/overview/remove/remove.ts 10:33-49
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\remove\remove.ts(10,34)
+      TS2307: Cannot find module 'aurelia-router' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\staking\staking.ts
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\staking\staking.ts(2,53)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\staking\staking.ts
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\staking\staking.ts(6,26)
+      TS2307: Cannot find module 'aurelia-router' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\story\story.ts
+./src/pool/overview/story/story.ts 4:38-57
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\overview\story\story.ts(4,39)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\price-tracker\price-tracker.ts
+./src/pool/price-tracker/price-tracker.ts 4:38-57
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pool\price-tracker\price-tracker.ts(4,39)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pools\pools.ts
+./src/pools/pools.ts 1:38-57
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pools\pools.ts(1,39)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pools\pools.ts
+./src/pools/pools.ts 8:23-39
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pools\pools.ts(8,24)
+      TS2307: Cannot find module 'aurelia-router' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pools\weth-eth-exchange\weth-eth-exchange.ts
+./src/pools/weth-eth-exchange/weth-eth-exchange.ts 2:42-61
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\pools\weth-eth-exchange\weth-eth-exchange.ts(2,43)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\primeToken\prime-token.ts
+./src/primeToken/prime-token.ts 2:38-57
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\primeToken\prime-token.ts(2,39)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\index.ts
+./src/resources/index.ts 1:39-58
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\index.ts(1,40)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\index.ts
+./src/resources/index.ts 2:25-38
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\index.ts(2,26)
+      TS2307: Cannot find module 'aurelia-pal' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\binding-behaviors\asyncBinding.ts
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\binding-behaviors\asyncBinding.ts(2,33)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\binding-behaviors\asyncBinding.ts
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\binding-behaviors\asyncBinding.ts(3,25)
+      TS2307: Cannot find module 'aurelia-binding' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\binding-behaviors\asyncBinding.ts
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\binding-behaviors\asyncBinding.ts(28,44)
+      TS2339: Property 'updateTarget' does not exist on type 'IAsyncAureliaBinding'.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\binding-behaviors\asyncBinding.ts
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\binding-behaviors\asyncBinding.ts(30,13)
+      TS2339: Property 'updateTarget' does not exist on type 'IAsyncAureliaBinding'.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\binding-behaviors\asyncBinding.ts
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\binding-behaviors\asyncBinding.ts(62,13)
+      TS2339: Property 'updateTarget' does not exist on type 'IAsyncAureliaBinding'.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\dialogs\alert\alert.ts
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\dialogs\alert\alert.ts(2,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\inline-svg.ts
+./src/resources/elements/inline-svg.ts 1:75-94
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\inline-svg.ts(1,76)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\ConnectButton\ConnectButton.ts
+./src/resources/elements/ConnectButton/ConnectButton.ts 2:68-87
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\ConnectButton\ConnectButton.ts(2,69)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\EthBalance\EthBalance.ts
+./src/resources/elements/EthBalance/EthBalance.ts 2:80-99
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\EthBalance\EthBalance.ts(2,81)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\EtherscanLink\EtherscanLink.ts
+./src/resources/elements/EtherscanLink/EtherscanLink.ts 1:79-98
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\EtherscanLink\EtherscanLink.ts(1,80)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\NetworkFeedback\NetworkFeedback.ts
+./src/resources/elements/NetworkFeedback/NetworkFeedback.ts 1:57-76
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\NetworkFeedback\NetworkFeedback.ts(1,58)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\TokenBalance\TokenBalance.ts
+./src/resources/elements/TokenBalance/TokenBalance.ts 2:80-99
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\TokenBalance\TokenBalance.ts(2,81)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\UsersAddress\UsersAddress.ts
+./src/resources/elements/UsersAddress/UsersAddress.ts 2:65-84
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\UsersAddress\UsersAddress.ts(2,66)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\banner\banner.ts
+./src/resources/elements/banner/banner.ts 3:42-61
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\banner\banner.ts(3,43)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\copyToClipboardButton\copyToClipboardButton.ts
+./src/resources/elements/copyToClipboardButton/copyToClipboardButton.ts 2:52-71
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\copyToClipboardButton\copyToClipboardButton.ts(2,53)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\formattedNumber\formattedNumber.ts
+./src/resources/elements/formattedNumber/formattedNumber.ts 7:7-26
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\formattedNumber\formattedNumber.ts(7,8)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\metamask-token-button\metamask-token-button.ts
+./src/resources/elements/metamask-token-button/metamask-token-button.ts 2:51-70
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\metamask-token-button\metamask-token-button.ts(2,52)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\modalscreen\modalscreen.ts
+./src/resources/elements/modalscreen/modalscreen.ts 2:68-87
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\modalscreen\modalscreen.ts(2,69)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\numericInput\numericInput.ts
+./src/resources/elements/numericInput/numericInput.ts 6:7-26
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\numericInput\numericInput.ts(6,8)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\sparkChart\spark-chart.ts
+./src/resources/elements/sparkChart/spark-chart.ts 3:23-42
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\elements\sparkChart\spark-chart.ts(3,24)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters\date.ts
+./src/resources/value-converters/date.ts 1:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters\date.ts(1,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters\ethwei.ts
+./src/resources/value-converters/ethwei.ts 1:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters\ethwei.ts(1,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters\number.ts
+./src/resources/value-converters/number.ts 1:25-44
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters\number.ts(1,26)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters\timespan.ts
+./src/resources/value-converters/timespan.ts 1:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\resources\value-converters\timespan.ts(1,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\AlertService.ts
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\AlertService.ts(2,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\AureliaHelperService.ts
+./src/services/AureliaHelperService.ts 1:26-56
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\AureliaHelperService.ts(1,27)
+      TS2307: Cannot find module 'aurelia-dependency-injection' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\AureliaHelperService.ts
+./src/services/AureliaHelperService.ts 2:87-106
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\AureliaHelperService.ts(2,88)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\ConsoleLogService.ts
+./src/services/ConsoleLogService.ts 2:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\ConsoleLogService.ts(2,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\ConsoleLogService.ts
+./src/services/ConsoleLogService.ts 3:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\ConsoleLogService.ts(3,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\ContractsService.ts
+./src/services/ContractsService.ts 4:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\ContractsService.ts(4,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\DateService.ts
+./src/services/DateService.ts 1:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\DateService.ts(1,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\DialogService.ts
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\dialogService.ts(7,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\DisposableCollection.ts
+./src/services/DisposableCollection.ts 1:26-45
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\DisposableCollection.ts(1,27)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\EthereumService.ts
+./src/services/EthereumService.ts 8:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\EthereumService.ts(8,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\PoolService.ts
+./src/services/PoolService.ts 1:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\PoolService.ts(1,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\PoolService.ts
+./src/services/PoolService.ts 5:26-56
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\PoolService.ts(5,27)
+      TS2307: Cannot find module 'aurelia-dependency-injection' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\TokenService.ts
+./src/services/TokenService.ts 1:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\TokenService.ts(1,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\TransactionsService.ts
+./src/services/TransactionsService.ts 3:27-46
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\services\TransactionsService.ts(3,28)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\txHistory\tx-history.ts
+./src/txHistory/tx-history.ts 1:52-71
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\src\txHistory\tx-history.ts(1,53)
+      TS2307: Cannot find module 'aurelia-framework' or its corresponding type declarations.
+
+ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\test\unit\app.spec.ts
+[tsl] ERROR in C:\Users\dkent\Documents\Projects\GitHub\CurveLabs\PrimeDAO\prime-pool-dapp\test\unit\app.spec.ts(3,26)
+      TS2307: Cannot find module 'aurelia-pal' or its corresponding type declarations.
+Child HtmlWebpackCompiler:
+     1 asset
+    Entrypoint HtmlWebpackPlugin_0 = __child-HtmlWebpackPlugin_0
+    [8XHo] ./node_modules/html-webpack-plugin/lib/loader.js!./index.ejs 2.38 KiB {0} [built]
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/app.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [ypyN] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/app.scss 7.63 KiB {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/home/home.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [O2hb] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/home/home.scss 7.8 KiB {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/pool/overview/liquidity.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [uVYH] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/pool/overview/liquidity.scss 15.7 KiB {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/pool/pool.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [pv1R] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/pool/pool.scss 11.5 KiB {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/pools/pools.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [00WJ] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/pools/pools.scss 8 KiB {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/primeToken/prime-token.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [ERkE] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/primeToken/prime-token.scss 5.44 KiB {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/resources/elements/ConnectButton/ConnectButton.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [NgYG] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/resources/elements/ConnectButton/ConnectButton.scss 7.38 KiB {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/resources/elements/EtherscanLink/EtherscanLink.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [L+ft] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/resources/elements/EtherscanLink/EtherscanLink.scss 667 bytes {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/resources/elements/banner/banner.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [H8Aq] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/resources/elements/banner/banner.scss 6.59 KiB {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/resources/elements/loading-dots/loading-dots.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [o9Y7] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/resources/elements/loading-dots/loading-dots.scss 1.87 KiB {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/resources/elements/metamask-token-button/metamask-token-button.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [vzgr] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/resources/elements/metamask-token-button/metamask-token-button.scss 906 bytes {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/resources/elements/modalscreen/modalscreen.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [RgMo] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/resources/elements/modalscreen/modalscreen.scss 2.85 KiB {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/resources/elements/sparkChart/spark-chart.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [2ajY] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/resources/elements/sparkChart/spark-chart.scss 360 bytes {0} [built]
+        + 1 hidden module
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/styles/styles.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [ravD] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/styles/styles.scss 16.1 KiB {0} [built]
+        + 2 hidden modules
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--4-1!node_modules/sass-loader/dist/cjs.js!src/txHistory/tx-history.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [Uvw6] ./node_modules/css-loader/dist/cjs.js??ref--4-1!./node_modules/sass-loader/dist/cjs.js!./src/txHistory/tx-history.scss 5.62 KiB {0} [built]
+        + 1 hidden module

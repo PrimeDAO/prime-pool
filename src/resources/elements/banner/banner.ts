@@ -55,9 +55,9 @@ export class Banner {
      */
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     this.queue.pipe(concatMap((config: IBannerConfig) => {
-      return from(new Promise((resolve: () => void) => {
+      return from(new Promise((resolve: (value: unknown) => void) => {
         // with timeout, give a cleaner buffer in between consecutive snacks
-        setTimeout(() => this.showBanner(config, resolve), 200);
+        setTimeout(() => this.showBanner(config, () => resolve(0)), 200);
       }));
     }))
       // this will initiate the execution of the promises

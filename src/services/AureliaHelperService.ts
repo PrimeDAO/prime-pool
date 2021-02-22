@@ -50,7 +50,7 @@ export class AureliaHelperService {
     func: (splices: Array<ICollectionObserverSplice<string>>) => void): IDisposable {
 
     return this.bindingEngine
-      .collectionObserver(collection)
+      .collectionObserver(collection as any) // `as any` because I think the collectionObserver declares is wrong, should accept `Set<any`
       .subscribe(func);
   }
 

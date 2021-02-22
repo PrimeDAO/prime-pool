@@ -1,4 +1,4 @@
-import { TransactionResponse, TransactionReceipt } from "@ethersproject/providers/lib";
+import { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject } from "aurelia-framework";
 import { EthereumService, Hash, Networks } from "services/EthereumService";
@@ -41,5 +41,5 @@ export default class TransactionsService {
   }
 }
 
-export { TransactionResponse } from "@ethersproject/providers/lib";
-export { TransactionReceipt } from "@ethersproject/providers/lib";
+export { TransactionResponse } from "@ethersproject/providers";
+export { TransactionReceipt } from "@ethersproject/providers";

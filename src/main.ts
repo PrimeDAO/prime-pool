@@ -22,7 +22,9 @@ export function configure(aurelia: Aurelia): void {
     // ])
     ;
 
-  aurelia.use.developmentLogging(environment.debug ? "debug" : "info");
+  if (process.env.NODE_ENV === "development") {
+    aurelia.use.developmentLogging();
+  }
 
   if (environment.testing) {
     aurelia.use.plugin(PLATFORM.moduleName("aurelia-testing"));
