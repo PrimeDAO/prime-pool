@@ -38,7 +38,7 @@ export class Pools {
 
   }
 
-  async activate() {
+  async activate(): Promise<void> {
     /**
      * do this in `activate` instead of `attached` because I'm not sure whether the child components' `attached` methods are invoked
      * before this one or after (I would bet before), and they need to be able to rely on the pools
@@ -54,6 +54,9 @@ export class Pools {
           await this.poolService.ensureInitialized();
         }
         this.pools = this.poolService.poolsArray;
+
+        this.pools[0].getMarketCapHistory();
+
       } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }
@@ -63,7 +66,7 @@ export class Pools {
     }
   }
 
-  gotoPool(pool: Pool) {
+  gotoPool(pool: Pool): void {
     this.router.navigate(`pool/${pool.address}`);
   }
 }

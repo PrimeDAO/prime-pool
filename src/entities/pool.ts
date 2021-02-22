@@ -12,6 +12,7 @@ import { EventAggregator } from "aurelia-event-aggregator";
 import { jsonToGraphQLQuery } from "json-to-graphql-query";
 import { EventConfigFailure } from "services/GeneralEvents";
 import { ConsoleLogService } from "services/ConsoleLogService";
+import { DateService } from "services/DateService";
 
 export interface IJoinEventArgs {
   caller: Address;
@@ -124,6 +125,7 @@ export class Pool implements IPoolConfig {
     private ethereumService: EthereumService,
     private eventAggregator: EventAggregator,
     private consoleLogService: ConsoleLogService,
+    private dateService: DateService,
   ) {
 
     this.subscriptions.push(this.eventAggregator.subscribe("Contracts.Changed", async () => {
@@ -418,6 +420,76 @@ export class Pool implements IPoolConfig {
         return holder.address;
       });
     this.membersCount = members.length;
+  }
+
+  public getMarketCapHistory(): Promise<Array<any>> {
+    const uri = this.getBalancerSubgraphUrl();
+
+    const daySeconds = 24 * 60 * 60;
+    const startingDate = this.dateService.midnightOf(this.startingDateTime);
+    const startingSeconds = startingDate.valueOf() / 1000;
+    const today = this.dateService.today; // midnight of today
+    const todaySeconds = today.valueOf() / 1000;
+    const query = {};
+    for (let timestamp = startingSeconds; timestamp < todaySeconds; timestamp += daySeconds) {
+      query[`mcHistory_${timestamp}`] = {
+        __aliasFor: "swaps",
+        __args: {
+          first: 1,
+          orderBy: "timestamp",
+          orderDirection: "desc",
+          where: {
+            poolAddress: this.bPool.address.toLowerCase(),
+            timestamp_gt: timestamp,
+            timestamp_lt: timestamp + daySeconds,
+          },
+        },
+        // poolTotalSwapVolume: true,
+        // poolTotalSwapFee: true,
+        poolLiquidity: true,
+      };
+    }
+
+    return axios.post(uri,
+      JSON.stringify({ query: jsonToGraphQLQuery({ query }) }),
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then(async (response) => {
+        const dataObject = response.data?.data;
+        if (dataObject) {
+          const data = [];
+          const rowKeys = Object.keys(dataObject);
+          for (let i = 1; i < rowKeys.length; i++) {
+            const timestamp = parseFloat(rowKeys[i].split("_")[1]);
+            const date = new Date(timestamp * 1000);
+            const values = dataObject[rowKeys[i]];
+            const previousValues = dataObject[rowKeys[i - 1]];
+            if (!values?.length || !previousValues?.length) {
+              data.push({
+                time: date.toISOString(),
+              });
+            }
+            else {
+              data.push({
+                time: date.toISOString(),
+                value: this.numberService.fromString(values[0].poolLiquidity),
+              });
+            }
+          }
+          return data;
+        }
+      })
+      .catch((error) => {
+        this.consoleLogService.handleFailure(
+          new EventConfigFailure(`Pool: Error fetching market cap history: ${error?.response?.data?.error?.message ?? error?.message}`));
+        // throw new Error(`${error.response?.data?.error.message ?? "Error fetching token info"}`);
+        // TODO:  restore the exception?
+        return [];
+      });
   }
 
   public ensureConnected(): boolean {

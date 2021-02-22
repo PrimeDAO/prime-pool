@@ -37,7 +37,7 @@ export class AlertService {
       message = config.message;
     }
 
-    this.dialogService.alert(`${message ? `${message}: ` : ""}${ex.reason ?? ex.message ?? ex}`);
+    this.dialogService.alert(`${message ? `${message}: ` : ""}${ex?.reason ?? ex?.message ?? ex}`);
   }
 
   private handleFailure(config: EventConfig | string) {

@@ -22,6 +22,13 @@ export class DateService {
     return this.createMoment(undefined, true).toDate();
   }
 
+  public midnightOf(dt: Date): Date {
+    const day = this.createMoment(dt);
+    const dtMidnight = new Date(day.year(), day.month(), day.date());
+    return dtMidnight;
+  }
+
+
   public localTimezoneOffset: number;
   public localTimezone: string;
 
@@ -327,6 +334,10 @@ export class DateService {
         utc: parms.utc,
       };
     }
+  }
+
+  public getDurationBetween(end: Date, start: Date): moment.Duration {
+    return moment.duration(end.valueOf() - start.valueOf());
   }
 
   /**

@@ -16,7 +16,7 @@ export abstract class PoolBase {
   protected poolAddress: Address;
   protected pool: Pool;
   @computedFrom("pool.connected")
-  protected get connected() { return this.pool?.connected; }
+  protected get connected(): boolean { return this.pool?.connected; }
   protected subscriptions: DisposableCollection = new DisposableCollection();
 
   constructor(
@@ -33,7 +33,7 @@ export abstract class PoolBase {
     }
   }
 
-  deactivate() {
+  deactivate(): void {
     this.subscriptions.dispose();
   }
 
