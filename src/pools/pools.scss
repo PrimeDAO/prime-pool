@@ -53,8 +53,8 @@
         .priceDelta1,
         .priceDelta2,
         .priceDelta3 {
-          color: #5aae2a;
           .poolDataValue {
+            color: #5aae2a;
             &.negative {
               color: $color-red;
             }
