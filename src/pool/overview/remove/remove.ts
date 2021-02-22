@@ -1,4 +1,4 @@
-import { BindingSignaler } from 'aurelia-templating-resources';
+import { BindingSignaler } from "aurelia-templating-resources";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, computedFrom, singleton, ICollectionObserverSplice } from "aurelia-framework";
 import { BigNumber } from "ethers";
@@ -32,12 +32,12 @@ export class LiquidityRemove extends PoolBase {
     private router: Router,
     private transactionsService: TransactionsService,
     private aureliaHelperService: AureliaHelperService,
-    signaler: BindingSignaler
-    ) {
-      
-      super(eventAggregator, ethereumService, poolService, signaler);
-     
-    }
+    signaler: BindingSignaler,
+  ) {
+
+    super(eventAggregator, ethereumService, poolService, signaler);
+
+  }
 
   private showSlippage: boolean;
   private selectedTokens = new Array<IPoolTokenInfoEx>();
@@ -97,27 +97,27 @@ export class LiquidityRemove extends PoolBase {
 
   private handleTokenSelected(splices: Array<ICollectionObserverSplice<IPoolTokenInfoEx>>) {
     if (splices.length > 1) {
-      throw new Error(`splices should be equal to 1`);
+      throw new Error("splices should be equal to 1");
     }
 
     splices.forEach(splice => {
       let token: IPoolTokenInfoEx;
       if (splice.addedCount >= 2) {
-        throw new Error(`splice.addedCount should be 0 or 1`);
+        throw new Error("splice.addedCount should be 0 or 1");
       }
 
       const valuesAdded = this.selectedTokens.slice(splice.index, splice.index + splice.addedCount);
 
       if (valuesAdded.length > 0) {
         if (splice.removed.length > 0) {
-          throw new Error(`splice.removed.length should be 0`);
+          throw new Error("splice.removed.length should be 0");
         }
         // console.log(`The following values were inserted at ${splice.index}: ${JSON.stringify(valuesAdded)}`);
         token = valuesAdded[0];
         token.selected_remove = true;
       } else {
         if (splice.removed.length >= 2) {
-          throw new Error(`splice.removed.length should be 0 or 1`);
+          throw new Error("splice.removed.length should be 0 or 1");
         }
 
         if (splice.removed.length > 0) {
@@ -164,7 +164,7 @@ export class LiquidityRemove extends PoolBase {
      * these will end up in handleTokenSelected
      */
     if (token.selected_remove !== newValue) {
-      if(newValue) {
+      if (newValue) {
         this.selectedTokens.push(token);
       } else {
         const index = this.selectedTokens.indexOf(token, 0);
@@ -216,29 +216,29 @@ export class LiquidityRemove extends PoolBase {
     const totalWeight = toBigNumberJs(this.pool.totalDenormWeight);
     const swapfee = toBigNumberJs(this.pool.swapfee);
 
-    let amount = toBigNumberJs(this.poolTokenAmount);
+    const amount = toBigNumberJs(this.poolTokenAmount);
 
     let amountOut: BigNumberJs;
     let expectedAmount: BigNumberJs;
 
-      if (amount.div(poolTokenShares).gt(0.99)) {
-        // Invalidate user's attempt to withdraw the entire pool supply in a single token
-        // At amounts close to 100%, solidity math freaks out
-        return "";
-      }
-      amountOut = calcSingleOutGivenPoolIn(
-        tokenBalance,
-        tokenWeight,
-        poolTokenShares,
-        totalWeight,
-        amount,
-        swapfee);
+    if (amount.div(poolTokenShares).gt(0.99)) {
+      // Invalidate user's attempt to withdraw the entire pool supply in a single token
+      // At amounts close to 100%, solidity math freaks out
+      return "";
+    }
+    amountOut = calcSingleOutGivenPoolIn(
+      tokenBalance,
+      tokenWeight,
+      poolTokenShares,
+      totalWeight,
+      amount,
+      swapfee);
 
-      expectedAmount = amount
-        .times(totalWeight)
-        .times(tokenBalance)
-        .div(poolTokenShares)
-        .div(tokenWeight);
+    expectedAmount = amount
+      .times(totalWeight)
+      .times(tokenBalance)
+      .div(poolTokenShares)
+      .div(tokenWeight);
 
     return toBigNumberJs(1)
       .minus(amountOut.div(expectedAmount))

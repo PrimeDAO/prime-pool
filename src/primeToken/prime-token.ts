@@ -28,7 +28,7 @@ export class PrimeToken {
     private numberService: NumberService,
     private poolService: PoolService,
     private eventAggregator: EventAggregator,
-    ) {
+  ) {
   }
 
   async attached(): Promise<void> {

@@ -1,5 +1,5 @@
 import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject, containerless } from 'aurelia-framework';
+import { autoinject, containerless } from "aurelia-framework";
 import { BigNumber } from "ethers";
 import { ContractNames, ContractsService } from "services/ContractsService";
 import { DisposableCollection } from "services/DisposableCollection";
@@ -35,8 +35,8 @@ export class WethEthExchange {
       this.getUserBalances();
     });
 
-      // this.subscriptions.push(this.eventAggregator.subscribe("Network.NewBlock",
-      // () => this.getBalance()));
+    // this.subscriptions.push(this.eventAggregator.subscribe("Network.NewBlock",
+    // () => this.getBalance()));
 
     this.subscriptions.push(this.eventAggregator.subscribe("Network.Changed.Disconnect", async () => {
       this.loadContracts();
@@ -55,11 +55,11 @@ export class WethEthExchange {
   }
 
   async getUserBalances() {
-    const provider = this.ethereumService.readOnlyProvider;    
+    const provider = this.ethereumService.readOnlyProvider;
     this.userWethBalance = await this.weth.balanceOf(this.ethereumService.defaultAccountAddress);
     this.userEthBalance = await provider.getBalance(this.ethereumService.defaultAccountAddress);
   }
-  
+
   private async handleDeposit() {
     if (this.ethereumService.ensureConnected()) {
       if (this.ethWethAmount.gt(this.userEthBalance)) {

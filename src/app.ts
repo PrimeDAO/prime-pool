@@ -53,15 +53,15 @@ export class App {
 
     if (!this.pools?.length) {
       setTimeout(async () => {
-      try {
-        if (this.poolService.initializing) {
-          await this.poolService.ensureInitialized();
+        try {
+          if (this.poolService.initializing) {
+            await this.poolService.ensureInitialized();
+          }
+          this.pools = this.poolService.poolsArray;
+          this.initializing = false;
+        } catch (ex) {
+          this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
         }
-        this.pools = this.poolService.poolsArray;
-        this.initializing = false;
-      } catch (ex) {
-        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
-      }
       }, 0);
     }
   }
@@ -86,7 +86,7 @@ export class App {
         name: "home",
         route: ["", "/", "home"],
         title: "Home",
-        settings: {icon: "/HomeIcon.svg"}
+        settings: {icon: "/HomeIcon.svg"},
       }
       , {
         moduleId: PLATFORM.moduleName("./pools/pools"),
@@ -94,7 +94,7 @@ export class App {
         name: "pools",
         route: ["pools"],
         title: "All Pools",
-        settings: {icon: "/AllPoolsIcon.svg"}
+        settings: {icon: "/AllPoolsIcon.svg"},
       }
       , {
         moduleId: PLATFORM.moduleName("./txHistory/tx-history"),
@@ -102,7 +102,7 @@ export class App {
         name: "txHistory",
         route: ["txHistory"],
         title: "Transaction History",
-        settings: {icon: "/txHistoryIcon.svg"}
+        settings: {icon: "/txHistoryIcon.svg"},
       }
       , {
         moduleId: PLATFORM.moduleName("./documentation/documentation"),
@@ -110,7 +110,7 @@ export class App {
         name: "documentation",
         route: ["documentation"],
         title: "Documentation",
-        settings: { icon: "/DocumentationIcon.svg"}
+        settings: { icon: "/DocumentationIcon.svg"},
       }
       , {
         moduleId: PLATFORM.moduleName("./primeToken/prime-token"),
@@ -118,15 +118,15 @@ export class App {
         name: "primeToken",
         route: ["primeToken"],
         title: "The PRIME Token",
-        settings: {icon: "/PrimePoolIcon.svg"}
+        settings: {icon: "/PrimePoolIcon.svg"},
       }
       , {
         moduleId: PLATFORM.moduleName("./pool/pool"),
         name: "pool",
         route: ["pool/:poolAddress"],
         title: "Pool",
-        settings: { icon: "/PoolMenuBullet.svg" }
-      }
+        settings: { icon: "/PoolMenuBullet.svg" },
+      },
     ]);
 
     config.fallbackRoute("home");
@@ -139,7 +139,7 @@ export class App {
   }
 
   contactUs() {
-    window.open('mailto:hello@primedao.io', '#', 'noopener noreferrer');
+    window.open("mailto:hello@primedao.io", "#", "noopener noreferrer");
   }
 
   gotoPool(pool: Pool) {

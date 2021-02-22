@@ -3,7 +3,7 @@ import {
   bindable,
   bindingMode,
   computedFrom,
-  containerless
+  containerless,
 } from "aurelia-framework";
 import { NumberService } from "services/numberService";
 import { Utils } from "services/utils";
@@ -51,7 +51,7 @@ export class FormattedNumber {
           precision: this.precision ? this.precision : (average ? 3 : undefined),
           average,
           mantissa: this.mantissa !== undefined ? this.mantissa : undefined,
-          thousandSeparated
+          thousandSeparated,
         },
       );
     }

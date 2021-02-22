@@ -27,8 +27,8 @@ export interface ITokenPrices {
 export interface ITokenInfo {
   address: Address;
   icon: string;
-  id: string;     // id on coingecko
-  name: string;   // token name,
+  id: string; // id on coingecko
+  name: string; // token name,
   price: number;
   priceChangePercentage_24h: number;
   priceChangePercentage_7d: number;
@@ -151,11 +151,11 @@ export class TokenService {
     }
   }
 
-  geckoCoinInfo: Map<string,string>;
+  geckoCoinInfo: Map<string, string>;
 
   getTokenGeckoMapKey(name: string, symbol: string): string {
     // PRIMEDao Token HACK!!!
-    if (name.toLowerCase() === "primedao token") { name = "primedao"; };
+    if (name.toLowerCase() === "primedao token") { name = "primedao"; }
     return `${name.toLowerCase()}_${symbol.toLowerCase()}`;
   }
 
@@ -165,9 +165,9 @@ export class TokenService {
 
       await axios.get(uri)
         .then((response) => {
-          this.geckoCoinInfo = new Map<string,string>();
+          this.geckoCoinInfo = new Map<string, string>();
 
-          response.data.map((tokenInfo: ITokenInfo) => 
+          response.data.map((tokenInfo: ITokenInfo) =>
             this.geckoCoinInfo.set(this.getTokenGeckoMapKey(tokenInfo.name, tokenInfo.symbol), tokenInfo.id));
         })
         .catch((error) => {
@@ -186,7 +186,7 @@ export class TokenService {
       }
     }
     return "";
-}
+  }
 
   public getTokenContract(tokenAddress: Address): Contract & IErc20Token {
     return new ethers.Contract(

@@ -3,7 +3,7 @@ import { autoinject, computedFrom, singleton } from "aurelia-framework";
 import { BigNumber } from "ethers";
 import { Address } from "services/EthereumService";
 import "./staking.scss";
-import { Redirect } from 'aurelia-router';
+import { Redirect } from "aurelia-router";
 
 @singleton(false)
 @autoinject
@@ -20,7 +20,7 @@ export class Staking {
   //     return new Redirect("");
   //   }
   // }
-    
+
   // public activate(_model: unknown, routeConfig: { settings: { state: IStakingModel }}): void {
   //   this.model = routeConfig.settings.state;
   // }

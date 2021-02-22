@@ -29,10 +29,10 @@ export interface IPoolConfig {
 export class PoolService {
 
   public pools: Map<Address, Pool>;
-  public get poolsArray(): Array<Pool> { return Array.from(this.pools.values()); };
+  public get poolsArray(): Array<Pool> { return Array.from(this.pools.values()); }
   public initializing = true;
   private initializedPromise: Promise<void>;
-  
+
   constructor(
     private ethereumService: EthereumService,
     private eventAggregator: EventAggregator,

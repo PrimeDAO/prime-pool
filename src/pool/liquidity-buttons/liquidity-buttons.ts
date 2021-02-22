@@ -34,7 +34,7 @@ export class LiquidityButtons {
 
   gotoRemoveLiquidity() {
     if (this.pool.connected) {
-    this.router.navigate(`/pool/${this.pool.address}/overview/remove`);
+      this.router.navigate(`/pool/${this.pool.address}/overview/remove`);
     }
   }
 
