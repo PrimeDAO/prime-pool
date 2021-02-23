@@ -432,7 +432,7 @@ export class Pool implements IPoolConfig {
     const todaySeconds = today.valueOf() / 1000;
     const query = {};
     for (let timestamp = startingSeconds; timestamp < todaySeconds; timestamp += daySeconds) {
-      query[`mcHistory_${timestamp}`] = {
+      query[`mch_${timestamp}`] = {
         __aliasFor: "swaps",
         __args: {
           first: 1,
@@ -440,7 +440,7 @@ export class Pool implements IPoolConfig {
           orderDirection: "desc",
           where: {
             poolAddress: this.bPool.address.toLowerCase(),
-            timestamp_gt: timestamp,
+            timestamp_gte: timestamp,
             timestamp_lt: timestamp + daySeconds,
           },
         },
@@ -463,20 +463,22 @@ export class Pool implements IPoolConfig {
         if (dataObject) {
           const data = [];
           const rowKeys = Object.keys(dataObject);
+          let previousValue;
           for (let i = 1; i < rowKeys.length; i++) {
             const timestamp = parseFloat(rowKeys[i].split("_")[1]);
             const date = new Date(timestamp * 1000);
             const values = dataObject[rowKeys[i]];
-            const previousValues = dataObject[rowKeys[i - 1]];
-            if (!values?.length || !previousValues?.length) {
+            if (!values?.length && (previousValue === undefined)) {
               data.push({
                 time: date.toISOString(),
               });
             }
             else {
+              const value = values?.length ? values[0].poolLiquidity : previousValue;
+              previousValue = value;
               data.push({
                 time: date.toISOString(),
-                value: this.numberService.fromString(values[0].poolLiquidity),
+                value: this.numberService.fromString(value),
               });
             }
           }
