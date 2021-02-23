@@ -54,9 +54,6 @@ export class Pools {
           await this.poolService.ensureInitialized();
         }
         this.pools = this.poolService.poolsArray;
-
-        this.pools[0].getMarketCapHistory();
-
       } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }

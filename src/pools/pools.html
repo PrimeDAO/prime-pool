@@ -61,9 +61,12 @@
               </formatted-number>%
             </div>
           </div>
-          <!-- <div class="chart">
+          <div class="chart">
             <div class="poolDataHeader">Chart - 1M</div>
-          </div> -->
+            <div class="sparkChart">
+              <spark-chart data.to-view="pool.historicalMarketCap" height="48"></spark-chart>
+            </div>
+          </div>
           <div class="addLiquidity">
             <div class="poolDataHeader">Stake Assets</div>
             <button class="button1">Buy ${pool.poolToken.symbol}</button>

@@ -14,7 +14,9 @@ import { EventConfigFailure } from "services/GeneralEvents";
 import { ConsoleLogService } from "services/ConsoleLogService";
 import { DateService } from "services/DateService";
 
-interface ISwapRecord { timestamp, poolLiquidity }
+interface ISwapRecord { timestamp: number, poolLiquidity: string }
+
+interface IHistoricalMarketCapRecord { time: string, value?: number }
 
 export interface IJoinEventArgs {
   caller: Address;
@@ -102,6 +104,7 @@ export class Pool implements IPoolConfig {
   totalMarketCapChangePercentage_24h: number;
   totalMarketCapChangePercentage_7d: number;
   totalMarketCapChangePercentage_30d: number;
+  historicalMarketCap: Array<IHistoricalMarketCapRecord>;
   /**
    * when this contract was created
    */
@@ -225,6 +228,8 @@ export class Pool implements IPoolConfig {
       await this.loadContracts(this.crPool, this.bPool, assetTokens, assetTokensArray);
 
       await this.hydrateStartingBlock();
+
+      await this.hydrateHistoricalMarketCap();
 
       // this.swapfee = await this.bPool.getSwapFee();
       // this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
@@ -430,8 +435,16 @@ export class Pool implements IPoolConfig {
     this.membersCount = members.length;
   }
 
-  public async getMarketCapHistory(): Promise<Array<any>> {
-    const startingDate = this.dateService.midnightOf(this.startingDateTime);
+  public async getMarketCapHistory(maxDays?: number): Promise<Array<IHistoricalMarketCapRecord>> {
+
+    let startingDate: Date;
+
+    if (maxDays) {
+      startingDate = this.dateService.today;
+      startingDate.setDate(startingDate.getDate() - maxDays);
+    } else {
+      startingDate = this.dateService.midnightOf(this.startingDateTime);
+    }
     const startingSeconds = startingDate.valueOf() / 1000;
     const daySeconds = 24 * 60 * 60;
     const tomorrow = this.dateService.tomorrow; // midnight of today
@@ -450,11 +463,11 @@ export class Pool implements IPoolConfig {
        * the earliest one.
        */
       const endDateSeconds = swaps.length ? swaps[swaps.length-1].timestamp : tomorrowSeconds;
-      fetched = await this.fetchSwaps(endDateSeconds);
+      fetched = await this.fetchSwaps(endDateSeconds, startingSeconds);
       swaps = swaps.concat(fetched);
     } while (fetched.length === 1000);
 
-    const returnArray = [];
+    const returnArray = new Array<IHistoricalMarketCapRecord>();
 
     if (swaps.length) {
       let previousDay;
@@ -466,7 +479,7 @@ export class Pool implements IPoolConfig {
       for (let timestamp = startingSeconds; timestamp < tomorrowSeconds; timestamp += daySeconds) {
 
         const dateString = new Date(timestamp * 1000).toISOString();
-        const todaysSwaps = new Array <{ timestamp, poolLiquidity }>();
+        const todaysSwaps = new Array<ISwapRecord>();
         const nextDay = timestamp + daySeconds;
 
         if (swaps.length) {
@@ -482,7 +495,9 @@ export class Pool implements IPoolConfig {
               if (!swaps.length) {
                 break;
               }
-            } // else swap.timestamp < timestamp, should never happen
+            } // else { // swap.timestamp < timestamp
+            // break;
+            // }
           }
         }
 
@@ -513,7 +528,7 @@ export class Pool implements IPoolConfig {
     return returnArray;
   }
 
-  private fetchSwaps(endDateSeconds: number): Promise<Array<ISwapRecord>> {
+  private fetchSwaps(endDateSeconds: number, startDateSeconds: number): Promise<Array<ISwapRecord>> {
     const uri = this.getBalancerSubgraphUrl();
     const query = {
       swaps: {
@@ -524,6 +539,7 @@ export class Pool implements IPoolConfig {
           where: {
             poolAddress: this.bPool.address.toLowerCase(),
             timestamp_lt: endDateSeconds,
+            timestamp_gte: startDateSeconds,
           },
         },
         // poolTotalSwapVolume: true,
@@ -554,6 +570,10 @@ export class Pool implements IPoolConfig {
         // TODO:  restore the exception?
         return [];
       });
+  }
+
+  private async hydrateHistoricalMarketCap(): Promise<void> {
+    this.historicalMarketCap = await this.getMarketCapHistory(30);
   }
 
   public ensureConnected(): boolean {

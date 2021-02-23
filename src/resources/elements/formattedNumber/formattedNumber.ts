@@ -1,12 +1,10 @@
 import {
   autoinject,
-  bindable,
-  bindingMode,
   computedFrom,
   containerless,
 } from "aurelia-framework";
+import { bindable } from "aurelia-typed-observable-plugin";
 import { NumberService } from "services/numberService";
-import { Utils } from "services/utils";
 import tippy from "tippy.js";
 
 @autoinject
@@ -18,12 +16,12 @@ export class FormattedNumber {
    */
   //  @bindable public format?: string;
   @bindable public precision?: string | number;
-  @bindable public average?: string | boolean;
+  @bindable.booleanAttr public average = true;
   @bindable public mantissa?: string | number;
   @bindable public value: number | string;
   @bindable public placement = "top";
   @bindable public defaultText = "--";
-  @bindable public thousandsSeparated?: string | boolean;
+  @bindable.booleanAttr public thousandsSeparated = false;
 
 
   private text: string;
@@ -44,14 +42,12 @@ export class FormattedNumber {
     let text = null;
 
     if ((this._value !== null) && (this._value !== undefined)) {
-      const average = (this.average === undefined) ? true : Utils.toBoolean(this.average);
-      const thousandSeparated = (this.thousandsSeparated === undefined) ? false : Utils.toBoolean(this.thousandsSeparated);
       text = this.numberService.toString(Number(this._value),
         {
-          precision: this.precision ? this.precision : (average ? 3 : undefined),
-          average,
+          precision: this.precision ? this.precision : (this.average ? 3 : undefined),
+          average: this.average,
           mantissa: this.mantissa !== undefined ? this.mantissa : undefined,
-          thousandSeparated,
+          thousandSeparated: this.thousandsSeparated,
         },
       );
     }

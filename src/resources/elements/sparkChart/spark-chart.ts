@@ -1,65 +1,74 @@
 import { autoinject } from "aurelia-framework";
 import "./spark-chart.scss";
 import { ChartOptions, createChart, CrosshairMode, DeepPartial, IChartApi } from "lightweight-charts";
-import {bindable} from "aurelia-framework";
+import { bindable } from "aurelia-typed-observable-plugin";
 import { NumberService } from "services/numberService";
 
 @autoinject
 export class SparkChart {
   @bindable data;
+  @bindable.booleanAttr interactive;
+  @bindable.number height = 300;
 
   chart: IChartApi;
 
   sparkChart: HTMLElement;
-
-  options: DeepPartial<ChartOptions>= {
-    width: 0,
-    height: 0,
-    timeScale: {
-      rightBarStaysOnScroll: true,
-    },
-    crosshair: {
-      mode: CrosshairMode.Magnet,
-    },
-    // priceScale: {
-    //   scaleMargins: { bottom: 0, top: 0 },
-    // },
-    grid: {
-      horzLines: {
-        visible: false,
-      },
-      vertLines: {
-        visible: false,
-      },
-    },
-    layout: {
-      backgroundColor: "transparent",
-      textColor: "black",
-      fontFamily: "Aeonik",
-    },
-    handleScroll: {
-      mouseWheel: false,
-    },
-    handleScale: {
-      mouseWheel: true,
-      pinch: true,
-      axisPressedMouseMove: {
-        time: false,
-        price: false,
-      },
-    },
-  };
 
   constructor(private numberService: NumberService) {
   }
 
   attached(): void {
     if (!this.chart) {
-      this.options.width = this.sparkChart.offsetWidth;
-      this.options.height = this.sparkChart.offsetHeight;
-      this.options.timeScale.barSpacing = Math.max(this.options.width / this.data.length, 6);
+      const options: any = { // DeepPartial<ChartOptions> = {
+        width: 0,
+        height: this.height,
+        timeScale: {
+          rightBarStaysOnScroll: true,
+          visible: this.interactive,
+        },
+        crosshair: {
+          vertLine: { visible: this.interactive },
+          horzLine: { visible: this.interactive },
+          mode: CrosshairMode.Magnet,
+        },
+        priceScale: {
+          position: this.interactive ? "right" : "none",
+        },
+        grid: {
+          horzLines: {
+            visible: false,
+          },
+          vertLines: {
+            visible: false,
+          },
+        },
+        layout: {
+          backgroundColor: "transparent",
+          textColor: "black",
+          fontFamily: "Aeonik",
+        },
+        handleScroll: {
+          mouseWheel: false,
+          pressedMouseMove: this.interactive,
+          horzTouchDrag: this.interactive,
+          vertTouchDrag: this.interactive,
+        },
+        handleScale: {
+          mouseWheel: this.interactive,
+          pinch: this.interactive,
+          axisDoubleClickReset: this.interactive,
+          axisPressedMouseMove: {
+            time: false,
+            price: false,
+          },
+        },
+      };
 
-      this.chart = createChart(this.sparkChart, this.options );
+      options.width = this.sparkChart.offsetWidth;
+      options.height = this.height || this.sparkChart.offsetHeight;
+      options.timeScale.barSpacing = Math.max(options.width / this.data.length, 6);
+
+      this.chart = createChart(this.sparkChart, options );
 
       const color = "#8668FC";
       const series = this.chart.addAreaSeries({
@@ -67,6 +76,7 @@ export class SparkChart {
         topColor: `${color}ff`,
         bottomColor: `${color}00`,
         priceLineVisible: false,
+        crosshairMarkerVisible: this.interactive,
         priceFormat: {
           type: "custom",
           formatter: value => `${this.numberService.toString(value, {
