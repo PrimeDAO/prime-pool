@@ -431,6 +431,17 @@ export class Pool implements IPoolConfig {
     const today = this.dateService.today; // midnight of today
     const todaySeconds = today.valueOf() / 1000;
     const query = {};
+    /**
+     * This query is from Balancer, against their subgraph.
+     * It queries for a single record on each day from the creation
+     * of the pool to present.
+     *
+     * Why only the first swap on a given day?  Maybe would be better to take the average
+     * value for poolLiquidity on days with multiple swaps?
+     *
+     * Why do a separate query for each day instead of querying for all of the swaps in
+     * a single query?  `Swap` does have a timestamp in the subgraph.
+     */
     for (let timestamp = startingSeconds; timestamp < todaySeconds; timestamp += daySeconds) {
       query[`mch_${timestamp}`] = {
         __aliasFor: "swaps",
@@ -468,6 +479,9 @@ export class Pool implements IPoolConfig {
             const timestamp = parseFloat(rowKeys[i].split("_")[1]);
             const date = new Date(timestamp * 1000);
             const values = dataObject[rowKeys[i]];
+            /**
+             * this idea here is that when we have a day with no swap then we
+             */
             if (!values?.length && (previousValue === undefined)) {
               data.push({
                 time: date.toISOString(),
