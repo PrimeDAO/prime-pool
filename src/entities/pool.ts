@@ -268,8 +268,12 @@ export class Pool implements IPoolConfig {
 
   hydrateTotalLiquidity(tokens: Array<IPoolTokenInfo>): void {
 
-    this.marketCap = tokens.reduce((accumulator, currentValue) =>
-      accumulator + this.numberService.fromString(fromWei(currentValue.balanceInPool)) * currentValue.price, 0);
+    /**
+     * take marketCap from the Balancer subgraph instead, so the number will be consistent with
+     * the sparkline graph, which comes from the subgraph
+     */
+    // this.marketCap = tokens.reduce((accumulator, currentValue) =>
+    //   accumulator + this.numberService.fromString(fromWei(currentValue.balanceInPool)) * currentValue.price, 0);
 
     this.totalMarketCapChangePercentage_24h = tokens.reduce((accumulator, currentValue) =>
       accumulator + this.numberService.fromString(fromWei(currentValue.normWeight)) * currentValue.priceChangePercentage_24h, 0);
@@ -380,6 +384,7 @@ export class Pool implements IPoolConfig {
         swapFee: true,
         totalSwapFee: true,
         totalSwapVolume: true,
+        liquidity: true,
         // holdersCount: true, // always returns 0
         __args: {
           id: this.bPool.address.toLowerCase(),
@@ -402,6 +407,7 @@ export class Pool implements IPoolConfig {
           this.accruedVolume = pool.totalSwapVolume;
           this.swapfee = this.numberService.fromString(pool.swapFee);
           this.swapfeePercentage = this.swapfee * 100;
+          this.marketCap = this.numberService.fromString(pool.liquidity);
           // this.membersCount = this.numberService.fromString(pool.holdersCount);
         }
       })
@@ -428,8 +434,8 @@ export class Pool implements IPoolConfig {
     const daySeconds = 24 * 60 * 60;
     const startingDate = this.dateService.midnightOf(this.startingDateTime);
     const startingSeconds = startingDate.valueOf() / 1000;
-    const today = this.dateService.today; // midnight of today
-    const todaySeconds = today.valueOf() / 1000;
+    const tomorrow = this.dateService.tomorrow; // midnight of today
+    const tomorrowSeconds = tomorrow.valueOf() / 1000;
     const query = {};
     /**
      * This query is from Balancer, against their subgraph.
@@ -442,7 +448,7 @@ export class Pool implements IPoolConfig {
      * Why do a separate query for each day instead of querying for all of the swaps in
      * a single query?  `Swap` does have a timestamp in the subgraph.
      */
-    for (let timestamp = startingSeconds; timestamp < todaySeconds; timestamp += daySeconds) {
+    for (let timestamp = startingSeconds; timestamp < tomorrowSeconds; timestamp += daySeconds) {
       query[`mch_${timestamp}`] = {
         __aliasFor: "swaps",
         __args: {
