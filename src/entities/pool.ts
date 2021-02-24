@@ -14,6 +14,10 @@ import { EventConfigFailure } from "services/GeneralEvents";
 import { ConsoleLogService } from "services/ConsoleLogService";
 import { DateService } from "services/DateService";
 
+interface ISwapRecord { timestamp: number, poolLiquidity: string }
+
+interface IHistoricalMarketCapRecord { time: string, value?: number }
+
 export interface IJoinEventArgs {
   caller: Address;
   tokenIn: Address;
@@ -100,6 +104,7 @@ export class Pool implements IPoolConfig {
   totalMarketCapChangePercentage_24h: number;
   totalMarketCapChangePercentage_7d: number;
   totalMarketCapChangePercentage_30d: number;
+  historicalMarketCap: Array<IHistoricalMarketCapRecord>;
   /**
    * when this contract was created
    */
@@ -224,6 +229,8 @@ export class Pool implements IPoolConfig {
 
       await this.hydrateStartingBlock();
 
+      await this.hydrateHistoricalMarketCap();
+
       // this.swapfee = await this.bPool.getSwapFee();
       // this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
 
@@ -268,8 +275,12 @@ export class Pool implements IPoolConfig {
 
   hydrateTotalLiquidity(tokens: Array<IPoolTokenInfo>): void {
 
-    this.marketCap = tokens.reduce((accumulator, currentValue) =>
-      accumulator + this.numberService.fromString(fromWei(currentValue.balanceInPool)) * currentValue.price, 0);
+    /**
+     * take marketCap from the Balancer subgraph instead, so the number will be consistent with
+     * the sparkline graph, which comes from the subgraph
+     */
+    // this.marketCap = tokens.reduce((accumulator, currentValue) =>
+    //   accumulator + this.numberService.fromString(fromWei(currentValue.balanceInPool)) * currentValue.price, 0);
 
     this.totalMarketCapChangePercentage_24h = tokens.reduce((accumulator, currentValue) =>
       accumulator + this.numberService.fromString(fromWei(currentValue.normWeight)) * currentValue.priceChangePercentage_24h, 0);
@@ -380,6 +391,7 @@ export class Pool implements IPoolConfig {
         swapFee: true,
         totalSwapFee: true,
         totalSwapVolume: true,
+        liquidity: true,
         // holdersCount: true, // always returns 0
         __args: {
           id: this.bPool.address.toLowerCase(),
@@ -402,6 +414,7 @@ export class Pool implements IPoolConfig {
           this.accruedVolume = pool.totalSwapVolume;
           this.swapfee = this.numberService.fromString(pool.swapFee);
           this.swapfeePercentage = this.swapfee * 100;
+          this.marketCap = this.numberService.fromString(pool.liquidity);
           // this.membersCount = this.numberService.fromString(pool.holdersCount);
         }
       })
@@ -422,44 +435,119 @@ export class Pool implements IPoolConfig {
     this.membersCount = members.length;
   }
 
-  public getMarketCapHistory(): Promise<Array<any>> {
-    const uri = this.getBalancerSubgraphUrl();
+  public async getMarketCapHistory(maxDays?: number): Promise<Array<IHistoricalMarketCapRecord>> {
 
-    const daySeconds = 24 * 60 * 60;
-    const startingDate = this.dateService.midnightOf(this.startingDateTime);
+    let startingDate: Date;
+
+    if (maxDays) {
+      startingDate = this.dateService.today;
+      startingDate.setDate(startingDate.getDate() - maxDays);
+    } else {
+      startingDate = this.dateService.midnightOf(this.startingDateTime);
+    }
     const startingSeconds = startingDate.valueOf() / 1000;
-    const today = this.dateService.today; // midnight of today
-    const todaySeconds = today.valueOf() / 1000;
-    const query = {};
+    const daySeconds = 24 * 60 * 60;
+    const tomorrow = this.dateService.tomorrow; // midnight of today
+    const tomorrowSeconds = tomorrow.valueOf() / 1000;
     /**
-     * This query is from Balancer, against their subgraph.
-     * It queries for a single record on each day from the creation
-     * of the pool to present.
+     * subgraph will return a maximum of 1000 records at a time.  so for a very active pool,
+     * in a single query you can potentially obtain data for only a small slice of calendar time.
      *
-     * Why only the first swap on a given day?  Maybe would be better to take the average
-     * value for poolLiquidity on days with multiple swaps?
-     *
-     * Why do a separate query for each day instead of querying for all of the swaps in
-     * a single query?  `Swap` does have a timestamp in the subgraph.
+     * So we fetch going backwards from today, 1000 at a time, until we've got all the records.
      */
-    for (let timestamp = startingSeconds; timestamp < todaySeconds; timestamp += daySeconds) {
-      query[`mch_${timestamp}`] = {
-        __aliasFor: "swaps",
+    let swaps = new Array<ISwapRecord>();
+    let fetched: Array<ISwapRecord>;
+    do {
+      /**
+       * fetchSwaps returns swaps in descending time order, so the last one will be
+       * the earliest one.
+       */
+      const endDateSeconds = swaps.length ? swaps[swaps.length-1].timestamp : tomorrowSeconds;
+      fetched = await this.fetchSwaps(endDateSeconds, startingSeconds);
+      swaps = swaps.concat(fetched);
+    } while (fetched.length === 1000);
+
+    const returnArray = new Array<IHistoricalMarketCapRecord>();
+
+    if (swaps.length) {
+      let previousDay;
+
+      swaps.reverse();
+      /**
+       * enumerate every day
+       */
+      for (let timestamp = startingSeconds; timestamp < tomorrowSeconds; timestamp += daySeconds) {
+
+        const dateString = new Date(timestamp * 1000).toISOString();
+        const todaysSwaps = new Array<ISwapRecord>();
+        const nextDay = timestamp + daySeconds;
+
+        if (swaps.length) {
+        // eslint-disable-next-line no-constant-condition
+          while (true) {
+            const swap = swaps[0];
+            if (swap.timestamp >= nextDay) {
+              break;
+            }
+            else if (swap.timestamp >= timestamp) {
+              todaysSwaps.push(swap);
+              swaps.shift();
+              if (!swaps.length) {
+                break;
+              }
+            } // else { // swap.timestamp < timestamp
+            // break;
+            // }
+          }
+        }
+
+        if (todaysSwaps?.length) {
+          const averageLiquidityThisDay = todaysSwaps.reduce((accumulator, currentValue) =>
+            accumulator + this.numberService.fromString(currentValue.poolLiquidity), 0) / todaysSwaps.length;
+
+          returnArray.push({
+            time: dateString,
+            value: averageLiquidityThisDay,
+          });
+          previousDay = averageLiquidityThisDay;
+        } else if (previousDay) {
+          /**
+           * keep the previous value
+           */
+          returnArray.push({
+            time: dateString,
+            value: previousDay,
+          });
+        } else {
+          returnArray.push({
+            time: dateString,
+          });
+        }
+      }
+    }
+    return returnArray;
+  }
+
+  private fetchSwaps(endDateSeconds: number, startDateSeconds: number): Promise<Array<ISwapRecord>> {
+    const uri = this.getBalancerSubgraphUrl();
+    const query = {
+      swaps: {
         __args: {
-          first: 1,
+          first: 1000,
           orderBy: "timestamp",
           orderDirection: "desc",
           where: {
             poolAddress: this.bPool.address.toLowerCase(),
-            timestamp_gte: timestamp,
-            timestamp_lt: timestamp + daySeconds,
+            timestamp_lt: endDateSeconds,
+            timestamp_gte: startDateSeconds,
           },
         },
         // poolTotalSwapVolume: true,
         // poolTotalSwapFee: true,
         poolLiquidity: true,
-      };
-    }
+        timestamp: true,
+      },
+    };
 
     return axios.post(uri,
       JSON.stringify({ query: jsonToGraphQLQuery({ query }) }),
@@ -470,34 +558,10 @@ export class Pool implements IPoolConfig {
         },
       })
       .then(async (response) => {
-        const dataObject = response.data?.data;
-        if (dataObject) {
-          const data = [];
-          const rowKeys = Object.keys(dataObject);
-          let previousValue;
-          for (let i = 1; i < rowKeys.length; i++) {
-            const timestamp = parseFloat(rowKeys[i].split("_")[1]);
-            const date = new Date(timestamp * 1000);
-            const values = dataObject[rowKeys[i]];
-            /**
-             * this idea here is that when we have a day with no swap then we
-             */
-            if (!values?.length && (previousValue === undefined)) {
-              data.push({
-                time: date.toISOString(),
-              });
-            }
-            else {
-              const value = values?.length ? values[0].poolLiquidity : previousValue;
-              previousValue = value;
-              data.push({
-                time: date.toISOString(),
-                value: this.numberService.fromString(value),
-              });
-            }
-          }
-          return data;
+        if (response.data.errors?.length) {
+          throw new Error(response.data.errors[0]);
         }
+        return response.data?.data.swaps;
       })
       .catch((error) => {
         this.consoleLogService.handleFailure(
@@ -506,6 +570,10 @@ export class Pool implements IPoolConfig {
         // TODO:  restore the exception?
         return [];
       });
+  }
+
+  private async hydrateHistoricalMarketCap(): Promise<void> {
+    this.historicalMarketCap = await this.getMarketCapHistory(30);
   }
 
   public ensureConnected(): boolean {

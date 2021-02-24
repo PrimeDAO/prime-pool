@@ -38,7 +38,7 @@
                 value.to-view="pool.marketCap"
                 average="false"
                 mantissa="2"
-                thousands-separated="true">
+                thousands-separated>
               </formatted-number>
             </div>
           </div>
@@ -77,39 +77,6 @@
       <div class="tabSection">
         <router-view></router-view>
       </div>
-      <!-- <div class="liquidityDashboard">
-      </div>
-      <div class="farmingDashboard">
-        <div class="currentAPY">
-          <div class="label">Current APY</div>
-          <div class="value">
-            <formatted-number value.to-view="currentAPY * 100"
-              average="false"
-              mantissa="2"
-              placement.to-view="top"></formatted-number>%
-          </div>
-        </div>
-        <div class="rewardTokenRewarded">
-          <div class="label">${pool.poolToken.name} Farmed</div>
-          <div class="value">
-            <formatted-number if.to-view="connected" value.to-view="farm.rewardTokenRewarded | ethwei"
-              placement.to-view="top"></formatted-number>
-            <span else>--</span>
-          </div>
-        </div>
-        <div class="poolTokenStaked">
-          <div class="label">${pool.poolToken.name} Staked</div>
-          <div class="value">
-            <formatted-number if.to-view="connected" value.to-view="farm.stakingTokenStaked | ethwei"
-              placement.to-view="top"></formatted-number>
-            <span else>--</span>
-          </div>
-        </div>
-        <div class="stakingButtons">
-          <div><button class="button1" click.delegate="gotoStaking()">Stake ${pool.poolToken.name} tokens</button></div>
-          <div><button class="button2" click.delegate="stakingHarvest()">Withdraw Rewards</button></div>
-          <div><button class="button3" click.delegate="stakingExit()">Withdraw Rewards and Staked ${pool.poolToken.name} Tokens</button></div>
-        </div> -->
     </div>
   </div>
   </div>

@@ -6,6 +6,7 @@ import { EventAggregator } from "aurelia-event-aggregator";
 import { EventConfigException } from "services/GeneralEvents";
 import { Utils } from "services/utils";
 import { Router } from "aurelia-router";
+import { EthereumService } from "services/EthereumService";
 
 @singleton(false)
 @autoinject
@@ -32,6 +33,7 @@ export class Pools {
 
   constructor(
     private poolService: PoolService,
+    private ethereumService: EthereumService,
     private eventAggregator: EventAggregator,
     private router: Router,
   ) {
@@ -68,5 +70,13 @@ export class Pools {
 
   gotoPool(pool: Pool): void {
     this.router.navigate(`pool/${pool.address}`);
+  }
+
+  gotoBuy(pool: Pool): void {
+    this.router.navigate(`pool/${pool.address}/overview/add`);
+  }
+
+  connect(): void {
+    this.ethereumService.ensureConnected();
   }
 }

@@ -13,32 +13,19 @@ export class LiquidityButtons {
     private ethereumService: EthereumService) {
   }
 
-  attached() {
-    // this.aureliaHelpService.createPropertyWatch(this.pool, "connected", (newValue: boolean) => {
-    //     this.tippies.map((instance: Instance) => {
-    //       if (newValue) {
-    //         instance.setProps({ trigger: "mouseenter focus" })
-    //       } else {
-    //         instance.hide();
-    //         instance.setProps({ trigger: "manual" })
-    //       }
-    //   })
-    // });
-  }
-
-  gotoAddLiquidity() {
+  gotoAddLiquidity(): void {
     if (this.pool.connected) {
       this.router.navigate(`/pool/${this.pool.address}/overview/add`);
     }
   }
 
-  gotoRemoveLiquidity() {
+  gotoRemoveLiquidity(): void {
     if (this.pool.connected) {
       this.router.navigate(`/pool/${this.pool.address}/overview/remove`);
     }
   }
 
-  connect() {
+  connect(): void {
     this.ethereumService.ensureConnected();
   }
 }
