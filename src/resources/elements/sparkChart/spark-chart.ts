@@ -23,7 +23,7 @@ export class SparkChart {
         width: 0,
         height: this.height,
         timeScale: {
-          rightBarStaysOnScroll: true,
+          // rightBarStaysOnScroll: true,
           visible: this.interactive,
         },
         crosshair: {
