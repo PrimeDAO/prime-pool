@@ -99,4 +99,8 @@ export class SparkChart {
       };
     }
   }
+
+  detached(): void {
+    window.onresize = undefined;
+  }
 }

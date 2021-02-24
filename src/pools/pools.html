@@ -69,7 +69,8 @@
           </div>
           <div class="addLiquidity">
             <div class="poolDataHeader">Stake Assets</div>
-            <button class="button1">Buy ${pool.poolToken.symbol}</button>
+            <button if.to-view="pool.connected" class="button1" click.delegate="gotoBuy(pool)">Buy ${pool.poolToken.symbol}</button>
+            <button else class="button1" click.delegate="connect()">Connect to Buy ${pool.poolToken.symbol}</button>
           </div>
           <div class="price">
             <div class="poolDataHeader">${pool.poolToken.symbol} Price</div>
