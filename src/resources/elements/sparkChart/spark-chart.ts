@@ -1,6 +1,6 @@
 import { autoinject } from "aurelia-framework";
 import "./spark-chart.scss";
-import { ChartOptions, createChart, CrosshairMode, DeepPartial, IChartApi } from "lightweight-charts";
+import { createChart, CrosshairMode, IChartApi } from "lightweight-charts";
 import { bindable } from "aurelia-typed-observable-plugin";
 import { NumberService } from "services/numberService";
 
