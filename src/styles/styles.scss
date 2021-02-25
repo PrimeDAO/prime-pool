@@ -209,6 +209,10 @@ html {
 etherscanlink {
   white-space: nowrap;
   display: inline-block;
+
+  .etherscanlink .text {
+    margin-right: 4px;
+  }
 }
 
 .smallEtherScanLink {
