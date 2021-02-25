@@ -41,7 +41,7 @@
           <formatted-number
             value.to-view="pool.userPoolTokenBalance | ethwei"
             placement.to-view="top">
-          </formatted-number> ${pool.poolToken.symbol}
+          </formatted-number> My ${pool.poolToken.symbol}
         </div>
         <div>
           <label if.to-view="pool.userPoolTokenBalance.gt(0)"><button class="button4  small" click.delegate="handleGetMaxPoolToken()">Max</button></label>
