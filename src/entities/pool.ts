@@ -472,7 +472,7 @@ export class Pool implements IPoolConfig {
     if (swaps.length) {
       let previousDay;
 
-      swaps.reverse();
+      swaps.reverse(); // to ascending
       /**
        * enumerate every day
        */
@@ -495,21 +495,27 @@ export class Pool implements IPoolConfig {
               if (!swaps.length) {
                 break;
               }
-            } // else { // swap.timestamp < timestamp
-            // break;
-            // }
+            } // swap.timestamp < timestamp
           }
         }
 
         if (todaysSwaps?.length) {
-          const averageLiquidityThisDay = todaysSwaps.reduce((accumulator, currentValue) =>
-            accumulator + this.numberService.fromString(currentValue.poolLiquidity), 0) / todaysSwaps.length;
+          // average
+          // const liquidityThisDay = todaysSwaps.reduce((accumulator, currentValue) =>
+          //   accumulator + this.numberService.fromString(currentValue.poolLiquidity), 0) / todaysSwaps.length;
+
+          // max
+          // const liquidityThisDay = todaysSwaps.reduce((accumulator, currentValue) =>
+          //   accumulator = Math.max(accumulator, this.numberService.fromString(currentValue.poolLiquidity)), 0);
+
+          // closing
+          const liquidityThisDay = this.numberService.fromString(todaysSwaps[todaysSwaps.length-1].poolLiquidity);
 
           returnArray.push({
             time: dateString,
-            value: averageLiquidityThisDay,
+            value: liquidityThisDay,
           });
-          previousDay = averageLiquidityThisDay;
+          previousDay = liquidityThisDay;
         } else if (previousDay) {
           /**
            * keep the previous value
