@@ -205,10 +205,11 @@
       align-items: center;
       height: 20px;
       margin-bottom: 20px;
+      justify-content: space-between;
 
-      .label {
-        flex-grow: 2;
-      }
+      // .label {
+      //   flex-grow: 2;
+      // }
       .amount {
         text-align: right;
         white-space: nowrap;
@@ -230,6 +231,7 @@
       padding-right: 20px;
       margin-bottom: 20px;
       color: $color-orange;
+      font-weight: bold;
 
       .liquidityMessage {
         .icon {
