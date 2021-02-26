@@ -141,7 +141,7 @@ export class DonutChart {
             var y = Math.cos(d.midAngle) * dist;
             return "translate(" + x + "," + y + ")";
           });
-        var mousePos = d3.mouse(divNode);
+        const mousePos = d3.mouse(divNode);
         d3.select(this).transition().duration(200).delay(0).attrTween("d", function(d) {
           var i = d3.interpolate(d.outerRadius, outerRadius);
           return function(t) { d.outerRadius = i(t); return arc(d); };
