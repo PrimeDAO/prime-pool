@@ -110,20 +110,21 @@ export class DonutChart {
     feMerge.append("feMergeNode")
       .attr("in", "SourceGraphic");
 
-    var pattern = defs.append("pattern")
-      .attr("id", "image")
-      .attr("width", 5)
-      .attr("height", 5);
+    // var pattern = defs.append("pattern")
+    //   .attr("id", "image")
+    //   .attr("width", 5)
+    //   .attr("height", 5);
 
-    var image = pattern.append("image").attr("x", 48).attr("y", 10).attr("width", 40).attr("height", 40);
-    var text= pattern.append("text").attr("x", 38).attr("y", 0).attr("width", 40).attr("height", 40);
+    // var image = pattern.append("image").attr("x", 48).attr("y", 10).attr("width", 40).attr("height", 40);
+    // var text= pattern.append("text").attr("x", 38).attr("y", 0).attr("width", 40).attr("height", 40);
 
     var g = g.selectAll(".arc")
       .data(pie(this.data.map((d) => d.Eth)))
       .enter().append("g")
       .attr("class", "arc")
       .each(function(d) { d.outerRadius = outerRadius - 10; });
-    g.append("path")
+    
+      g.append("path")
       .attr("d", arc)
       .style("fill", function(d) { return color(d.data.Eth);})
       .each(function(d) { d.outerRadius = outerRadius - 10; })
@@ -147,7 +148,6 @@ export class DonutChart {
           return function(t) { d.outerRadius = i(t); return arc(d); };
         });
       })
-
       .on("mouseover", function(d) {
         d3.select("pattern image")
           .attr("id", "myData")
@@ -176,9 +176,6 @@ export class DonutChart {
           .attr("text-anchor", "middle")
           .attr("dy", "3.2em");
       })
-
-
-
       .on("mouseout", function(d){
         d3.selectAll("#myData")
           .style("visibility", "hidden");
@@ -198,7 +195,6 @@ export class DonutChart {
           return function(t) { d.outerRadius = i(t); return arc(d); };
         });
       })
-
       .on("click", function() {
         d3.select(this).transition().duration(200).delay(0).attrTween("d", function(d) {
           var i = d3.interpolate(d.outerRadius, outerRadius);
@@ -213,12 +209,12 @@ export class DonutChart {
       });
 
     //Number 4
-    var centerSvg = d3.select("#mainPie svg").append("circle")
-      .attr("class", "image")
-      .attr("fill", "#42A5F5")
-      .attr("r", "68")
-      .attr("cx", 62).attr("cy", 62)
-      .attr("transform", "translate(88, 88)");
+    // var centerSvg = d3.select("#mainPie svg").append("circle")
+    //   .attr("class", "image")
+    //   .attr("fill", "#42A5F5")
+    //   .attr("r", "68")
+    //   .attr("cx", 62).attr("cy", 62)
+    //   .attr("transform", "translate(88, 88)");
 
   }
 }
