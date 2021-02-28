@@ -1,4 +1,4 @@
-@import "styles/colors.scss";
+@import 'styles/colors.scss';
 .pools {
   .subtitle {
     margin-bottom: 20px;
@@ -46,9 +46,9 @@
         column-gap: 30px;
         row-gap: 24px;
         grid-template-areas:
-          "name name name name name name name"
-          "donutchart marketCap priceDelta1 priceDelta2 priceDelta3 chart addLiquidity"
-          "donutchart price assets assets assets assets assets";
+          'name name name name name name name'
+          'donutchart marketCap priceDelta1 priceDelta2 priceDelta3 chart addLiquidity'
+          'donutchart price assets assets assets assets assets';
 
         .priceDelta1,
         .priceDelta2,
@@ -66,12 +66,12 @@
           border-bottom: 2px solid #1ee0fc;
           margin-bottom: 8px;
           font-weight: bold;
-          font-family: "Cera Pro";
+          font-family: 'Cera Pro';
         }
         > .name {
           grid-area: name;
           padding-bottom: 16px;
-          font-family: "Cera Pro";
+          font-family: 'Cera Pro';
           font-weight: bold;
         }
         .donutchart {
