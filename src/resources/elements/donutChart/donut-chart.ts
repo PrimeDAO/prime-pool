@@ -3,218 +3,325 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Pool } from "./../../../entities/pool";
 import { bindable } from "aurelia-framework";
-import * as d3 from "d3";
 import "./donut-chart.scss";
+import * as d3 from "d3";
 
 export class DonutChart {
 
-
   @bindable pool: Pool;
+  donutChart: HTMLElement;
 
   attached() {
     // this.data = this.pool.assetTokensArray;
-    this.render();
+
+    var donutData = this.genData();
+
+    var donuts = new Donuts(this.donutChart);
+    donuts.create(donutData);
   }
 
-  data = [
-    {
-      "coin": "Ada",
-      "Eth": 100,
-      "Price": "$12.2",
-      "Change": " 14%",
-      "image": "images/ada.png",
-    },
-    {
-      "coin": "Block",
-      "Eth": 44,
-      "Price": "$10.1",
-      "Change": "21%",
-      "image": "images/block.png",
-    },
-    {
-      "coin": "Cc",
-      "Eth": 215,
-      "Price": "$2.2",
-      "Change": "16%",
-      "image": "images/cc.png",
-    },
-    {
-      "coin": "Cny",
-      "Eth": 285,
-      "Price": "$31.5",
-      "Change": "32%",
-      "image": "images/cny.png",
-    },
-    {
-      "coin": "Elix",
-      "Eth": 164,
-      "Price": "$22.4",
-      "Change": "5%",
-      "image": "images/elix.png",
-    },
-  ];
-  render () {
+  /*
+     * Returns a json-like object.
+     */
+  genData() {
+    var type = ["Users", "Avg Upload", "Avg Files Shared"];
+    var unit = ["M", "GB", ""];
+    var cat = ["Google Drive", "Dropbox", "iCloud", "OneDrive", "Box"];
+
+    var dataset = [];
+
+    for (var i = 0; i < type.length; i++) {
+      var data = [];
+      var total = 0;
+
+      for (const category of cat) {
+        var value = Math.random() * 10 * (3 - i);
+        total += value;
+        data.push({
+          "cat": category,
+          "val": value,
+        });
+      }
+
+      dataset.push({
+        "type": type[i],
+        "unit": unit[i],
+        "data": data,
+        "total": total,
+      });
+    }
+    return dataset;
+  }
+}
+
+class Donuts {
+
+  charts;
+  chart_m;
+  chart_r;
+  color;
+
+  constructor(private donutChart: HTMLElement) {
+    this.charts = d3.select(donutChart);
+    this.color = d3.scale.category20();
+  }
 
 
+  getCatNames(dataset) {
+    var catNames = [];
 
-    var width = 300;
-    var height = 300;
-    var radius = Math.min(width, height) / 2;
+    for (const category of dataset[0].data) {
+      catNames.push(category.cat);
+    }
 
-    const divNode = d3.select(".chartContainer").node();
+    return catNames;
+  }
 
-    var outerRadius = height / 2 - 5;
+  createLegend(catNames) {
+    var legends = this.charts.select(".legend")
+      .selectAll("g")
+      .data(catNames)
+      .enter().append("g")
+      .attr("transform", (d, i) => {
+        return "translate(" + (i * 150 + 50) + ", 10)";
+      });
 
-    var color = d3.scale.ordinal()
-      .range(["FF495B", "#8668FC", "#1EE0FC", "#95D86E", "#FAA04A"]);
+    legends.append("circle")
+      .attr("class", "legend-icon")
+      .attr("r", 6)
+      .style("fill", (d, i) => {
+        return this.color(i);
+      });
 
-    var arc = d3.svg.arc()
-      .padRadius(outerRadius.toString())
-      .innerRadius(radius * 0.55);
+    legends.append("text")
+      .attr("dx", "1em")
+      .attr("dy", ".3em")
+      .text((d) => {
+        return d;
+      });
+  }
+
+  createCenter() {
+
+    const thisChart_r = this.chart_r;
+    const thisCharts = this.charts;
+    const thisPathAnim = this.pathAnim.bind(this);
+
+    var eventObj = {
+      "mouseover": function (d, i) {
+        d3.select(this)
+          .transition()
+          .attr("r", thisChart_r * 0.65);
+      },
+
+      "mouseout": function (d, i) {
+        d3.select(this)
+          .transition()
+          .duration(500)
+          .ease("bounce")
+          .attr("r", thisChart_r * 0.6);
+      },
+
+      "click": function (d, i) {
+        var paths = thisCharts.selectAll(".clicked");
+        thisPathAnim(paths, 0);
+        paths.classed("clicked", false);
+        this.resetAllCenterText();
+      },
+    };
+
+    var donuts = d3.selectAll(".donut");
+
+    // The circle displaying total data.
+    donuts.append("svg:circle")
+      .attr("r", thisChart_r * 0.6)
+      .style("fill", "#E7E7E7")
+      .on(eventObj);
+
+    donuts.append("text")
+      .attr("class", "center-txt type")
+      .attr("y", thisChart_r * -0.16)
+      .attr("text-anchor", "middle")
+      .style("font-weight", "bold")
+      .text((d, i) => {
+        return d.type;
+      });
+    donuts.append("text")
+      .attr("class", "center-txt value")
+      .attr("text-anchor", "middle");
+    donuts.append("text")
+      .attr("class", "center-txt percentage")
+      .attr("y", thisChart_r * 0.16)
+      .attr("text-anchor", "middle")
+      .style("fill", "#A2A2A2");
+  }
+
+  setCenterText(thisDonut) {
+    var sum = d3.sum(thisDonut.selectAll(".clicked").data(), (d) => {
+      return d.data.val;
+    });
+
+    thisDonut.select(".value")
+      .text((d) => {
+        return (sum) ? sum.toFixed(1) + d.unit
+          : d.total.toFixed(1) + d.unit;
+      });
+    thisDonut.select(".percentage")
+      .text((d) => {
+        return (sum) ? (sum / d.total * 100).toFixed(2) + "%"
+          : "";
+      });
+  }
+
+  resetAllCenterText() {
+    this.charts.selectAll(".value")
+      .text((d) => {
+        return d.total.toFixed(1) + d.unit;
+      });
+    this.charts.selectAll(".percentage")
+      .text("");
+  }
+
+  pathAnim(path, dir) {
+    switch (dir) {
+      case 0:
+        path.transition()
+          .duration(500)
+          .ease("bounce")
+          .attr("d", d3.svg.arc()
+            .innerRadius(this.chart_r * 0.7)
+            .outerRadius(this.chart_r),
+          );
+        break;
+
+      case 1:
+        path.transition()
+          .attr("d", d3.svg.arc()
+            .innerRadius(this.chart_r * 0.7)
+            .outerRadius(this.chart_r * 1.08),
+          );
+        break;
+    }
+  }
+
+  updateDonut() {
+
+    const thisCharts = this.charts;
+    const thisChart_r = this.chart_r;
+    const thisPathAnim = this.pathAnim.bind(this);
+    const thisSetCenterText = this.setCenterText.bind(this);
+
+    var eventObj = {
+
+      "mouseover": function (d, i, j) {
+        thisPathAnim(d3.select(this), 1);
+
+        var thisDonut = thisCharts.select(".type" + j);
+        thisDonut.select(".value").text((donut_d) => {
+          return d.data.val.toFixed(1) + donut_d.unit;
+        });
+        thisDonut.select(".percentage").text((donut_d) => {
+          return (d.data.val / donut_d.total * 100).toFixed(2) + "%";
+        });
+      },
+
+      "mouseout": function (d, i, j) {
+        var thisPath = d3.select(this);
+        if (!thisPath.classed("clicked")) {
+          thisPathAnim(thisPath, 0);
+        }
+        var thisDonut = thisCharts.select(".type" + j);
+        thisSetCenterText(thisDonut);
+      },
+
+      "click": function (d, i, j) {
+        var thisDonut = thisCharts.select(".type" + j);
+
+        if (0 === thisDonut.selectAll(".clicked")[0].length) {
+          thisDonut.select("circle").on("click")();
+        }
+
+        var thisPath = d3.select(this);
+        var clicked = thisPath.classed("clicked");
+        // eslint-disable-next-line no-bitwise
+        thisPathAnim(thisPath, ~~(!clicked));
+        thisPath.classed("clicked", !clicked);
+
+        thisSetCenterText(thisDonut);
+      },
+    };
 
     var pie = d3.layout.pie()
       .sort(null)
-      .padAngle(0.03);
-      // .value(function(d) { return this.data[d].Eth; });
-
-    d3.select("#chart").append("div")
-      .attr("id", "mainPie")
-      .attr("class", "pieBox");
-
-    var svg = d3.select("#mainPie").append("svg")
-      .attr("width", width)
-      .attr("height", height);
-
-    var g:any = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-    var defs = svg.append("defs");
-    var filter = defs.append("filter")
-      .attr("id", "drop-shadow")
-      .attr("height", "130%");
-
-    filter.append("feGaussianBlur")
-      .attr("in", "SourceAlpha")
-      .attr("stdDeviation", 0.1)
-      .attr("result", "blur");
-
-    filter.append("feOffset")
-      .attr("in", "blur")
-      .attr("dx", 0)
-      .attr("dy", 0)
-      .attr("result", "offsetBlur");
-
-    var feMerge = filter.append("feMerge");
-
-    feMerge.append("feMergeNode")
-      .attr("in", "offsetBlur");
-    feMerge.append("feMergeNode")
-      .attr("in", "SourceGraphic");
-
-    // var pattern = defs.append("pattern")
-    //   .attr("id", "image")
-    //   .attr("width", 5)
-    //   .attr("height", 5);
-
-    // var image = pattern.append("image").attr("x", 48).attr("y", 10).attr("width", 40).attr("height", 40);
-    // var text= pattern.append("text").attr("x", 38).attr("y", 0).attr("width", 40).attr("height", 40);
-
-    var g = g.selectAll(".arc")
-      .data(pie(this.data.map((d) => d.Eth)))
-      .enter().append("g")
-      .attr("class", "arc")
-      .each(function(d) { d.outerRadius = outerRadius - 10; });
-    
-      g.append("path")
-      .attr("d", arc)
-      .style("fill", function(d) { return color(d.data.Eth);})
-      .each(function(d) { d.outerRadius = outerRadius - 10; })
-      .on("mousemove", function(d) {
-        d3.select(this)
-          .style("filter", "url(#drop-shadow)");
-        d3.select(this)
-          .transition()
-          .duration(500)
-          .ease("bounce")
-          .attr("transform", function(d){
-            var dist = 1;
-            d.midAngle = ((d.endAngle - d.startAngle)/2) + d.startAngle;
-            var x = Math.sin(d.midAngle) * dist;
-            var y = Math.cos(d.midAngle) * dist;
-            return "translate(" + x + "," + y + ")";
-          });
-        const mousePos = d3.mouse(divNode);
-        d3.select(this).transition().duration(200).delay(0).attrTween("d", function(d) {
-          var i = d3.interpolate(d.outerRadius, outerRadius);
-          return function(t) { d.outerRadius = i(t); return arc(d); };
-        });
-      })
-      .on("mouseover", function(d) {
-        d3.select("pattern image")
-          .attr("id", "myData")
-          .style("visibility", "visible");
-        // .attr("href", d.data.image);
-        svg.select("circle.image")
-          .attr("fill", "url(#image)")
-          .style("stroke", "#975EEE")
-          .style("stroke-width", "3px");
-        g.append("text")
-          .attr("class", "name-text")
-          .attr("id", "myData")
-          .text(`${d.data.Price}`)
-          .attr("text-anchor", "middle")
-          .attr("dy", "2em");
-        g.append("text")
-          .attr("class", "value-text")
-          .attr("id", "myData")
-          .text(`${d.data.coin}`)
-          .attr("text-anchor", "middle")
-          .attr("dy", ".6em");
-        g.append("text")
-          .attr("class", "price-text")
-          .attr("id", "myData")
-          .text(`${d.data.Change}`)
-          .attr("text-anchor", "middle")
-          .attr("dy", "3.2em");
-      })
-      .on("mouseout", function(d){
-        d3.selectAll("#myData")
-          .style("visibility", "hidden");
-        g.selectAll("#myData").remove();
-
-        d3.select(this)
-          .attr("stroke", "none")
-          .style("filter", "none");
-        d3.select(this)
-          .transition()
-          .duration(500)
-          .ease("bounce")
-          .attr("transform", "translate(0,0)");
-
-        d3.select(this).transition().duration(200).delay(0).attrTween("d", function(d) {
-          var i = d3.interpolate(d.outerRadius, outerRadius - 10);
-          return function(t) { d.outerRadius = i(t); return arc(d); };
-        });
-      })
-      .on("click", function() {
-        d3.select(this).transition().duration(200).delay(0).attrTween("d", function(d) {
-          var i = d3.interpolate(d.outerRadius, outerRadius);
-          return function(t) { d.outerRadius = i(t); return arc(d); };
-        });
-      })
-      .on("dblclick", function() {
-        d3.select(this).transition().duration(200).delay(0).attrTween("d", function(d) {
-          var i = d3.interpolate(d.outerRadius, outerRadius - 10);
-          return function(t) { d.outerRadius = i(t); return arc(d); };
-        });
+      .value((d) => {
+        return d.val;
       });
 
-    //Number 4
-    // var centerSvg = d3.select("#mainPie svg").append("circle")
-    //   .attr("class", "image")
-    //   .attr("fill", "#42A5F5")
-    //   .attr("r", "68")
-    //   .attr("cx", 62).attr("cy", 62)
-    //   .attr("transform", "translate(88, 88)");
+    var arc = d3.svg.arc()
+      .innerRadius(thisChart_r * 0.7)
+      .outerRadius(function () {
+        return (d3.select(this).classed("clicked")) ? thisChart_r * 1.08 : thisChart_r;
+      });
 
+    // Start joining data with paths
+    var paths = this.charts.selectAll(".donut")
+      .selectAll("path")
+      .data((d, i) => {
+        return pie(d.data);
+      });
+
+    paths
+      .transition()
+      .duration(1000)
+      .attr("d", arc);
+
+    paths.enter()
+      .append("svg:path")
+      .attr("d", arc)
+      .style("fill", (d, i) => {
+        return this.color(i);
+      })
+      .style("stroke", "#FFFFFF")
+      .on(eventObj);
+
+    paths.exit().remove();
+
+    this.resetAllCenterText();
+  }
+
+  public create(dataset) {
+    const width = parseInt(window.getComputedStyle(this.donutChart).width);
+    this.chart_m = width / dataset.length / 2 * 0.14;
+    this.chart_r = width / dataset.length / 2 * 0.85;
+
+    this.charts.append("svg")
+      .attr("class", "legend")
+      .attr("width", "100%")
+      .attr("height", 50)
+      .attr("transform", "translate(0, -100)");
+
+    var donut = this.charts.selectAll(".donut")
+      .data(dataset)
+      .enter().append("svg:svg")
+      .attr("width", (this.chart_r + this.chart_m) * 2)
+      .attr("height", (this.chart_r + this.chart_m) * 2)
+      .append("svg:g")
+      .attr("class", (d, i) => {
+        return "donut type" + i;
+      })
+      .attr("transform", "translate(" + (this.chart_r + this.chart_m) + "," + (this.chart_r + this.chart_m) + ")");
+
+    this.createLegend(this.getCatNames(dataset));
+    this.createCenter();
+
+    this.updateDonut();
+  }
+
+  public update(dataset) {
+    // Assume no new categ of data enter
+    var donut = this.charts.selectAll(".donut")
+      .data(dataset);
+
+    this.updateDonut();
   }
 }
