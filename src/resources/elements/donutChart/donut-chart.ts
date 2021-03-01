@@ -24,32 +24,29 @@ export class DonutChart {
      * Returns a json-like object.
      */
   genData() {
-    var type = ["Users", "Avg Upload", "Avg Files Shared"];
     var unit = ["M", "GB", ""];
     var cat = ["Google Drive", "Dropbox", "iCloud", "OneDrive", "Box"];
 
     var dataset = [];
 
-    for (var i = 0; i < type.length; i++) {
-      var data = [];
-      var total = 0;
+    var data = [];
+    var total = 0;
 
-      for (const category of cat) {
-        var value = Math.random() * 10 * (3 - i);
-        total += value;
-        data.push({
-          "cat": category,
-          "val": value,
-        });
-      }
-
-      dataset.push({
-        "type": type[i],
-        "unit": unit[i],
-        "data": data,
-        "total": total,
+    for (const category of cat) {
+      var value = Math.random() * 10 * 3;
+      total += value;
+      data.push({
+        "cat": category,
+        "val": value,
       });
     }
+
+    dataset.push({
+      "type": "A Pool", // this.pool.name,
+      "unit": unit[0],
+      "data": data,
+      "total": total,
+    });
     return dataset;
   }
 }
@@ -77,29 +74,29 @@ class Donuts {
     return catNames;
   }
 
-  createLegend(catNames) {
-    var legends = this.charts.select(".legend")
-      .selectAll("g")
-      .data(catNames)
-      .enter().append("g")
-      .attr("transform", (d, i) => {
-        return "translate(" + (i * 150 + 50) + ", 10)";
-      });
+  // createLegend(catNames) {
+  //   var legends = this.charts.select(".legend")
+  //     .selectAll("g")
+  //     .data(catNames)
+  //     .enter().append("g")
+  //     .attr("transform", (d, i) => {
+  //       return "translate(" + (i * 150 + 50) + ", 10)";
+  //     });
 
-    legends.append("circle")
-      .attr("class", "legend-icon")
-      .attr("r", 6)
-      .style("fill", (d, i) => {
-        return this.color(i);
-      });
+  //   legends.append("circle")
+  //     .attr("class", "legend-icon")
+  //     .attr("r", 6)
+  //     .style("fill", (d, i) => {
+  //       return this.color(i);
+  //     });
 
-    legends.append("text")
-      .attr("dx", "1em")
-      .attr("dy", ".3em")
-      .text((d) => {
-        return d;
-      });
-  }
+  //   legends.append("text")
+  //     .attr("dx", "1em")
+  //     .attr("dy", ".3em")
+  //     .text((d) => {
+  //       return d;
+  //     });
+  // }
 
   createCenter() {
 
@@ -295,10 +292,11 @@ class Donuts {
     this.chart_r = width / dataset.length / 2 * 0.85;
 
     this.charts.append("svg")
-      .attr("class", "legend")
-      .attr("width", "100%")
-      .attr("height", 50)
-      .attr("transform", "translate(0, -100)");
+    // .attr("class", "legend")
+    // .attr("width", "100%")
+    // .attr("height", 50)
+    // .attr("transform", "translate(0, -100)")
+    ;
 
     var donut = this.charts.selectAll(".donut")
       .data(dataset)
@@ -309,9 +307,10 @@ class Donuts {
       .attr("class", (d, i) => {
         return "donut type" + i;
       })
-      .attr("transform", "translate(" + (this.chart_r + this.chart_m) + "," + (this.chart_r + this.chart_m) + ")");
+      .attr("transform", "translate(" + (this.chart_r + this.chart_m) + "," + (this.chart_r + this.chart_m) + ")")
+      ;
 
-    this.createLegend(this.getCatNames(dataset));
+    // this.createLegend(this.getCatNames(dataset));
     this.createCenter();
 
     this.updateDonut();

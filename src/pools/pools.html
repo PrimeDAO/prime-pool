@@ -1,6 +1,5 @@
 <template>
   <div class="page animated-page au-animate pools">
-    <donut-chart pool.to-view="pool"></donut-chart>
     <div class="title">Explore All Pools</div>
     <div class="subtitle heading1">Pool assets are selected and weighed with varying methodologies. Click on a given pool for detailed information.</div>
     <div class="body">
@@ -19,7 +18,8 @@
         <div class="poolRow" repeat.for="pool of pools">
           <div class="name">${pool.name}</div>
           <div class="donutchart" click.delegate="gotoPool(pool)">
-            <!-- <inline-svg svg.to-view="pool.icon"></inline-svg> -->
+            <inline-svg svg.to-view="pool.icon"></inline-svg>
+            <!-- <donut-chart pool.to-view="pool"></donut-chart> -->
           </div>
           <div class="marketCap">
             <div class="poolDataHeader">Market Cap</div>
