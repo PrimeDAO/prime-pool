@@ -41,7 +41,7 @@
         padding: 30px 20px;
         border-top: 1px solid #eeeeee;
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: 130px repeat(6, 1fr);
         grid-template-rows: auto;
         column-gap: 30px;
         row-gap: 24px;
@@ -70,15 +70,11 @@
         }
         > .name {
           grid-area: name;
-          padding-bottom: 16px;
           font-family: "Cera Pro";
           font-weight: bold;
         }
         .donutchart {
           grid-area: donutchart;
-          width: 130px;
-          position: relative;
-          top: 1px;
           cursor: pointer;
         }
         .marketCap {
