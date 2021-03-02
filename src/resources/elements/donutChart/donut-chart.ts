@@ -1,80 +1,82 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable no-var */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Pool } from "./../../../entities/pool";
+import { autoinject } from "aurelia-framework";
+import { IPoolTokenInfo, Pool } from "./../../../entities/pool";
 import { bindable } from "aurelia-typed-observable-plugin";
 import "./donut-chart.scss";
 import * as d3 from "d3";
+import { PoolService } from "services/PoolService";
 
+@autoinject
 export class DonutChart {
 
   @bindable pool: Pool;
   @bindable.booleanAttr interactive;
   donutChart: HTMLElement;
 
-  attached() {
-    // this.data = this.pool.assetTokensArray;
+  constructor(private poolService: PoolService) {
 
-    var donutData = this.genData();
-
-    var donuts = new Donuts(this.donutChart, this.pool, this.interactive);
-    donuts.create(donutData);
   }
 
-  /*
-     * Returns a json-like object.
-     */
-  genData() {
-    var unit = ["M", "GB", ""];
-    var cat = ["Google Drive", "Dropbox", "iCloud", "OneDrive", "Box"];
-
-    var dataset = [];
-
-    var data = [];
-    var total = 0;
-
-    for (const category of cat) {
-      var value = Math.random() * 10 * 3;
-      total += value;
-      data.push({
-        "cat": category,
-        "val": value,
-      });
-    }
-
-    dataset.push({
-      // "type": "A Pool", this.pool.name,
-      "unit": unit[0],
-      "data": data,
-      "total": total,
-    });
-    return dataset;
+  async attached(): Promise<void> {
+    await this.poolService.ensureInitialized();
+    const donuts = new Donut(this.donutChart, this.interactive);
+    donuts.create(this.pool);
   }
 }
 
-class Donuts {
+/*
+     * Returns a json-like object.
+     */
+// genData() {
+//   var unit = ["M", "GB", ""];
+//   var cat = ["Google Drive", "Dropbox", "iCloud", "OneDrive", "Box"];
+
+//   var dataset = [];
+
+//   var data = [];
+//   var total = 0;
+
+//   for (const category of cat) {
+//     var value = Math.random() * 10 * 3;
+//     total += value;
+//     data.push({
+//       "cat": category,
+//       "val": value,
+//     });
+//   }
+
+//   dataset.push({
+//     // "type": "A Pool", this.pool.name,
+//     "unit": unit[0],
+//     "data": data,
+//     "total": total,
+//   });
+//   return dataset;
+// }
+
+class Donut {
   colors = ["#ff495b", "#8668fc", "#1ee0fc", "#95d86e", "#faa04a", "#39a1d8", "#57dea6", "#c08eff"];
-  charts;
+  chartContainer;
   chart_m;
   chart_r;
   donutRingWidthFactor = 0.45;
   donutSliceExpandFactor = 1.08;
 
-  constructor(private donutChart: HTMLElement,
-    private pool: Pool,
+  constructor(private containerElement: HTMLElement,
     private interactive: boolean) {
-    this.charts = d3.select(donutChart);
+
+    this.chartContainer = d3.select(containerElement);
+
   }
 
-  getCatNames(dataset) {
-    var catNames = [];
+  // getCatNames(dataset) {
+  //   var catNames = [];
 
-    for (const category of dataset[0].data) {
-      catNames.push(category.cat);
-    }
+  //   for (const category of dataset[0].data) {
+  //     catNames.push(category.cat);
+  //   }
 
-    return catNames;
-  }
+  //   return catNames;
+  // }
 
   // createLegend(catNames) {
   //   var legends = this.charts.select(".legend")
@@ -103,12 +105,12 @@ class Donuts {
   createCenter() {
 
     const thisChart_r = this.chart_r;
-    const thisCharts = this.charts;
-    var donuts = d3.selectAll(".donut");
+    const thisChart = this.chartContainer;
+    const donut = d3.selectAll(".donut");
     const centerCircleTransitionRadiusFactor = 0.6;
 
     // center white circle
-    const centerCircle = donuts.append("svg:circle")
+    const centerCircle = donut.append("svg:circle")
       .attr("r", thisChart_r * centerCircleTransitionRadiusFactor)
       .style("fill", "#ffffff");
 
@@ -116,14 +118,14 @@ class Donuts {
       const thisPathAnim = this.pathAnim.bind(this);
       const centerCircleBulgeTransitionRadiusFactor = 0.65;
 
-      var eventObj = {
-        "mouseover": function (d, i) {
+      const eventObj = {
+        "mouseover": function (_d, _i) {
           d3.select(this)
             .transition()
             .attr("r", thisChart_r * centerCircleBulgeTransitionRadiusFactor);
         },
 
-        "mouseout": function (d, i) {
+        "mouseout": function (_d, _i) {
           d3.select(this)
             .transition()
             .duration(500)
@@ -131,8 +133,8 @@ class Donuts {
             .attr("r", thisChart_r * centerCircleTransitionRadiusFactor);
         },
 
-        "click": function (d, i) {
-          var paths = thisCharts.selectAll(".clicked");
+        "click": function (_d, _i) {
+          const paths = thisChart.selectAll(".clicked");
           thisPathAnim(paths, 0);
           paths.classed("clicked", false);
           this.resetAllCenterText();
@@ -149,14 +151,39 @@ class Donuts {
       //   .text((d, i) => {
       //     return d.type;
       //   });
-      donuts.append("text")
-        .attr("class", "center-txt value")
+      donut.append("text")
+        .attr("class", "center-txt icon")
+        .attr("text-anchor", "middle")
+        .text((_d: Pool) => "T" );
+      donut.append("text")
+        .attr("class", "center-txt perc label")
         .attr("text-anchor", "middle");
-      donuts.append("text")
-        .attr("class", "center-txt percentage")
+      donut.append("text")
+        .attr("class", "center-txt perc value")
+        .attr("text-anchor", "middle");
+      donut.append("text")
+        .attr("class", "center-txt price label")
         .attr("y", thisChart_r * 0.16)
         .attr("text-anchor", "middle")
-        .style("fill", "#A2A2A2");
+        .text((_d: Pool) => "Price:");
+      donut.append("text")
+        .attr("class", "center-txt price value")
+        .attr("y", thisChart_r * 0.16)
+        .attr("text-anchor", "middle");
+      donut.append("text")
+        .attr("class", "center-txt daychange label")
+        .attr("y", thisChart_r * 0.32)
+        .attr("text-anchor", "middle")
+        .text((_d: Pool) => "24H:");
+      donut.append("text")
+        .attr("class", "center-txt daychange icon")
+        .attr("y", thisChart_r * 0.32)
+        .attr("text-anchor", "middle")
+        .text((_d: Pool) => "A");
+      donut.append("text")
+        .attr("class", "center-txt daychange value")
+        .attr("y", thisChart_r * 0.32)
+        .attr("text-anchor", "middle");
     } else { // not interactive
       // centerCircle.append("g")
       //   .attr("width", thisChart_r * .5)
@@ -167,30 +194,17 @@ class Donuts {
     }
   }
 
-  setCenterText(thisDonut) {
-    var sum = d3.sum(thisDonut.selectAll(".clicked").data(), (d) => {
-      return d.data.val;
-    });
-
-    thisDonut.select(".value")
-      .text((d) => {
-        return (sum) ? sum.toFixed(1) + d.unit
-          : d.total.toFixed(1) + d.unit;
-      });
-    thisDonut.select(".percentage")
-      .text((d) => {
-        return (sum) ? (sum / d.total * 100).toFixed(2) + "%"
-          : "";
-      });
+  setCenterLogo(_thisDonut): void {
+    return;
   }
 
-  resetAllCenterText() {
-    this.charts.selectAll(".value")
-      .text((d) => {
-        return d.total.toFixed(1) + d.unit;
-      });
-    this.charts.selectAll(".percentage")
-      .text("");
+  clearAllCenterText() {
+    this.chartContainer.select(".perc .value")
+      .text(() => "");
+    this.chartContainer.select(".price .value")
+      .text(() => "");
+    this.chartContainer.select(".price .daychange")
+      .text(() => "");
   }
 
   pathAnim(path, dir) {
@@ -217,28 +231,30 @@ class Donuts {
 
   updateDonut() {
 
-    const thisCharts = this.charts;
+    const thisChartContainer = this.chartContainer;
     const thisChart_r = this.chart_r;
     const thisPathAnim = this.pathAnim.bind(this);
-    const thisSetCenterText = this.setCenterText.bind(this);
+    // const thisSetCenterText = this.setCenterText.bind(this);
+    const thisSetCenterLogo = this.setCenterLogo.bind(this);
+    const thisClearAllCenterText = this.clearAllCenterText.bind(this);
 
-    var pie = d3.layout.pie()
+    const pie = d3.layout.pie()
       .sort(null)
-      .value((d) => {
-        return d.val;
+      .value((d: IPoolTokenInfo) => {
+        return d.normWeightPercentage;
       });
 
-    var arc = d3.svg.arc()
+    const arc = d3.svg.arc()
       .innerRadius(thisChart_r * this.donutRingWidthFactor)
       .outerRadius(function () {
         return (d3.select(this).classed("clicked")) ? thisChart_r * this.donutSliceExpandFactor : thisChart_r;
       });
 
     // Start joining data with paths
-    var paths = this.charts.selectAll(".donut")
+    const paths = this.chartContainer.selectAll(".donut")
       .selectAll("path")
-      .data((d, i) => {
-        return pie(d.data);
+      .data((d: Pool, _i) => {
+        return pie(d.assetTokensArray);
       });
 
     paths
@@ -249,61 +265,80 @@ class Donuts {
     const enter = paths.enter()
       .append("svg:path")
       .attr("d", arc)
-      .style("fill", (d, i) => {
+      .style("fill", (_d, i) => {
         return this.colors[i];
       })
       .style("stroke", "#FFFFFF");
 
     if (this.interactive) {
 
-      var eventObj = {
+      const eventObj = {
 
-        "mouseover": function (d, i, j) {
-          thisPathAnim(d3.select(this), 1);
-
-          var thisDonut = thisCharts.select(".donut");
-          thisDonut.select(".value").text((donut_d) => {
-            return d.data.val.toFixed(1) + donut_d.unit;
-          });
-          thisDonut.select(".percentage").text((donut_d) => {
-            return (d.data.val / donut_d.total * 100).toFixed(2) + "%";
-          });
+        "mouseover": function (_d: Pool, _i, _j) {
+          const pieSlice = d3.select(this);
+          const tokenInfo = pieSlice.data();
+          thisPathAnim(pieSlice, 1);
+          const thisDonut = thisChartContainer.selectAll(".donut");
+          thisDonut.select(".perc .label")
+            .text(() => {
+              return `${tokenInfo.name}`;
+            });
+          thisDonut.select(".perc .value")
+            .text(() => {
+              return `${tokenInfo.normWeightPercentage}%`;
+            });
+          thisDonut.select(".price .value")
+            .text(() => {
+              return `$${tokenInfo.price}`;
+            });
+          thisDonut.select(".price .daychange")
+            .text(() => {
+              return `${tokenInfo.priceChangePercentage_24h}%`;
+            });
+          // var thisDonut = thisCharts.selectAll(".donut");
+          // thisDonut.select(".value").text((donut_d) => {
+          //   return;
+          //   d.normWeightPercentage.toFixed(1) + donut_d.unit;
+          // });
+          // thisDonut.select(".percentage").text((donut_d) => {
+          //   return (d.data.val / donut_d.total * 100).toFixed(2) + "%";
+          // });
         },
 
-        "mouseout": function (d, i, j) {
-          var thisPath = d3.select(this);
+        "mouseout": function (_d, _i, _j) {
+          const thisPath = d3.select(this);
           if (!thisPath.classed("clicked")) {
             thisPathAnim(thisPath, 0);
           }
-          var thisDonut = thisCharts.select(".donut");
-          thisSetCenterText(thisDonut);
+          const thisDonut = thisChartContainer.selectAll(".donut");
+          thisClearAllCenterText();
+          thisSetCenterLogo(thisDonut);
         },
+        // ,"click": function (_d, _i, _j) {
+        //   const thisDonut = thisChartContainer.selectAll(".donut");
 
-        "click": function (d, i, j) {
-          var thisDonut = thisCharts.select(".donut");
+        //   if (0 === thisDonut.selectAll(".clicked")[0].length) {
+        //     thisDonut.select("circle").on("click")();
+        //   }
 
-          if (0 === thisDonut.selectAll(".clicked")[0].length) {
-            thisDonut.select("circle").on("click")();
-          }
+        //   const thisPath = d3.select(this);
+        //   const clicked = thisPath.classed("clicked");
+        //   // eslint-disable-next-line no-bitwise
+        //   thisPathAnim(thisPath, ~~(!clicked));
+        //   thisPath.classed("clicked", !clicked);
 
-          var thisPath = d3.select(this);
-          var clicked = thisPath.classed("clicked");
-          // eslint-disable-next-line no-bitwise
-          thisPathAnim(thisPath, ~~(!clicked));
-          thisPath.classed("clicked", !clicked);
-
-          thisSetCenterText(thisDonut);
-        },
+        //   thisSetCenterLogo(thisDonut);
+        // },
       };
       enter.on(eventObj);
-      this.resetAllCenterText();
+      this.clearAllCenterText();
     }
 
     paths.exit().remove();
   }
 
-  public create(dataset) {
-    const width = parseInt(window.getComputedStyle(this.donutChart).width);
+  public create(pool: Pool) {
+    const width = parseInt(window.getComputedStyle(this.containerElement).width);
     this.chart_m = width / 2 * 0.14;
     this.chart_r = width / 2 * 0.85;
 
@@ -314,17 +349,15 @@ class Donuts {
     // .attr("transform", "translate(0, -100)")
     // ;
 
-    var donut = this.charts.selectAll(".donut")
-      .data(dataset)
+    this.chartContainer.selectAll(".donut")
+      .data([pool])
       .enter().append("svg:svg")
       .attr("width", (this.chart_r + this.chart_m) * 2)
       .attr("height", (this.chart_r + this.chart_m) * 2)
       .append("svg:g")
-      .attr("class", () => {
-        return "donut";
-      })
+      .attr("class", "donut")
       .attr("transform", "translate(" + (this.chart_r + this.chart_m) + "," + (this.chart_r + this.chart_m) + ")")
-      ;
+    ;
 
     // this.createLegend(this.getCatNames(dataset));
     this.createCenter();
@@ -332,10 +365,11 @@ class Donuts {
     this.updateDonut();
   }
 
-  public update(dataset) {
+  public update(pool: Pool) {
     // Assume no new categ of data enter
-    var donut = this.charts.selectAll(".donut")
-      .data(dataset);
+    this.chartContainer.selectAll(".donut")
+      .data([pool])
+    ;
 
     this.updateDonut();
   }
