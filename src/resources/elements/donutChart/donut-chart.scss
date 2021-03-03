@@ -1,3 +1,4 @@
+@import "styles/colors.scss";
 .donutChart {
   .centerTextContainer {
     display: none;
@@ -22,8 +23,16 @@
           display: inline-block;
         }
 
+        .label {
+          margin-right: 4px;
+
+          &::after {
+            content: ":";
+          }
+        }
+
         &.icon {
-          height: 30px;
+          height: 32px;
           img {
             width: 26px;
             border-radius: 13px;
@@ -37,6 +46,16 @@
 
           .label {
             font-weight: bold;
+          }
+        }
+
+        &.daychange {
+          .signedValue {
+            color: #5aae2a;
+            display: inline-block;
+            &.negative {
+              color: $color-red;
+            }
           }
         }
       }

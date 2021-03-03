@@ -272,9 +272,15 @@ class Donut {
             return `
               <div class="lines">
               <div class="line icon"><img src="${tokenInfo.icon}"/></div>
-              <div class="line perc"><div class="label">${tokenInfo.symbol}</div>: <div class="value">${toString(tokenInfo.normWeightPercentage)}</div>%</div>
-              <div class="line price"><div class="label">Price</div>: $<div class="value">${toString(tokenInfo.price)}</div></div>
-              <div class="line daychange"><div class="label">24h</div>: <div class="direction">I</div> <div class="value">${toString(tokenInfo.priceChangePercentage_24h)}</div></div>
+              <div class="line perc"><div class="label">${tokenInfo.symbol}</div><div class="value">${toString(tokenInfo.normWeightPercentage)}</div>%</div>
+              <div class="line price"><div class="label">Price</div>$<div class="value">${toString(tokenInfo.price)}</div></div>
+              <div class="line daychange">
+                <div class="label">24h</div>
+                <div class="signedValue ${tokenInfo.priceChangePercentage_24h < 0 ? "negative" : ""}">
+                  <div class="direction"><i class="sign fas fa-caret-${tokenInfo.priceChangePercentage_24h < 0 ? "down" : "up"}"></i></div>
+                  <div class="value">${toString(tokenInfo.priceChangePercentage_24h)}</div>
+                </div>
+                </div>
               </div>
               `;
           });
