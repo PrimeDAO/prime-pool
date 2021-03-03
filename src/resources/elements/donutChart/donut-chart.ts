@@ -4,6 +4,7 @@ import { bindable } from "aurelia-typed-observable-plugin";
 import "./donut-chart.scss";
 import * as d3 from "d3";
 import { PoolService } from "services/PoolService";
+import { NumberService } from "services/numberService";
 
 @autoinject
 export class DonutChart {
@@ -12,7 +13,8 @@ export class DonutChart {
   @bindable.booleanAttr interactive;
   donutChart: HTMLElement;
 
-  constructor(private poolService: PoolService) {
+  constructor(private poolService: PoolService,
+    private numberService: NumberService) {
 
   }
 
@@ -102,11 +104,15 @@ class Donut {
   //     });
   // }
 
+  get donut() {
+    return d3.select(this.containerElement).select(".donut");
+  }
+
   createCenter() {
 
     const thisChart_r = this.chart_r;
     // const thisChart = this.chartContainer;
-    const donut = d3.select(this.containerElement).select(".donut");
+    const donut = this.donut;
     const centerCircleTransitionRadiusFactor = 0.6;
 
     // center white circle
@@ -151,35 +157,60 @@ class Donut {
       //   .text((d, i) => {
       //     return d.type;
       //   });
-      donut.append("text")
+      const textContainer = donut.append("svg:g")
+        .attr("class", "center-txt-container");
+      textContainer.append("text")
         .attr("class", "center-txt icon")
         .attr("text-anchor", "middle")
-        .text((_d: Pool) => "T" );
-      donut.append("text")
+        .text((_d: Pool) => "T" )
+        .attr("y", thisChart_r * -0.24)
+      ;
+      textContainer.append("text")
         .attr("class", "center-txt perc label")
-        .attr("text-anchor", "middle");
-      donut.append("text")
+        .attr("text-anchor", "middle")
+        .attr("x", thisChart_r * -0.18)
+        .attr("y", thisChart_r * -0.08)
+      ;
+      textContainer.append("text")
         .attr("class", "center-txt perc value")
-        .attr("text-anchor", "middle");
-      donut.append("text")
+        .attr("text-anchor", "middle")
+        .attr("x", thisChart_r * 0.28)
+        .attr("y", thisChart_r * -0.08)
+      ;
+      textContainer.append("text")
         .attr("class", "center-txt price label")
         .attr("text-anchor", "middle")
-        .text((_d: Pool) => "Price:");
-      donut.append("text")
+        .text((_d: Pool) => "Price:")
+        .attr("x", thisChart_r * -0.18)
+        .attr("y", thisChart_r * 0.08)
+      ;
+      textContainer.append("text")
         .attr("class", "center-txt price value")
-        .attr("text-anchor", "middle");
-      donut.append("text")
+        .attr("text-anchor", "middle")
+        .attr("x", thisChart_r * 0.28)
+        .attr("y", thisChart_r * 0.08)
+      ;
+      textContainer.append("text")
         .attr("class", "center-txt daychange label")
         .attr("text-anchor", "middle")
-        .text((_d: Pool) => "24H:");
-      donut.append("text")
+        .text((_d: Pool) => "24H:")
+        .attr("x", thisChart_r * -0.28)
+        .attr("y", thisChart_r * 0.24)
+      ;
+      textContainer.append("text")
         .attr("class", "center-txt daychange icon")
         .attr("text-anchor", "middle")
-        .text((_d: Pool) => "A");
-      donut.append("text")
+        .text((_d: Pool) => "A")
+        .attr("x", thisChart_r * -0.08)
+        .attr("y", thisChart_r * 0.24)
+      ;
+      textContainer.append("text")
         .attr("class", "center-txt daychange value")
         //.attr("y", thisChart_r * 0.32)
-        .attr("text-anchor", "middle");
+        .attr("text-anchor", "middle")
+        .attr("x", thisChart_r * 0.28)
+        .attr("y", thisChart_r * 0.24)
+      ;
     } else { // not interactive
       // centerCircle.append("g")
       //   .attr("width", thisChart_r * .5)
@@ -190,20 +221,17 @@ class Donut {
     }
   }
 
-  setCenterLogo(_thisDonut): void {
+  setCenterLogo(show = true): void {
+    const donut = this.donut;
     return;
   }
 
-  // clearAllCenterText() {
-  //   this.chartContainer.select(".perc.label")
-  //     .text(() => "");
-  //   this.chartContainer.select(".perc.value")
-  //     .text(() => "");
-  //   this.chartContainer.select(".price.value")
-  //     .text(() => "");
-  //   this.chartContainer.select(".price.daychange")
-  //     .text(() => "");
-  // }
+  showCenterText(show = true) {
+    const donut = this.donut;
+    const textContainer = donut.select(".center-txt-container");
+    textContainer.classed("show", show);
+    this.setCenterLogo();
+  }
 
   pathAnim(path, dir) {
     switch (dir) {
@@ -233,9 +261,8 @@ class Donut {
     const thisChart_r = this.chart_r;
     const thisPathAnim = this.pathAnim.bind(this);
     // const thisSetCenterText = this.setCenterText.bind(this);
-    const thisSetCenterLogo = this.setCenterLogo.bind(this);
-    // const thisClearAllCenterText = this.clearAllCenterText.bind(this);
-    const donut = d3.select(this.containerElement).select(".donut");
+    const thisShowCenterText = this.showCenterText.bind(this);
+    const donut = this.donut;
 
     const pie = d3.layout.pie()
       .sort(null)
@@ -277,19 +304,20 @@ class Donut {
           const pieSlice = d3.select(this);
           const tokenInfo = pieSlice.data()[0].data;
           thisPathAnim(pieSlice, 1);
-          donut.select(".perc.label")
+          const textContainer = donut.select(".center-txt-container");
+          textContainer.select(".perc.label")
             .text(() => {
               return `${tokenInfo.name}`;
             });
-          donut.select(".perc.value")
+          textContainer.select(".perc.value")
             .text(() => {
               return `${tokenInfo.normWeightPercentage}%`;
             });
-          donut.select(".price.value")
+          textContainer.select(".price.value")
             .text(() => {
               return `$${tokenInfo.price}`;
             });
-          donut.select(".price.daychange")
+          textContainer.select(".daychange.value")
             .text(() => {
               return `${tokenInfo.priceChangePercentage_24h}%`;
             });
@@ -301,6 +329,7 @@ class Donut {
           // thisDonut.select(".percentage").text((donut_d) => {
           //   return (d.data.val / donut_d.total * 100).toFixed(2) + "%";
           // });
+          thisShowCenterText(true);
         },
 
         "mouseout": function (_d, _i, _j) {
@@ -309,8 +338,7 @@ class Donut {
             thisPathAnim(thisPath, 0);
           }
           //const thisDonut = thisChartContainer.selectAll(".donut");
-          // thisClearAllCenterText();
-          thisSetCenterLogo(donut);
+          thisShowCenterText(false);
         },
         // ,"click": function (_d, _i, _j) {
         //   const thisDonut = thisChartContainer.selectAll(".donut");
@@ -329,7 +357,7 @@ class Donut {
         // },
       };
       enter.on(eventObj);
-      // this.clearAllCenterText();
+      //this.showCenterText();
     }
 
     paths.exit().remove();

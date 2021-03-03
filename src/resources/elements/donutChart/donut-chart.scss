@@ -1,28 +1,34 @@
 .donutChart {
-  .center-txt {
-    .icon {
+  .center-txt-container {
+    display: none;
+    &.show {
+      display: inline-block;
     }
-
-    .perc {
-      .label {
-      }
-      .value {
-      }
-    }
-
-    .price {
-      .label {
-      }
-      .value {
-      }
-    }
-
-    .daychange {
-      .label {
-      }
+    .center-txt {
       .icon {
       }
-      .value {
+
+      .perc {
+        .label {
+        }
+        .value {
+        }
+      }
+
+      .price {
+        .label {
+        }
+        .value {
+        }
+      }
+
+      .daychange {
+        .label {
+        }
+        .icon {
+        }
+        .value {
+        }
       }
     }
   }
