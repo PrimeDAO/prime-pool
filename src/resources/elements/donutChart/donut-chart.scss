@@ -1,14 +1,29 @@
-#chart {
-  text-align: center;
-  padding-top: 50px;
-  font-family: monospace;
-}
+.donutChart {
+  .center-txt {
+    .icon {
+    }
 
-.pieBox {
-  display: inline-block;
-  height: auto;
-}
+    .perc {
+      .label {
+      }
+      .value {
+      }
+    }
 
-.center-text {
-  color: black;
+    .price {
+      .label {
+      }
+      .value {
+      }
+    }
+
+    .daychange {
+      .label {
+      }
+      .icon {
+      }
+      .value {
+      }
+    }
+  }
 }

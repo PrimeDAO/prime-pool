@@ -105,8 +105,8 @@ class Donut {
   createCenter() {
 
     const thisChart_r = this.chart_r;
-    const thisChart = this.chartContainer;
-    const donut = d3.selectAll(".donut");
+    // const thisChart = this.chartContainer;
+    const donut = d3.select(this.containerElement).select(".donut");
     const centerCircleTransitionRadiusFactor = 0.6;
 
     // center white circle
@@ -115,7 +115,7 @@ class Donut {
       .style("fill", "#ffffff");
 
     if (this.interactive) {
-      const thisPathAnim = this.pathAnim.bind(this);
+      // const thisPathAnim = this.pathAnim.bind(this);
       const centerCircleBulgeTransitionRadiusFactor = 0.65;
 
       const eventObj = {
@@ -133,12 +133,12 @@ class Donut {
             .attr("r", thisChart_r * centerCircleTransitionRadiusFactor);
         },
 
-        "click": function (_d, _i) {
-          const paths = thisChart.selectAll(".clicked");
-          thisPathAnim(paths, 0);
-          paths.classed("clicked", false);
-          this.resetAllCenterText();
-        },
+        // "click": function (_d, _i) {
+        //   const paths = thisChart.selectAll(".clicked");
+        //   thisPathAnim(paths, 0);
+        //   paths.classed("clicked", false);
+        //   this.resetAllCenterText();
+        // },
       };
 
       centerCircle.on(eventObj);
@@ -163,26 +163,22 @@ class Donut {
         .attr("text-anchor", "middle");
       donut.append("text")
         .attr("class", "center-txt price label")
-        .attr("y", thisChart_r * 0.16)
         .attr("text-anchor", "middle")
         .text((_d: Pool) => "Price:");
       donut.append("text")
         .attr("class", "center-txt price value")
-        .attr("y", thisChart_r * 0.16)
         .attr("text-anchor", "middle");
       donut.append("text")
         .attr("class", "center-txt daychange label")
-        .attr("y", thisChart_r * 0.32)
         .attr("text-anchor", "middle")
         .text((_d: Pool) => "24H:");
       donut.append("text")
         .attr("class", "center-txt daychange icon")
-        .attr("y", thisChart_r * 0.32)
         .attr("text-anchor", "middle")
         .text((_d: Pool) => "A");
       donut.append("text")
         .attr("class", "center-txt daychange value")
-        .attr("y", thisChart_r * 0.32)
+        //.attr("y", thisChart_r * 0.32)
         .attr("text-anchor", "middle");
     } else { // not interactive
       // centerCircle.append("g")
@@ -198,14 +194,16 @@ class Donut {
     return;
   }
 
-  clearAllCenterText() {
-    this.chartContainer.select(".perc .value")
-      .text(() => "");
-    this.chartContainer.select(".price .value")
-      .text(() => "");
-    this.chartContainer.select(".price .daychange")
-      .text(() => "");
-  }
+  // clearAllCenterText() {
+  //   this.chartContainer.select(".perc.label")
+  //     .text(() => "");
+  //   this.chartContainer.select(".perc.value")
+  //     .text(() => "");
+  //   this.chartContainer.select(".price.value")
+  //     .text(() => "");
+  //   this.chartContainer.select(".price.daychange")
+  //     .text(() => "");
+  // }
 
   pathAnim(path, dir) {
     switch (dir) {
@@ -231,12 +229,13 @@ class Donut {
 
   updateDonut() {
 
-    const thisChartContainer = this.chartContainer;
+    // const thisChartContainer = this.chartContainer;
     const thisChart_r = this.chart_r;
     const thisPathAnim = this.pathAnim.bind(this);
     // const thisSetCenterText = this.setCenterText.bind(this);
     const thisSetCenterLogo = this.setCenterLogo.bind(this);
-    const thisClearAllCenterText = this.clearAllCenterText.bind(this);
+    // const thisClearAllCenterText = this.clearAllCenterText.bind(this);
+    const donut = d3.select(this.containerElement).select(".donut");
 
     const pie = d3.layout.pie()
       .sort(null)
@@ -274,24 +273,23 @@ class Donut {
 
       const eventObj = {
 
-        "mouseover": function (_d: Pool, _i, _j) {
+        "mouseover": function (_d, _i, _j) {
           const pieSlice = d3.select(this);
-          const tokenInfo = pieSlice.data();
+          const tokenInfo = pieSlice.data()[0].data;
           thisPathAnim(pieSlice, 1);
-          const thisDonut = thisChartContainer.selectAll(".donut");
-          thisDonut.select(".perc .label")
+          donut.select(".perc.label")
             .text(() => {
               return `${tokenInfo.name}`;
             });
-          thisDonut.select(".perc .value")
+          donut.select(".perc.value")
             .text(() => {
               return `${tokenInfo.normWeightPercentage}%`;
             });
-          thisDonut.select(".price .value")
+          donut.select(".price.value")
             .text(() => {
               return `$${tokenInfo.price}`;
             });
-          thisDonut.select(".price .daychange")
+          donut.select(".price.daychange")
             .text(() => {
               return `${tokenInfo.priceChangePercentage_24h}%`;
             });
@@ -310,9 +308,9 @@ class Donut {
           if (!thisPath.classed("clicked")) {
             thisPathAnim(thisPath, 0);
           }
-          const thisDonut = thisChartContainer.selectAll(".donut");
-          thisClearAllCenterText();
-          thisSetCenterLogo(thisDonut);
+          //const thisDonut = thisChartContainer.selectAll(".donut");
+          // thisClearAllCenterText();
+          thisSetCenterLogo(donut);
         },
         // ,"click": function (_d, _i, _j) {
         //   const thisDonut = thisChartContainer.selectAll(".donut");
@@ -331,7 +329,7 @@ class Donut {
         // },
       };
       enter.on(eventObj);
-      this.clearAllCenterText();
+      // this.clearAllCenterText();
     }
 
     paths.exit().remove();
