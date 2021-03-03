@@ -1,60 +1,68 @@
 @import "styles/colors.scss";
 .donutChart {
-  .centerTextContainer {
+  .centerInnerCircleContainer {
     display: none;
     &.show {
       display: inline-block;
     }
-    .lines {
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      height: 100%;
-      justify-content: center;
 
-      .line {
-        font-size: 12px;
-        font-family: Aeonik;
-        white-space: nowrap;
+    .centerInnerCircle {
+      fill: $color-white;
+      stroke: $color-light-purple;
+    }
 
-        .label,
-        .value,
-        .direction {
-          display: inline-block;
-        }
+    .centerTextContainer {
+      .lines {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        height: 100%;
+        justify-content: center;
 
-        .label {
-          margin-right: 4px;
+        .line {
+          font-size: 10px;
+          font-family: Aeonik;
+          white-space: nowrap;
 
-          &::after {
-            content: ":";
+          .label,
+          .value,
+          .direction {
+            display: inline-block;
           }
-        }
-
-        &.icon {
-          height: 32px;
-          img {
-            width: 26px;
-            border-radius: 13px;
-          }
-        }
-
-        &.perc,
-        &.price,
-        &.daychange {
-          display: inline-block;
 
           .label {
-            font-weight: bold;
-          }
-        }
+            margin-right: 4px;
 
-        &.daychange {
-          .signedValue {
-            color: #5aae2a;
+            &::after {
+              content: ":";
+            }
+          }
+
+          &.icon {
+            height: 32px;
+            img {
+              width: 26px;
+              border-radius: 13px;
+            }
+          }
+
+          &.perc,
+          &.price,
+          &.daychange {
             display: inline-block;
-            &.negative {
-              color: $color-red;
+
+            .label {
+              font-weight: bold;
+            }
+          }
+
+          &.daychange {
+            .signedValue {
+              color: #5aae2a;
+              display: inline-block;
+              &.negative {
+                color: $color-red;
+              }
             }
           }
         }

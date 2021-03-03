@@ -158,12 +158,25 @@ class Donut {
       //   .text((d, i) => {
       //     return d.type;
       //   });
-      donut.append("svg:foreignObject")
+
+      const interiorBorderRadius = circleRadius * .66;
+      const interiorBorderWidth = 3;
+      const g = donut.append("svg:g")
+        .attr("class", "centerInnerCircleContainer");
+
+      g.append("svg:circle")
+        .attr("r", interiorBorderRadius)
+        .attr("class", "centerInnerCircle")
+        .attr("stroke-width", interiorBorderWidth)
+      ;
+
+      const interiorBorderInteriorRadius = interiorBorderRadius - interiorBorderWidth;
+      g.append("svg:foreignObject")
         .attr("class", "centerTextContainer")
-        .attr("x", -circleRadius)
-        .attr("y", -circleRadius)
-        .attr("width", circleRadius * 2)
-        .attr("height", circleRadius * 2)
+        .attr("x", -interiorBorderInteriorRadius)
+        .attr("y", -interiorBorderInteriorRadius - 6) // - 6 cause it just looks better-centered
+        .attr("width", interiorBorderInteriorRadius * 2)
+        .attr("height", interiorBorderInteriorRadius * 2)
       ;
     } else { // not interactive
       // centerCircle.append("g")
@@ -175,16 +188,16 @@ class Donut {
     }
   }
 
-  setCenterLogo(show = true): void {
+  showCenterLogo(show = true): void {
     const donut = this.donut;
     return;
   }
 
   showCenterText(show = true) {
     const donut = this.donut;
-    const textContainer = donut.select(".centerTextContainer");
+    const textContainer = donut.select(".centerInnerCircleContainer");
     textContainer.classed("show", show);
-    this.setCenterLogo();
+    this.showCenterLogo(!show);
   }
 
   pathAnim(path, dir) {
