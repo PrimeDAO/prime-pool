@@ -20,7 +20,7 @@ export class DonutChart {
 
   async attached(): Promise<void> {
     await this.poolService.ensureInitialized();
-    const donuts = new Donut(this.donutChart, this.interactive);
+    const donuts = new Donut(this.donutChart, this.interactive, this.numberService);
     donuts.create(this.pool);
   }
 }
@@ -58,13 +58,14 @@ export class DonutChart {
 class Donut {
   colors = ["#ff495b", "#8668fc", "#1ee0fc", "#95d86e", "#faa04a", "#39a1d8", "#57dea6", "#c08eff"];
   chartContainer;
-  chart_m;
-  chart_r;
-  donutRingWidthFactor = 0.45;
-  donutSliceExpandFactor = 1.08;
+  chartPadding;
+  chartRadius;
+  get innerCircleRadius() { return this.chartRadius * 0.5; }
+  sliceBulgeFactor = 1.08;
 
   constructor(private containerElement: HTMLElement,
-    private interactive: boolean) {
+    private interactive: boolean,
+    private numberService: NumberService) {
 
     this.chartContainer = d3.select(containerElement);
 
@@ -110,25 +111,25 @@ class Donut {
 
   createCenter() {
 
-    const thisChart_r = this.chart_r;
+    const thisChart_r = this.chartRadius;
     // const thisChart = this.chartContainer;
     const donut = this.donut;
-    const centerCircleTransitionRadiusFactor = 0.6;
+    const circleRadius = thisChart_r * 0.55;
+    const circleBulgeRadius = thisChart_r * 0.6;
 
     // center white circle
     const centerCircle = donut.append("svg:circle")
-      .attr("r", thisChart_r * centerCircleTransitionRadiusFactor)
+      .attr("r", circleRadius)
       .style("fill", "#ffffff");
 
     if (this.interactive) {
       // const thisPathAnim = this.pathAnim.bind(this);
-      const centerCircleBulgeTransitionRadiusFactor = 0.65;
 
       const eventObj = {
         "mouseover": function (_d, _i) {
           d3.select(this)
             .transition()
-            .attr("r", thisChart_r * centerCircleBulgeTransitionRadiusFactor);
+            .attr("r", circleBulgeRadius);
         },
 
         "mouseout": function (_d, _i) {
@@ -136,7 +137,7 @@ class Donut {
             .transition()
             .duration(500)
             .ease("bounce")
-            .attr("r", thisChart_r * centerCircleTransitionRadiusFactor);
+            .attr("r", circleRadius);
         },
 
         // "click": function (_d, _i) {
@@ -157,61 +158,12 @@ class Donut {
       //   .text((d, i) => {
       //     return d.type;
       //   });
-      const textContainer = donut.append("svg:g")
-        .attr("class", "center-txt-container");
-      textContainer.append("svg:image")
-        .attr("class", "center-txt icon")
-        .attr("width", 14)
-        .attr("height", 14)
-      // .attr("text-anchor", "middle")
-        //.image((_d: Pool) => "T" )
-        .attr("y", thisChart_r * -0.24)
-      ;
-      textContainer.append("text")
-        .attr("class", "center-txt perc label")
-        .attr("text-anchor", "middle")
-        .attr("x", thisChart_r * -0.18)
-        .attr("y", thisChart_r * -0.08)
-      ;
-      textContainer.append("text")
-        .attr("class", "center-txt perc value")
-        .attr("text-anchor", "middle")
-        .attr("x", thisChart_r * 0.28)
-        .attr("y", thisChart_r * -0.08)
-      ;
-      textContainer.append("text")
-        .attr("class", "center-txt price label")
-        .attr("text-anchor", "middle")
-        .text((_d: Pool) => "Price:")
-        .attr("x", thisChart_r * -0.18)
-        .attr("y", thisChart_r * 0.08)
-      ;
-      textContainer.append("text")
-        .attr("class", "center-txt price value")
-        .attr("text-anchor", "middle")
-        .attr("x", thisChart_r * 0.28)
-        .attr("y", thisChart_r * 0.08)
-      ;
-      textContainer.append("text")
-        .attr("class", "center-txt daychange label")
-        .attr("text-anchor", "middle")
-        .text((_d: Pool) => "24H:")
-        .attr("x", thisChart_r * -0.28)
-        .attr("y", thisChart_r * 0.24)
-      ;
-      textContainer.append("text")
-        .attr("class", "center-txt daychange icon")
-        .attr("text-anchor", "middle")
-        .text((_d: Pool) => "A")
-        .attr("x", thisChart_r * -0.08)
-        .attr("y", thisChart_r * 0.24)
-      ;
-      textContainer.append("text")
-        .attr("class", "center-txt daychange value")
-        //.attr("y", thisChart_r * 0.32)
-        .attr("text-anchor", "middle")
-        .attr("x", thisChart_r * 0.28)
-        .attr("y", thisChart_r * 0.24)
+      donut.append("svg:foreignObject")
+        .attr("class", "centerTextContainer")
+        .attr("x", -circleRadius)
+        .attr("y", -circleRadius)
+        .attr("width", circleRadius * 2)
+        .attr("height", circleRadius * 2)
       ;
     } else { // not interactive
       // centerCircle.append("g")
@@ -230,7 +182,7 @@ class Donut {
 
   showCenterText(show = true) {
     const donut = this.donut;
-    const textContainer = donut.select(".center-txt-container");
+    const textContainer = donut.select(".centerTextContainer");
     textContainer.classed("show", show);
     this.setCenterLogo();
   }
@@ -242,16 +194,16 @@ class Donut {
           .duration(500)
           .ease("bounce")
           .attr("d", d3.svg.arc()
-            .innerRadius(this.chart_r * this.donutRingWidthFactor)
-            .outerRadius(this.chart_r),
+            .innerRadius(this.innerCircleRadius)
+            .outerRadius(this.chartRadius),
           );
         break;
 
       case 1:
         path.transition()
           .attr("d", d3.svg.arc()
-            .innerRadius(this.chart_r * this.donutRingWidthFactor)
-            .outerRadius(this.chart_r * this.donutSliceExpandFactor),
+            .innerRadius(this.innerCircleRadius)
+            .outerRadius(this.chartRadius * this.sliceBulgeFactor),
           );
         break;
     }
@@ -260,7 +212,7 @@ class Donut {
   updateDonut() {
 
     // const thisChartContainer = this.chartContainer;
-    const thisChart_r = this.chart_r;
+    const thisChart_r = this.chartRadius;
     const thisPathAnim = this.pathAnim.bind(this);
     // const thisSetCenterText = this.setCenterText.bind(this);
     const thisShowCenterText = this.showCenterText.bind(this);
@@ -273,7 +225,7 @@ class Donut {
       });
 
     const arc = d3.svg.arc()
-      .innerRadius(thisChart_r * this.donutRingWidthFactor)
+      .innerRadius(this.innerCircleRadius)
       .outerRadius(function () {
         return (d3.select(this).classed("clicked")) ? thisChart_r * this.donutSliceExpandFactor : thisChart_r;
       });
@@ -300,31 +252,32 @@ class Donut {
 
     if (this.interactive) {
 
+      const thisNumberService = this.numberService;
+
       const eventObj = {
 
         "mouseover": function (_d, _i, _j) {
           const pieSlice = d3.select(this);
           const tokenInfo = pieSlice.data()[0].data as IPoolTokenInfo;
           thisPathAnim(pieSlice, 1);
-          const textContainer = donut.select(".center-txt-container");
-          textContainer.select(".icon")
-            .attr("xlink:href", tokenInfo.icon);
-          textContainer.select(".perc.label")
-            .text(() => {
-              return `${tokenInfo.symbol}`;
+          const textContainer = donut.select(".centerTextContainer");
+          const toString = (num: number) => thisNumberService.toString(num,
+            {
+              average: false,
+              mantissa: 2,
+              thousandSeparated: true,
             });
-          textContainer.select(".perc.value")
-            .text(() => {
-              return `${tokenInfo.normWeightPercentage}%`;
-            });
-          textContainer.select(".price.value")
-            .text(() => {
-              return `$${tokenInfo.price}`;
-            });
-          textContainer.select(".daychange.value")
-            .text(() => {
-              return `${tokenInfo.priceChangePercentage_24h}%`;
-            });
+
+          textContainer.html(() => {
+            return `
+              <div class="lines">
+              <div class="line icon"><img src="${tokenInfo.icon}"/></div>
+              <div class="line perc"><div class="label">${tokenInfo.symbol}</div>: <div class="value">${toString(tokenInfo.normWeightPercentage)}</div>%</div>
+              <div class="line price"><div class="label">Price</div>: $<div class="value">${toString(tokenInfo.price)}</div></div>
+              <div class="line daychange"><div class="label">24h</div>: <div class="direction">I</div> <div class="value">${toString(tokenInfo.priceChangePercentage_24h)}</div></div>
+              </div>
+              `;
+          });
           // var thisDonut = thisCharts.selectAll(".donut");
           // thisDonut.select(".value").text((donut_d) => {
           //   return;
@@ -369,8 +322,8 @@ class Donut {
 
   public create(pool: Pool) {
     const width = parseInt(window.getComputedStyle(this.containerElement).width);
-    this.chart_m = width / 2 * 0.14;
-    this.chart_r = width / 2 * 0.85;
+    this.chartPadding = width / 2 * 0.14;
+    this.chartRadius = width / 2 * 0.85;
 
     // this.charts.append("svg")
     // .attr("class", "legend")
@@ -382,11 +335,11 @@ class Donut {
     this.chartContainer.selectAll(".donut")
       .data([pool])
       .enter().append("svg:svg")
-      .attr("width", (this.chart_r + this.chart_m) * 2)
-      .attr("height", (this.chart_r + this.chart_m) * 2)
+      .attr("width", (this.chartRadius + this.chartPadding) * 2)
+      .attr("height", (this.chartRadius + this.chartPadding) * 2)
       .append("svg:g")
       .attr("class", "donut")
-      .attr("transform", "translate(" + (this.chart_r + this.chart_m) + "," + (this.chart_r + this.chart_m) + ")")
+      .attr("transform", "translate(" + (this.chartRadius + this.chartPadding) + "," + (this.chartRadius + this.chartPadding) + ")")
     ;
 
     // this.createLegend(this.getCatNames(dataset));
