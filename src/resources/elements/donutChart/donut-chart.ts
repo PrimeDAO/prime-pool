@@ -159,10 +159,12 @@ class Donut {
       //   });
       const textContainer = donut.append("svg:g")
         .attr("class", "center-txt-container");
-      textContainer.append("text")
+      textContainer.append("svg:image")
         .attr("class", "center-txt icon")
-        .attr("text-anchor", "middle")
-        .text((_d: Pool) => "T" )
+        .attr("width", 14)
+        .attr("height", 14)
+      // .attr("text-anchor", "middle")
+        //.image((_d: Pool) => "T" )
         .attr("y", thisChart_r * -0.24)
       ;
       textContainer.append("text")
@@ -302,12 +304,14 @@ class Donut {
 
         "mouseover": function (_d, _i, _j) {
           const pieSlice = d3.select(this);
-          const tokenInfo = pieSlice.data()[0].data;
+          const tokenInfo = pieSlice.data()[0].data as IPoolTokenInfo;
           thisPathAnim(pieSlice, 1);
           const textContainer = donut.select(".center-txt-container");
+          textContainer.select(".icon")
+            .attr("xlink:href", tokenInfo.icon);
           textContainer.select(".perc.label")
             .text(() => {
-              return `${tokenInfo.name}`;
+              return `${tokenInfo.symbol}`;
             });
           textContainer.select(".perc.value")
             .text(() => {

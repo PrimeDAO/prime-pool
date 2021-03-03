@@ -5,6 +5,13 @@
       display: inline-block;
     }
     .center-txt {
+      font-size: 10px;
+      font-family: Aeonik;
+
+      &.label {
+        font-weight: bold;
+      }
+
       .icon {
       }
 
