@@ -13,7 +13,7 @@ export class InlineSvg {
     this.el = el;
   }
 
-  svgChanged(svg) {
+  svgChanged(svg: string): void {
     if (svg) {
       this.el.parentElement.innerHTML = svg;
     }

@@ -1,72 +1,86 @@
 @import "styles/colors.scss";
-.donutChart {
-  .centerInnerCircleContainer {
-    display: none;
-    &.show {
-      display: inline-block;
-    }
+.donutChartContainer {
+  > .donutChart {
+    .centerInnerCircleContainer {
+      display: none;
+      &.show {
+        display: inline-block;
+      }
+      .centerInnerCircle {
+        fill: $color-white;
+        stroke: $color-light-purple;
+      }
 
-    .centerInnerCircle {
-      fill: $color-white;
-      stroke: $color-light-purple;
-    }
+      .centerTextContainer {
+        .lines {
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          height: 100%;
+          justify-content: center;
 
-    .centerTextContainer {
-      .lines {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        height: 100%;
-        justify-content: center;
+          .line {
+            font-size: 10px;
+            font-family: Aeonik;
+            white-space: nowrap;
 
-        .line {
-          font-size: 10px;
-          font-family: Aeonik;
-          white-space: nowrap;
-
-          .label,
-          .value,
-          .direction {
-            display: inline-block;
-          }
-
-          .label {
-            margin-right: 4px;
-
-            &::after {
-              content: ":";
+            .label,
+            .value,
+            .direction {
+              display: inline-block;
             }
-          }
-
-          &.icon {
-            height: 32px;
-            img {
-              width: 26px;
-              border-radius: 13px;
-            }
-          }
-
-          &.perc,
-          &.price,
-          &.daychange {
-            display: inline-block;
 
             .label {
-              font-weight: bold;
-            }
-          }
+              margin-right: 4px;
 
-          &.daychange {
-            .signedValue {
-              color: #5aae2a;
+              &::after {
+                content: ":";
+              }
+            }
+
+            &.icon {
+              height: 32px;
+              img {
+                width: 26px;
+                border-radius: 13px;
+              }
+            }
+
+            &.perc,
+            &.price,
+            &.daychange {
               display: inline-block;
-              &.negative {
-                color: $color-red;
+
+              .label {
+                font-weight: bold;
+              }
+            }
+
+            &.daychange {
+              .signedValue {
+                color: #5aae2a;
+                display: inline-block;
+                &.negative {
+                  color: $color-red;
+                }
               }
             }
           }
         }
       }
     }
+  }
+
+  > .poolIconContainer {
+    display: none;
+    position: relative;
+    top: -84.5px;
+    left: 47.5px;
+    &.show {
+      display: inline-block;
+    }
+    // img {
+    //   width: 100%;
+    // }
   }
 }

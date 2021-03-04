@@ -11,7 +11,8 @@ export class DonutChart {
 
   @bindable pool: Pool;
   @bindable.booleanAttr interactive;
-  donutChart: HTMLElement;
+  chartContainer: HTMLElement;
+  donutContainer: HTMLElement;
 
   constructor(private poolService: PoolService,
     private numberService: NumberService) {
@@ -20,7 +21,7 @@ export class DonutChart {
 
   async attached(): Promise<void> {
     await this.poolService.ensureInitialized();
-    const donuts = new Donut(this.donutChart, this.interactive, this.numberService);
+    const donuts = new Donut(this.chartContainer, this.donutContainer, this.interactive, this.numberService);
     donuts.create(this.pool);
   }
 }
@@ -57,18 +58,21 @@ export class DonutChart {
 
 class Donut {
   colors = ["#ff495b", "#8668fc", "#1ee0fc", "#95d86e", "#faa04a", "#39a1d8", "#57dea6", "#c08eff"];
+  donutContainer;
   chartContainer;
   chartPadding;
   chartRadius;
   get innerCircleRadius() { return this.chartRadius * 0.5; }
   sliceBulgeFactor = 1.08;
 
-  constructor(private containerElement: HTMLElement,
+  constructor(
+    chartContainerElement: HTMLElement,
+    private donutContainerElement: HTMLElement,
     private interactive: boolean,
     private numberService: NumberService) {
 
-    this.chartContainer = d3.select(containerElement);
-
+    this.donutContainer = d3.select(donutContainerElement);
+    this.chartContainer = d3.select(chartContainerElement);
   }
 
   // getCatNames(dataset) {
@@ -106,16 +110,18 @@ class Donut {
   // }
 
   get donut() {
-    return d3.select(this.containerElement).select(".donut");
+    return d3.select(this.donutContainerElement).select(".donut");
   }
 
   createCenter() {
 
     const thisChart_r = this.chartRadius;
-    // const thisChart = this.chartContainer;
     const donut = this.donut;
     const circleRadius = thisChart_r * 0.55;
     const circleBulgeRadius = thisChart_r * 0.6;
+    const interiorBorderRadius = circleRadius * .66;
+    const interiorBorderWidth = 3;
+    const interiorBorderInteriorRadius = interiorBorderRadius - interiorBorderWidth;
 
     // center white circle
     const centerCircle = donut.append("svg:circle")
@@ -125,6 +131,9 @@ class Donut {
     if (this.interactive) {
       // const thisPathAnim = this.pathAnim.bind(this);
 
+      /**
+       * TODO: not really using this...can delete
+       */
       const eventObj = {
         "mouseover": function (_d, _i) {
           d3.select(this)
@@ -159,18 +168,21 @@ class Donut {
       //     return d.type;
       //   });
 
-      const interiorBorderRadius = circleRadius * .66;
-      const interiorBorderWidth = 3;
       const g = donut.append("svg:g")
         .attr("class", "centerInnerCircleContainer");
 
+      /**
+       * the empty circle currounding the text
+       */
       g.append("svg:circle")
         .attr("r", interiorBorderRadius)
         .attr("class", "centerInnerCircle")
         .attr("stroke-width", interiorBorderWidth)
       ;
-
-      const interiorBorderInteriorRadius = interiorBorderRadius - interiorBorderWidth;
+      /**
+       * the text
+       */
+      //const centerTextContainer =
       g.append("svg:foreignObject")
         .attr("class", "centerTextContainer")
         .attr("x", -interiorBorderInteriorRadius)
@@ -179,25 +191,61 @@ class Donut {
         .attr("height", interiorBorderInteriorRadius * 2)
       ;
     } else { // not interactive
-      // centerCircle.append("g")
-      //   .attr("width", thisChart_r * .5)
-      //   .attr("height", thisChart_r * .5)
-      //   //.html("<defs><style>.cls-1{fill:url(#linear-gradient);}.cls-2{fill:#fff;}.cls-3{fill:none;stroke:#1ee0fc;stroke-miterlimit:10;stroke-width:4.97px;}</style><linearGradient id='linear-gradient' y1='56.97' x2='113.95' y2='56.97' gradientUnits='userSpaceOnUse'><stop offset='0' stop-color='#8668fc'/><stop offset='1' stop-color='#b14fd8'/></linearGradient></defs><g id='Layer_2' data-name='Layer 2'><g id='Layer_1-2' data-name='Layer 1'><circle class='cls-1' cx='56.97' cy='56.97' r='56.97'/><polygon class='cls-2' points='77.37 56.8 83.41 50.76 83.41 22.45 67.17 22.45 50.93 38.69 67.17 38.69 67.17 56.8 49.8 56.8 49.8 38.69 33.56 38.69 33.56 89.72 49.8 89.72 49.8 73.04 61.13 73.04 77.37 56.8'/><path class='cls-3' d='M9.79,57A47.18,47.18,0,0,1,57,9.79'/><path class='cls-3' d='M104.16,57A47.19,47.19,0,0,1,57,104.16'/></g></g>")
-      //   .html(this.pool.icon)
 
+      this.chartContainer.select(".poolIconContainer")
+        // .attr("width", interiorBorderInteriorRadius * 2)
+        // .attr("height", interiorBorderInteriorRadius * 2)
+        .style("width", `${interiorBorderInteriorRadius * 2}px`)
+        .style("height", `${interiorBorderInteriorRadius * 2}px`)
+      ;
+      this.showCenterLogo(true);
+
+      /**
+       * the pool icon
+       */
+
+      // //const node = centerTextContainer.node();
+
+      // const pool = donut.data()[0] as Pool;
+      // // const poolIconHtml = "<div class=\"poolIconContainer\"><inline-svg svg.to-view=\"pool.icon\"></inline-svg></div>";
+      // const poolIconHtml = pool.icon;
+
+      // // const poolIconContainer =
+      // centerCircle.append("svg:g")
+      //   .attr("class", "poolIconContainer show")
+      //   // .style("x", centerTextContainer.style("x"))
+      //   // .style("y", centerTextContainer.style("y"))
+      //   .attr("width", interiorBorderInteriorRadius * 2)
+      //   .attr("height", interiorBorderInteriorRadius * 2)
+      //   .html(() => { return poolIconHtml; })
+      // ;
+
+      // poolIconContainer.node().innerHTML = poolIconHtml;
+
+      // this.aureliaHelperService.enhanceElement(poolIconContainer.node(), this.bindingContext);
+
+      // donut.append("svg:foreignObject")
+      //   .attr("class", "poolLogoContainer")
+      //   .attr("x", -interiorBorderInteriorRadius)
+      //   .attr("y", -interiorBorderInteriorRadius - 6) // - 6 cause it just looks better-centered
+      //   .attr("width", interiorBorderRadius * 2)
+      //   .attr("height", interiorBorderRadius * 2)
+      //   .html(pool.icon)
+      // ;
     }
   }
 
   showCenterLogo(show = true): void {
-    const donut = this.donut;
+    const container = this.chartContainer.select(".poolIconContainer");
+    container.classed("show", show);
     return;
   }
 
   showCenterText(show = true) {
     const donut = this.donut;
-    const textContainer = donut.select(".centerInnerCircleContainer");
-    textContainer.classed("show", show);
-    this.showCenterLogo(!show);
+    const container = donut.select(".centerInnerCircleContainer");
+    container.classed("show", show);
+    // this.showCenterLogo(!show);
   }
 
   pathAnim(path, dir) {
@@ -224,7 +272,6 @@ class Donut {
 
   updateDonut() {
 
-    // const thisChartContainer = this.chartContainer;
     const thisChart_r = this.chartRadius;
     const thisPathAnim = this.pathAnim.bind(this);
     // const thisSetCenterText = this.setCenterText.bind(this);
@@ -244,7 +291,7 @@ class Donut {
       });
 
     // Start joining data with paths
-    const paths = this.chartContainer.selectAll(".donut")
+    const paths = this.donutContainer.selectAll(".donut")
       .selectAll("path")
       .data((d: Pool, _i) => {
         return pie(d.assetTokensArray);
@@ -340,7 +387,7 @@ class Donut {
   }
 
   public create(pool: Pool) {
-    const width = parseInt(window.getComputedStyle(this.containerElement).width);
+    const width = parseInt(window.getComputedStyle(this.donutContainerElement).width);
     this.chartPadding = width / 2 * 0.14;
     this.chartRadius = width / 2 * 0.85;
 
@@ -351,7 +398,7 @@ class Donut {
     // .attr("transform", "translate(0, -100)")
     // ;
 
-    this.chartContainer.selectAll(".donut")
+    this.donutContainer.selectAll(".donut")
       .data([pool])
       .enter().append("svg:svg")
       .attr("width", (this.chartRadius + this.chartPadding) * 2)
@@ -368,8 +415,7 @@ class Donut {
   }
 
   public update(pool: Pool) {
-    // Assume no new categ of data enter
-    this.chartContainer.selectAll(".donut")
+    this.donutContainer.selectAll(".donut")
       .data([pool])
     ;
 
