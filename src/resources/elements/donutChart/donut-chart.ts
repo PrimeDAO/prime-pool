@@ -122,6 +122,7 @@ class Donut {
     const interiorBorderRadius = circleRadius * .66;
     const interiorBorderWidth = 3;
     const interiorBorderInteriorRadius = interiorBorderRadius - interiorBorderWidth;
+    const poolIconWidth = (interiorBorderRadius + interiorBorderWidth) * 2;
 
     // center white circle
     const centerCircle = donut.append("svg:circle")
@@ -132,8 +133,11 @@ class Donut {
     this.chartContainer.select(".poolIconContainer")
       // .attr("width", interiorBorderInteriorRadius * 2)
       // .attr("height", interiorBorderInteriorRadius * 2)
-      .style("width", `${interiorBorderRadius * 2}px`)
-      .style("height", `${interiorBorderRadius * 2}px`)
+      .style("width", `${poolIconWidth}px`)
+      .style("height", `${poolIconWidth}px`)
+      // to avoid it taking up pace in it's original position
+      // css has to do context-specific positioning
+      .style("margin-top", `${-poolIconWidth}px`)
       .classed("interactive", this.interactive)
     ;
 
