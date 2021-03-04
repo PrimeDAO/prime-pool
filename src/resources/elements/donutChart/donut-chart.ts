@@ -128,7 +128,19 @@ class Donut {
       .attr("r", circleRadius)
       .style("fill", "#ffffff");
 
+    //const poolIconContainer =
+    this.chartContainer.select(".poolIconContainer")
+      // .attr("width", interiorBorderInteriorRadius * 2)
+      // .attr("height", interiorBorderInteriorRadius * 2)
+      .style("width", `${interiorBorderRadius * 2}px`)
+      .style("height", `${interiorBorderRadius * 2}px`)
+      .classed("interactive", this.interactive)
+    ;
+
+    this.showCenterLogo(true);
+
     if (this.interactive) {
+
       // const thisPathAnim = this.pathAnim.bind(this);
 
       /**
@@ -192,13 +204,6 @@ class Donut {
       ;
     } else { // not interactive
 
-      this.chartContainer.select(".poolIconContainer")
-        // .attr("width", interiorBorderInteriorRadius * 2)
-        // .attr("height", interiorBorderInteriorRadius * 2)
-        .style("width", `${interiorBorderInteriorRadius * 2}px`)
-        .style("height", `${interiorBorderInteriorRadius * 2}px`)
-      ;
-      this.showCenterLogo(true);
 
       /**
        * the pool icon
@@ -245,7 +250,7 @@ class Donut {
     const donut = this.donut;
     const container = donut.select(".centerInnerCircleContainer");
     container.classed("show", show);
-    // this.showCenterLogo(!show);
+    this.showCenterLogo(!show);
   }
 
   pathAnim(path, dir) {

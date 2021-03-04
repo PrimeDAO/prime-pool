@@ -74,8 +74,12 @@
   > .poolIconContainer {
     display: none;
     position: relative;
-    top: -84.5px;
-    left: 47.5px;
+    top: -87.5px;
+    left: 44.5px;
+    &.interactive {
+      top: -213px;
+      left: 111px;
+    }
     &.show {
       display: inline-block;
     }
