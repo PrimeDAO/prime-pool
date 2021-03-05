@@ -1,6 +1,8 @@
 @import "styles/colors.scss";
 .donutChartContainer {
-  > .donutChart {
+  position: relative; // so we can give the .poolIconContainer an absolute position and it won't take up space when invisible.
+
+  .donutChart {
     .centerInnerCircleContainer {
       display: none;
       &.show {
@@ -71,15 +73,17 @@
     }
   }
 
-  > .poolIconContainer {
+  .poolIconContainer {
     display: none;
-    position: relative;
-    top: -60.6px;
+    position: absolute;
+    top: 87.5px;
     left: 41.3px;
+
     &.interactive {
-      top: -126.5px;
+      top: 213px;
       left: 107.5px;
     }
+
     &.show {
       display: inline-block;
     }
