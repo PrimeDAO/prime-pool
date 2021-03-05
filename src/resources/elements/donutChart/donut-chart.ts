@@ -26,36 +26,6 @@ export class DonutChart {
   }
 }
 
-/*
-     * Returns a json-like object.
-     */
-// genData() {
-//   var unit = ["M", "GB", ""];
-//   var cat = ["Google Drive", "Dropbox", "iCloud", "OneDrive", "Box"];
-
-//   var dataset = [];
-
-//   var data = [];
-//   var total = 0;
-
-//   for (const category of cat) {
-//     var value = Math.random() * 10 * 3;
-//     total += value;
-//     data.push({
-//       "cat": category,
-//       "val": value,
-//     });
-//   }
-
-//   dataset.push({
-//     // "type": "A Pool", this.pool.name,
-//     "unit": unit[0],
-//     "data": data,
-//     "total": total,
-//   });
-//   return dataset;
-// }
-
 class Donut {
   colors = ["#ff495b", "#8668fc", "#1ee0fc", "#95d86e", "#faa04a", "#39a1d8", "#57dea6", "#c08eff"];
   donutContainer;
@@ -75,40 +45,6 @@ class Donut {
     this.chartContainer = d3.select(chartContainerElement);
   }
 
-  // getCatNames(dataset) {
-  //   var catNames = [];
-
-  //   for (const category of dataset[0].data) {
-  //     catNames.push(category.cat);
-  //   }
-
-  //   return catNames;
-  // }
-
-  // createLegend(catNames) {
-  //   var legends = this.charts.select(".legend")
-  //     .selectAll("g")
-  //     .data(catNames)
-  //     .enter().append("g")
-  //     .attr("transform", (d, i) => {
-  //       return "translate(" + (i * 150 + 50) + ", 10)";
-  //     });
-
-  //   legends.append("circle")
-  //     .attr("class", "legend-icon")
-  //     .attr("r", 6)
-  //     .style("fill", (d, i) => {
-  //       return this.color(i);
-  //     });
-
-  //   legends.append("text")
-  //     .attr("dx", "1em")
-  //     .attr("dy", ".3em")
-  //     .text((d) => {
-  //       return d;
-  //     });
-  // }
-
   get donut() {
     return d3.select(this.donutContainerElement).select(".donut");
   }
@@ -118,71 +54,25 @@ class Donut {
     const thisChart_r = this.chartRadius;
     const donut = this.donut;
     const circleRadius = thisChart_r * 0.55;
-    const circleBulgeRadius = thisChart_r * 0.6;
     const interiorBorderRadius = circleRadius * .66;
     const interiorBorderWidth = 3;
     const interiorBorderInteriorRadius = interiorBorderRadius - interiorBorderWidth;
     const poolIconWidth = (interiorBorderRadius + interiorBorderWidth) * 2;
 
     // center white circle
-    const centerCircle = donut.append("svg:circle")
+    donut.append("svg:circle")
       .attr("r", circleRadius)
       .style("fill", "#ffffff");
 
-    //const poolIconContainer =
     this.chartContainer.select(".poolIconContainer")
-      // .attr("width", interiorBorderInteriorRadius * 2)
-      // .attr("height", interiorBorderInteriorRadius * 2)
       .style("width", `${poolIconWidth}px`)
       .style("height", `${poolIconWidth}px`)
-      // to avoid it taking up pace in it's original position
-      // css has to do context-specific positioning
-      .style("margin-top", `${-poolIconWidth}px`)
       .classed("interactive", this.interactive)
     ;
 
     this.showCenterLogo(true);
 
     if (this.interactive) {
-
-      // const thisPathAnim = this.pathAnim.bind(this);
-
-      /**
-       * TODO: not really using this...can delete
-       */
-      const eventObj = {
-        "mouseover": function (_d, _i) {
-          d3.select(this)
-            .transition()
-            .attr("r", circleBulgeRadius);
-        },
-
-        "mouseout": function (_d, _i) {
-          d3.select(this)
-            .transition()
-            .duration(500)
-            .ease("bounce")
-            .attr("r", circleRadius);
-        },
-
-        // "click": function (_d, _i) {
-        //   const paths = thisChart.selectAll(".clicked");
-        //   thisPathAnim(paths, 0);
-        //   paths.classed("clicked", false);
-        //   this.resetAllCenterText();
-        // },
-      };
-
-      centerCircle.on(eventObj);
-
-      // donuts.append("text")
-      //   .attr("class", "center-txt type")
-      //   .attr("y", thisChart_r * -0.16)
-      //   .attr("text-anchor", "middle")
-      //   .style("font-weight", "bold")
-      //   .text((d, i) => {
-      //     return d.type;
-      //   });
 
       const g = donut.append("svg:g")
         .attr("class", "centerInnerCircleContainer");
@@ -206,41 +96,6 @@ class Donut {
         .attr("width", interiorBorderInteriorRadius * 2)
         .attr("height", interiorBorderInteriorRadius * 2)
       ;
-    } else { // not interactive
-
-
-      /**
-       * the pool icon
-       */
-
-      // //const node = centerTextContainer.node();
-
-      // const pool = donut.data()[0] as Pool;
-      // // const poolIconHtml = "<div class=\"poolIconContainer\"><inline-svg svg.to-view=\"pool.icon\"></inline-svg></div>";
-      // const poolIconHtml = pool.icon;
-
-      // // const poolIconContainer =
-      // centerCircle.append("svg:g")
-      //   .attr("class", "poolIconContainer show")
-      //   // .style("x", centerTextContainer.style("x"))
-      //   // .style("y", centerTextContainer.style("y"))
-      //   .attr("width", interiorBorderInteriorRadius * 2)
-      //   .attr("height", interiorBorderInteriorRadius * 2)
-      //   .html(() => { return poolIconHtml; })
-      // ;
-
-      // poolIconContainer.node().innerHTML = poolIconHtml;
-
-      // this.aureliaHelperService.enhanceElement(poolIconContainer.node(), this.bindingContext);
-
-      // donut.append("svg:foreignObject")
-      //   .attr("class", "poolLogoContainer")
-      //   .attr("x", -interiorBorderInteriorRadius)
-      //   .attr("y", -interiorBorderInteriorRadius - 6) // - 6 cause it just looks better-centered
-      //   .attr("width", interiorBorderRadius * 2)
-      //   .attr("height", interiorBorderRadius * 2)
-      //   .html(pool.icon)
-      // ;
     }
   }
 
@@ -283,7 +138,6 @@ class Donut {
 
     const thisChart_r = this.chartRadius;
     const thisPathAnim = this.pathAnim.bind(this);
-    // const thisSetCenterText = this.setCenterText.bind(this);
     const thisShowCenterText = this.showCenterText.bind(this);
     const donut = this.donut;
 
@@ -337,6 +191,9 @@ class Donut {
               thousandSeparated: true,
             });
 
+          /**
+           * might be better to move this into the html file, like is done with the pool icon
+           */
           textContainer.html(() => {
             return `
               <div class="lines">
@@ -353,14 +210,7 @@ class Donut {
               </div>
               `;
           });
-          // var thisDonut = thisCharts.selectAll(".donut");
-          // thisDonut.select(".value").text((donut_d) => {
-          //   return;
-          //   d.normWeightPercentage.toFixed(1) + donut_d.unit;
-          // });
-          // thisDonut.select(".percentage").text((donut_d) => {
-          //   return (d.data.val / donut_d.total * 100).toFixed(2) + "%";
-          // });
+
           thisShowCenterText(true);
         },
 
@@ -372,24 +222,8 @@ class Donut {
           //const thisDonut = thisChartContainer.selectAll(".donut");
           thisShowCenterText(false);
         },
-        // ,"click": function (_d, _i, _j) {
-        //   const thisDonut = thisChartContainer.selectAll(".donut");
-
-        //   if (0 === thisDonut.selectAll(".clicked")[0].length) {
-        //     thisDonut.select("circle").on("click")();
-        //   }
-
-        //   const thisPath = d3.select(this);
-        //   const clicked = thisPath.classed("clicked");
-        //   // eslint-disable-next-line no-bitwise
-        //   thisPathAnim(thisPath, ~~(!clicked));
-        //   thisPath.classed("clicked", !clicked);
-
-        //   thisSetCenterLogo(thisDonut);
-        // },
       };
       enter.on(eventObj);
-      //this.showCenterText();
     }
 
     paths.exit().remove();
@@ -399,13 +233,6 @@ class Donut {
     const width = parseInt(window.getComputedStyle(this.donutContainerElement).width);
     this.chartPadding = width / 2 * 0.14;
     this.chartRadius = width / 2 * 0.85;
-
-    // this.charts.append("svg")
-    // .attr("class", "legend")
-    // .attr("width", "100%")
-    // .attr("height", 50)
-    // .attr("transform", "translate(0, -100)")
-    // ;
 
     this.donutContainer.selectAll(".donut")
       .data([pool])
@@ -417,7 +244,6 @@ class Donut {
       .attr("transform", "translate(" + (this.chartRadius + this.chartPadding) + "," + (this.chartRadius + this.chartPadding) + ")")
     ;
 
-    // this.createLegend(this.getCatNames(dataset));
     this.createCenter();
 
     this.updateDonut();
