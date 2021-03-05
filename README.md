@@ -43,22 +43,27 @@ To change dev server host, do `npm start -- --host 127.0.0.1`
 ## Build for production
 Always production code, always running against mainnet.
 
-#### To build
-To build: `npm run build`
+#### To build for production
+`npm run build`
 
-#### To start the dApp
-To run: `npm run start`
+The build output does to the "dist" folder.
 
-#### To serve up the dApp
-To serve: `npm run serve`
+#### To build and start the production version
+`npm run start`
+
+The build output does to the "dist" folder.
+
+#### To locally-serve the already-built production version
+`npm run serve`
 
 ## Build for development
-Builds for kovan by default, or however "NETWORK" is defined in the environment (choices: "kovan" or "mainnet")
 
-#### To build
-To build: `npm run build-dev`
+#### To build a development version of the production app
+`npm run build-dev`
 
-#### To start the dApp
+The build output does to the "dist" folder.
+
+#### To build and start a development version
 To run: `npm run start-dev`
 
 #### To serve up the dApp

@@ -46,7 +46,7 @@ export class PrimeToken {
       this.token = this.tokenService.getTokenContract(primeTokenAddress);
       // this.totalSupply = await this.token.totalSupply();
 
-      await axios.get("http://api.primedao.io/circulatingSupply")
+      await axios.get("https://api.primedao.io/circulatingSupply")
         .then((response) => {
           this.circulatingSupply = response.data;
         });
