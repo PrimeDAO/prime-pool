@@ -13,9 +13,9 @@ import { EthereumService } from "services/EthereumService";
 export class Pools {
 
   poolButtonColors = [
-    "$color-bluegreen",
-    "$color-light-purple",
-    "$color-darkpink",
+    "#298cdd",
+    "#8668fc",
+    "#ae5cff",
     "#5bcaa9",
     "#b14fd8",
     "#64b0c8",
