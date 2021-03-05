@@ -1,3 +1,4 @@
+import axios from "axios";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, singleton } from "aurelia-framework";
 import { Pool } from "entities/pool";
@@ -10,6 +11,7 @@ import { PoolService } from "services/PoolService";
 import { ITokenInfo, TokenService } from "services/TokenService";
 import { Utils } from "services/utils";
 import "./prime-token.scss";
+import { toWei } from "services/EthereumService";
 
 @singleton(false)
 @autoinject
@@ -17,7 +19,7 @@ export class PrimeToken {
 
   tokenInfo: ITokenInfo;
   token: any;
-  totalSupply: BigNumber;
+  circulatingSupply: number;
   totalStaked: BigNumber;
   percentStaked: number;
   pool: Pool;
@@ -42,9 +44,15 @@ export class PrimeToken {
       const primeTokenAddress = this.contractService.getContractAddress(ContractNames.PRIMETOKEN);
       this.tokenInfo = await this.tokenService.getTokenInfoFromAddress(primeTokenAddress);
       this.token = this.tokenService.getTokenContract(primeTokenAddress);
-      this.totalSupply = await this.token.totalSupply();
+      // this.totalSupply = await this.token.totalSupply();
+
+      await axios.get("http://api.primedao.io/circulatingSupply")
+        .then((response) => {
+          this.circulatingSupply = response.data;
+        });
+
       this.totalStaked = await this.pool.assetTokens.get(primeTokenAddress).balanceInPool;
-      this.percentStaked = this.numberService.fromString(toBigNumberJs(this.totalStaked).div(toBigNumberJs(this.totalSupply)).times(100).toString());
+      this.percentStaked = this.numberService.fromString(toBigNumberJs(this.totalStaked).div(toBigNumberJs(toWei(this.circulatingSupply))).times(100).toString());
     } catch (ex) {
       this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
     }
