@@ -75,6 +75,10 @@ export class Pool implements IPoolConfig {
    */
   icon: string;
   name: string;
+  /**
+   * the pool doesn't actually exist yet, but we want to present a preview in the UI
+   */
+  preview: boolean;
   story: string;
   /**
    * additional propoerties...
@@ -199,66 +203,69 @@ export class Pool implements IPoolConfig {
       full = true; // shoudn't ever happen
     }
 
-    let assetTokens: Map<Address, IPoolTokenInfo>;
-    let assetTokensArray: Array<IPoolTokenInfo>;
-
     if (full) {
       Object.assign(this, config);
-
-      this.crPool = await this.contractsService.getContractAtAddress(
-        ContractNames.ConfigurableRightsPool,
-        this.address);
-
-      this.bPool = await this.contractsService.getContractAtAddress(
-        ContractNames.BPOOL,
-        await this.crPool.bPool());
-
-      this.poolToken = (await this.tokenService.getTokenInfoFromAddress(this.address)) as IPoolTokenInfo;
-
-      const assetTokenAddresses = await this.bPool.getCurrentTokens();
-      assetTokens = new Map<Address, IPoolTokenInfo>();
-
-      for (const tokenAddress of assetTokenAddresses) {
-        const tokenInfo = (await this.tokenService.getTokenInfoFromAddress(tokenAddress)) as IPoolTokenInfo;
-        assetTokens.set(tokenAddress, tokenInfo);
-      }
-
-      assetTokensArray = Array.from(assetTokens.values());
-
-      await this.loadContracts(this.crPool, this.bPool, assetTokens, assetTokensArray);
-
-      await this.hydrateStartingBlock();
-
-      await this.hydrateHistoricalMarketCap();
-
-      // this.swapfee = await this.bPool.getSwapFee();
-      // this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
-
-    } else {
-      assetTokens = this.assetTokens;
-      assetTokensArray = this.assetTokensArray;
     }
 
-    await this.hydratePoolTokenBalances(assetTokensArray);
+    if (!this.preview) {
+      let assetTokens: Map<Address, IPoolTokenInfo>;
+      let assetTokensArray: Array<IPoolTokenInfo>;
 
-    await this.hydrateWeights(assetTokensArray);
+      if (full) {
+        this.crPool = await this.contractsService.getContractAtAddress(
+          ContractNames.ConfigurableRightsPool,
+          this.address);
 
-    this.hydrateTotalLiquidity(assetTokensArray);
+        this.bPool = await this.contractsService.getContractAtAddress(
+          ContractNames.BPOOL,
+          await this.crPool.bPool());
 
-    this.assetTokens = assetTokens;
+        this.poolToken = (await this.tokenService.getTokenInfoFromAddress(this.address)) as IPoolTokenInfo;
 
-    await this.fetchBalancerSubgraphData();
+        const assetTokenAddresses = await this.bPool.getCurrentTokens();
+        assetTokens = new Map<Address, IPoolTokenInfo>();
 
-    // await this.hydrateVolumes();
+        for (const tokenAddress of assetTokenAddresses) {
+          const tokenInfo = (await this.tokenService.getTokenInfoFromAddress(tokenAddress)) as IPoolTokenInfo;
+          assetTokens.set(tokenAddress, tokenInfo);
+        }
 
-    this.poolTokenTotalSupply = await this.poolToken.tokenContract.totalSupply();
-    this.poolTokenPrice = this.marketCap / this.numberService.fromString(fromWei(this.poolTokenTotalSupply));
-    this.poolTokenMarketCap = this.numberService.fromString(fromWei(this.poolTokenTotalSupply)) * this.poolTokenPrice;
-    this.totalDenormWeight = await this.bPool.getTotalDenormalizedWeight();
+        assetTokensArray = Array.from(assetTokens.values());
 
-    await this.hydrateMembers();
+        await this.loadContracts(this.crPool, this.bPool, assetTokens, assetTokensArray);
 
-    await this.hydrateUserValues();
+        await this.hydrateStartingBlock();
+
+        await this.hydrateHistoricalMarketCap();
+
+        // this.swapfee = await this.bPool.getSwapFee();
+        // this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
+      } else {
+        assetTokens = this.assetTokens;
+        assetTokensArray = this.assetTokensArray;
+      }
+
+      await this.hydratePoolTokenBalances(assetTokensArray);
+
+      await this.hydrateWeights(assetTokensArray);
+
+      this.hydrateTotalLiquidity(assetTokensArray);
+
+      this.assetTokens = assetTokens;
+
+      await this.fetchBalancerSubgraphData();
+
+      // await this.hydrateVolumes();
+
+      this.poolTokenTotalSupply = await this.poolToken.tokenContract.totalSupply();
+      this.poolTokenPrice = this.marketCap / this.numberService.fromString(fromWei(this.poolTokenTotalSupply));
+      this.poolTokenMarketCap = this.numberService.fromString(fromWei(this.poolTokenTotalSupply)) * this.poolTokenPrice;
+      this.totalDenormWeight = await this.bPool.getTotalDenormalizedWeight();
+
+      await this.hydrateMembers();
+
+      await this.hydrateUserValues();
+    }
 
     return this;
   }

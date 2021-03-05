@@ -57,8 +57,6 @@ export class Pools {
         }
         this.pools = this.poolService.poolsArray;
 
-        this.pools[0].getMarketCapHistory();
-
       } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
       }
@@ -69,7 +67,9 @@ export class Pools {
   }
 
   gotoPool(pool: Pool): void {
-    this.router.navigate(`pool/${pool.address}`);
+    if (!pool.preview) {
+      this.router.navigate(`pool/${pool.address}`);
+    }
   }
 
   gotoBuy(pool: Pool): void {

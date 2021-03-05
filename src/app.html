@@ -27,12 +27,14 @@
                   <loading-dots></loading-dots>
                 </div>
                 <div else class="poolItems">
-                  <a repeat.for="pool of $parent.pools"
-                    class="item"
-                    href="#"
-                    click.delegate="gotoPool(pool)">
-                    <div class="text"><img src="/PoolMenuBullet.svg" />${pool.name}</div>
-                  </a>
+                  <template repeat.for="pool of $parent.pools">
+                    <a if.to-view="!pool.preview"
+                      class="item"
+                      href="#"
+                      click.delegate="gotoPool(pool)">
+                      <div class="text"><img src="/PoolMenuBullet.svg" />${pool.name}</div>
+                    </a>
+                  </template>
                 </div>
               </div>
             </template>

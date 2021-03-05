@@ -14,14 +14,25 @@ interface IPoolConfigInternal {
   description: string;
   icon: string;
   name: string;
+  preview: boolean;
   story: string;
 }
 
 export interface IPoolConfig {
+  /**
+   * crPool address
+   */
   address: Address;
   description: string;
+  /**
+   * SVG icon for the pool
+   */
   icon: string;
   name: string;
+  /**
+   * the pool doesn't actually exist yet, but we want to present a preview in the UI
+   */
+  preview: boolean;
   story: string;
 }
 
@@ -29,7 +40,9 @@ export interface IPoolConfig {
 export class PoolService {
 
   public pools: Map<Address, Pool>;
-  public get poolsArray(): Array<Pool> { return Array.from(this.pools.values()); }
+  public get poolsArray(): Array<Pool> {
+    return Array.from(this.pools.values());
+  }
   public initializing = true;
   private initializedPromise: Promise<void>;
 
@@ -38,6 +51,10 @@ export class PoolService {
     private eventAggregator: EventAggregator,
     private container: Container,
   ) {
+    /**
+     * otherwise singleton is the default
+     */
+    this.container.registerTransient(Pool);
   }
 
   public async initialize(): Promise<void> {
@@ -46,15 +63,16 @@ export class PoolService {
 
   private createPools(): Promise<void> {
     return this.initializedPromise = new Promise(
-      async (resolve: (value: void | PromiseLike<void>) => void,
+      (resolve: (value: void | PromiseLike<void>) => void,
         reject: (reason?: any) => void): Promise<void> => {
         if (!this.pools?.size) {
-          await axios.get("https://raw.githubusercontent.com/PrimeDAO/prime-pool-dapp/master/src/poolConfigurations/pools.json")
+          return axios.get("https://raw.githubusercontent.com/PrimeDAO/prime-pool-dapp/master/src/poolConfigurations/pools.json")
             .then(async (response) => {
-              const poolsMap = new Map();
+              const poolsMap = new Map<Address, Pool>();
               for (const config of response.data as Array<IPoolConfigInternal>) {
                 const pool = await this.createPoolFromConfig(config);
-                poolsMap.set(pool.address, pool);
+                // assign random key to preview pools
+                poolsMap.set(pool.preview ? Math.random().toString() : pool.address, pool);
               }
               this.pools = poolsMap;
               this.initializing = false;
@@ -76,6 +94,7 @@ export class PoolService {
       description: config.description,
       icon: config.icon,
       name: config.name,
+      preview: config.preview,
       story: config.story,
     };
     const pool = this.container.get(Pool);
