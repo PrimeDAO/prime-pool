@@ -27,7 +27,7 @@ export class App {
     return false;
   }
 
-  public attached() {
+  public attached(): void {
     // so all elements with data-tippy-content will automatically have a tooltip
     tippy("[data-tippy-content]");
 
