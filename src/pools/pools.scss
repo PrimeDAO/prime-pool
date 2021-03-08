@@ -63,6 +63,7 @@
         .priceDelta1,
         .priceDelta2,
         .priceDelta3 {
+          white-space: nowrap;
           .poolDataValue {
             color: #5aae2a;
             &.negative {
@@ -89,6 +90,7 @@
         }
         .marketCap {
           grid-area: marketCap;
+          white-space: nowrap;
         }
         .priceDelta1 {
           grid-area: priceDelta1;
@@ -100,6 +102,7 @@
           grid-area: priceDelta3;
         }
         .chart {
+          white-space: nowrap;
           grid-area: chart;
         }
         .addLiquidity {
@@ -107,6 +110,7 @@
         }
         .price {
           grid-area: price;
+          white-space: nowrap;
           .poolDataValue {
             font-weight: bold;
           }
@@ -154,4 +158,100 @@
       margin-right: auto;
     }
   }
+}
+
+@media screen and (max-width: 1300px) {
+  .pools {
+    .body {
+      .poolRows {
+        .poolRow {
+          grid-template-columns: 130px repeat(3, 1fr);
+          grid-template-areas:
+            "name name name name"
+            "donutchart marketCap chart addLiquidity"
+            "donutchart price assets assets";
+
+          .addLiquidity {
+            .poolDataHeader {
+              text-align: center;
+            }
+          }
+          .priceDelta1,
+          .priceDelta2,
+          .priceDelta3 {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1085px) {
+  .pools {
+    .body {
+      .poolRows {
+        .poolRow {
+          grid-template-columns: 130px repeat(2, 1fr);
+          grid-template-areas:
+            "name name name"
+            "donutchart marketCap addLiquidity"
+            "donutchart price assets";
+
+          .addLiquidity {
+            .poolDataHeader {
+              text-align: center;
+            }
+          }
+
+          .chart {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1042px) {
+  .pools {
+    text-align: center;
+
+    .subtitle {
+      margin: auto;
+    }
+
+    .body {
+      .heading1 {
+        margin: auto;
+      }
+
+      .poolButtons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .poolRows {
+        .poolRow {
+          grid-template-columns: 1fr 1fr;
+          grid-template-areas:
+            "name name"
+            "donutchart donutchart"
+            "marketCap price"
+            "addLiquidity addLiquidity";
+
+          .donutchart {
+            width: 130px;
+            margin: auto;
+          }
+          .assets {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 830px) {
 }

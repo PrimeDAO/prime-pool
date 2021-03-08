@@ -18,6 +18,9 @@ export class SparkChart {
   }
 
   attached(): void {
+    // do this instead of using `ref` because the ref isn't restored after display:none, display:whatever
+    this.sparkChart = document.getElementById("sparkChart");
+
     if (!this.chart) {
       const options: any = { // DeepPartial<ChartOptions> = {
         width: 0,
@@ -90,11 +93,13 @@ export class SparkChart {
 
       window.onresize = () => {
         if (this.chart) {
+          // do this instead of using `ref` because the ref isn't restored after display:none, display:whatever
+          const sparkChart = document.getElementById("sparkChart");
           const width = Math.min(
             document.body.offsetWidth,
-            this.sparkChart.offsetWidth,
+            sparkChart.offsetWidth,
           );
-          this.chart.resize(width, this.sparkChart.offsetHeight);
+          this.chart.resize(width, this.height || sparkChart.offsetHeight);
         }
       };
     }
