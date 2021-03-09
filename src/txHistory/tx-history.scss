@@ -24,60 +24,236 @@
         grid-template-rows: auto;
         background-color: #eeeeee;
 
-        .columnHeader,
-        .cell {
-          padding: 16px;
+        &.small {
+          display: none;
         }
 
-        .columnHeader {
-          color: $color-white;
-          border-bottom-width: 8px;
-          border-bottom-style: solid;
-
-          .subheader {
-            font-size: 11px;
+        &.large {
+          .columnHeader,
+          .cell {
+            padding: 16px;
           }
-        }
 
-        div.columnHeader:nth-child(1) {
-          background-color: $color-light-purple;
-          border-bottom-color: $color-pink;
-        }
-        div.columnHeader:nth-child(2) {
-          background-color: $color-bluegreen;
-          border-bottom-color: #64b0c8;
-        }
-        div.columnHeader:nth-child(3) {
-          background-color: $color-darkpink;
-          border-bottom-color: $color-pink;
-        }
-        div.columnHeader:nth-child(4) {
-          background-color: #5bcaa9;
-          border-bottom-color: #57dea6;
-        }
-        div.columnHeader:nth-child(5) {
-          background-color: #64b0c8;
-          border-bottom-color: #39a1d8;
-        }
-        div.columnHeader:nth-child(6) {
-          background-color: #bf62a8;
-          border-bottom-color: #ffa2ce;
-        }
+          .columnHeader {
+            color: $color-white;
+            border-bottom-width: 8px;
+            border-bottom-style: solid;
 
-        .cell {
-          border-bottom: 2px solid #b2b2b2;
-          .assets {
-            .amount,
-            .name {
-              display: inline-block;
+            .subheader {
+              font-size: 11px;
             }
           }
 
-          .etherscanLink {
-            color: $color-black;
+          div.columnHeader:nth-child(1) {
+            background-color: $color-light-purple;
+            border-bottom-color: $color-pink;
+          }
+          div.columnHeader:nth-child(2) {
+            background-color: $color-bluegreen;
+            border-bottom-color: #64b0c8;
+          }
+          div.columnHeader:nth-child(3) {
+            background-color: $color-darkpink;
+            border-bottom-color: $color-pink;
+          }
+          div.columnHeader:nth-child(4) {
+            background-color: #5bcaa9;
+            border-bottom-color: #57dea6;
+          }
+          div.columnHeader:nth-child(5) {
+            background-color: #64b0c8;
+            border-bottom-color: #39a1d8;
+          }
+          div.columnHeader:nth-child(6) {
+            background-color: #bf62a8;
+            border-bottom-color: #ffa2ce;
+          }
+
+          .cell {
+            border-bottom: 2px solid #b2b2b2;
+            .assets {
+              .amount,
+              .name {
+                display: inline-block;
+              }
+            }
+
+            .etherscanLink {
+              color: $color-black;
+            }
           }
         }
       }
     }
   }
+}
+
+@media screen and (max-width: 900px) {
+  .txHistory {
+    .body {
+      .gridArea {
+        .grid {
+          &.small {
+            display: block;
+          }
+          &.large {
+            display: none;
+          }
+
+          .columnHeader {
+            &.out,
+            &.in {
+              font-weight: bold;
+              padding-left: 8px;
+            }
+            &.etherscan {
+              display: inline-block;
+              font-weight: bold;
+              padding-left: 8px;
+            }
+          }
+
+          .assetsContainer {
+            display: flex;
+            justify-content: left;
+            column-gap: 18px;
+            margin-bottom: 18px;
+          }
+
+          .cell {
+            &.name {
+              font-weight: bold;
+            }
+
+            &.type {
+              margin-bottom: 18px;
+              display: inline-block;
+            }
+
+            &.date {
+              display: inline-block;
+            }
+
+            &.out,
+            &.in {
+              .assets {
+                padding-left: 16px;
+                .amount,
+                .name {
+                  display: inline-block;
+                }
+              }
+            }
+
+            &.etherscan {
+              display: inline-block;
+              margin-bottom: 18px;
+              .etherscanLink {
+                color: $color-black;
+              }
+            }
+          }
+          // grid-template-columns: 1fr 1fr;
+          // // grid-template-rows: repeat(6, auto);
+          // grid-template-areas:
+          //   "headerName name"
+          //   "headerDate date"
+          //   "headerType description"
+          //   "headerIn in"
+          //   "headerOut out"
+          //   "headerEtherscan etherscan";
+
+          // .columnHeader {
+          //   // &::after {
+          //   //   content: ":";
+          //   // }
+          //   &.name {
+          //     grid-area: headerName;
+          //   }
+          //   &.date {
+          //     grid-area: headerDate;
+          //   }
+          //   &.type {
+          //     grid-area: headerType;
+          //   }
+          //   &.in {
+          //     grid-area: headerIn;
+          //   }
+          //   &.out {
+          //     grid-area: headerOut;
+          //   }
+          //   &.etherscan {
+          //     grid-area: headerEtherscan;
+          //   }
+          // }
+
+          // .cell {
+          //   &.name {
+          //     grid-area: name;
+          //   }
+          //   &.date {
+          //     grid-area: date;
+          //   }
+          //   &.type {
+          //     grid-area: type;
+          //   }
+          //   &.in {
+          //     grid-area: in;
+          //   }
+          //   &.out {
+          //     grid-area: out;
+          //   }
+          //   &.etherscan {
+          //     grid-area: etherscan;
+          //   }
+          // }
+
+          // .columnHeader,
+          // .cell {
+          //   padding: 16px;
+          // }
+
+          // .columnHeader {
+          //   color: $color-white;
+          //   border-bottom-width: 8px;
+          //   border-bottom-style: solid;
+
+          //   .subheader {
+          //     font-size: 11px;
+          //   }
+          // }
+
+          // div.columnHeader:nth-child(12n + 1) {
+          //   color: $color-white;
+          //   background-color: $color-light-purple;
+          //   border-bottom-color: $color-pink;
+          // }
+
+          // div.columnHeader:nth-child(2n+2) {
+          //   background-color: $color-bluegreen;
+          //   border-bottom-color: #64b0c8;
+          // }
+          // div.columnHeader:nth-child(3n+3) {
+          //   background-color: $color-darkpink;
+          //   border-bottom-color: $color-pink;
+          // }
+          // div.columnHeader:nth-child(4n+4) {
+          //   background-color: #5bcaa9;
+          //   border-bottom-color: #57dea6;
+          // }
+          // div.columnHeader:nth-child(5n+5) {
+          //   background-color: #64b0c8;
+          //   border-bottom-color: #39a1d8;
+          // }
+          // div.columnHeader:nth-child(6n+6) {
+          //   background-color: #bf62a8;
+          //   border-bottom-color: #ffa2ce;
+          // }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 830px) {
 }

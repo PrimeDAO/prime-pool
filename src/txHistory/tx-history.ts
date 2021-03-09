@@ -163,7 +163,7 @@ export class TxHistory {
 
           return {
             date: blockDate,
-            actionDescription: isJoin ? "Buy Pool Shares" : "Sell Pool Shares",
+            actionDescription: isJoin ? "Bought pool shares" : "Sold pool shares",
             assetsIn: assetsIn,
             assetsOut: assetsOut,
             etherscanUrl: this.transactionsService.getEtherscanLink(txHash),
@@ -179,7 +179,7 @@ export class TxHistory {
 
           return {
             date: blockDate,
-            actionDescription: withdraw ? "Liquidity Mining - Unstake Tokens" : "Liquidity Mining - Stake Tokens",
+            actionDescription: withdraw ? "Harvested farmed tokens" : "Farmed tokens",
             assetsIn: withdraw ? [] : [txInfo],
             assetsOut: withdraw ? [txInfo].concat(getStakingRewardTransfer(event)) : [],
             etherscanUrl: this.transactionsService.getEtherscanLink(txHash),
