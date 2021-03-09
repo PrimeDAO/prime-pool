@@ -83,6 +83,7 @@
           line-height: 33px;
           display: flex;
           justify-content: space-between;
+          column-gap: 24px;
         }
       }
       &.price {
@@ -111,5 +112,100 @@
     a:first-child {
       margin-right: 8px;
     }
+
+    .mmButton2 {
+      display: none;
+    }
   }
+}
+
+@media screen and (max-width: 1345px) {
+  .primeToken {
+    max-width: 60%;
+    text-align: center;
+    margin: auto;
+
+    .topSection {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "firstRow"
+        "secondRow";
+
+      .firstRow {
+        flex-direction: column;
+      }
+
+      .mmButton {
+        display: none;
+      }
+
+      .secondRow {
+        grid-area: secondRow;
+      }
+    }
+    .blobs {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "supply"
+        "supplyDescription"
+        "staked"
+        "stakedDescription"
+        "price"
+        "priceDescription";
+
+      .blob {
+        .title {
+          white-space: unset;
+        }
+
+        &.supply {
+          grid-area: supply;
+        }
+        &.staked {
+          grid-area: staked;
+          > .body {
+            flex-direction: column;
+            row-gap: 30px;
+          }
+        }
+        &.price {
+          grid-area: price;
+        }
+      }
+
+      .description {
+        font-size: 15px;
+        line-height: 25px;
+
+        &.supply {
+          grid-area: supplyDescription;
+        }
+        &.staked {
+          grid-area: stakedDescription;
+        }
+        &.price {
+          grid-area: priceDescription;
+        }
+      }
+    }
+
+    .buttons {
+      width: 245px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      row-gap: 18px;
+
+      a:first-child {
+        margin-right: unset;
+      }
+
+      .mmButton2 {
+        display: unset;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 830px) {
 }
