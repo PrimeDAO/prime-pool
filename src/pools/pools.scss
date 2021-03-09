@@ -174,7 +174,11 @@
             "name name name name"
             "donutchart marketCap chart addLiquidity"
             "donutchart price assets assets";
+          row-gap: 0;
 
+          .name {
+            margin-bottom: 6px;
+          }
           .addLiquidity {
             .poolDataHeader {
               text-align: center;
