@@ -12,15 +12,13 @@ export class SparkChart {
 
   chart: IChartApi;
 
+  container: HTMLElement;
   sparkChart: HTMLElement;
 
   constructor(private numberService: NumberService) {
   }
 
   attached(): void {
-    // do this instead of using `ref` because the ref isn't restored after display:none, display:whatever
-    this.sparkChart = document.getElementById("sparkChart");
-
     if (!this.chart) {
       const options: any = { // DeepPartial<ChartOptions> = {
         width: 0,
@@ -71,7 +69,7 @@ export class SparkChart {
       options.height = this.height || this.sparkChart.offsetHeight;
       options.timeScale.barSpacing = Math.max(options.width / this.data.length, 6);
 
-      this.chart = createChart(this.sparkChart, options );
+      this.chart = createChart(this.sparkChart, options);
 
       const color = "#8668FC";
       const series = this.chart.addAreaSeries({
@@ -92,15 +90,14 @@ export class SparkChart {
       series.setData(this.data);
 
       window.onresize = () => {
-        if (this.chart) {
-          // do this instead of using `ref` because the ref isn't restored after display:none, display:whatever
-          const sparkChart = document.getElementById("sparkChart");
-          const width = Math.min(
-            document.body.offsetWidth,
-            sparkChart.offsetWidth,
-          );
-          this.chart.resize(width, this.height || sparkChart.offsetHeight);
-        }
+        /**
+         * don't resize when the element is hidden, or height will go permanently to 0
+         */
+        setTimeout(() => {
+          if (this.chart) {
+            this.chart.resize(this.container.offsetWidth, this.container.offsetHeight);
+          }
+        }, 200);
       };
     }
   }

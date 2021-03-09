@@ -104,6 +104,10 @@
         .chart {
           white-space: nowrap;
           grid-area: chart;
+
+          .sparkChart {
+            height: 48px;
+          }
         }
         .addLiquidity {
           grid-area: addLiquidity;
@@ -218,17 +222,21 @@
     text-align: center;
 
     .subtitle {
-      margin: auto;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 30px;
     }
 
     .body {
-      .heading1 {
-        margin: auto;
-      }
-
       .poolButtons {
         flex-direction: column;
+        row-gap: 8px;
         align-items: center;
+
+        .pool:not(:last-child) {
+          padding-bottom: 18px;
+          border-bottom: 1px solid #eeeeee;
+        }
       }
 
       .poolRows {
