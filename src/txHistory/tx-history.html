@@ -61,7 +61,7 @@
               </template>
             </div>
             <div class="grid small">
-              <template repeat.for="tx of transactions">
+              <div class="card" repeat.for="tx of transactions">
 
                 <!-- <div class="columnHeader name">Pool
                   <div class="subheader">Which pool did you interact with?</div>
@@ -74,7 +74,7 @@
                 <!-- <div class="columnHeader type">Type
                   <div class="subheader">Which pool did you interact with?</div>
                 </div> -->
-                <div class="cell type">${tx.actionDescription}</div> on
+                <div class="cell type">${tx.actionDescription} on</div>
 
                 <div class="cell date">${tx.date | date:"table-datetime"}</div>
 
@@ -111,7 +111,7 @@
                 <div class="cell etherscan">
                   <a class="etherscanLink" href.to-view="tx.etherscanUrl" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
                 </div>
-              </template>
+              </div>
             </div>
           </div>
         </div>
