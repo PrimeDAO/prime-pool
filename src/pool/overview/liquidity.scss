@@ -5,15 +5,13 @@
   grid-template-columns: auto auto 1fr;
   grid-template-rows: auto;
   grid-template-areas:
-    "header header header"
-    "leftColumn . rightColumn"
-    "messageRow messageRow messageRow"
-    "secondRow secondRow secondRow"
-    "thirdRow thirdRow thirdRow";
+    "header header"
+    "leftColumn rightColumn"
+    "messageRow messageRow"
+    "secondRow secondRow"
+    "thirdRow thirdRow";
 
-  .heading {
-    color: $color-light-purple;
-  }
+  border: 1px solid #e6e6e6;
 
   .leftColumn {
     grid-area: leftColumn;
@@ -22,7 +20,9 @@
     .poolOverview {
       background-color: #e6e6e6;
       padding: 20px;
-
+      .heading {
+        color: $color-light-purple;
+      }
       .body {
         margin-bottom: 20px;
       }
@@ -88,10 +88,10 @@
           margin-right: 6px;
         }
       }
-    }
 
-    .heading {
-      margin-bottom: 16px;
+      .heading {
+        margin-bottom: 16px;
+      }
     }
   }
 
@@ -101,6 +101,8 @@
     background-color: $color-white;
     padding-right: 20px;
     padding-left: 20px;
+    padding-top: 16px;
+    padding-bottom: 16px;
 
     .table {
       display: grid;
@@ -127,6 +129,7 @@
       // header cells
       //.cell:nth-child(-n + 4) {
       .cell.heading {
+        color: $color-light-purple;
         border-top: $section-border;
       }
 
@@ -273,11 +276,12 @@
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1440px) {
   .liquidityContainer {
     margin-left: auto;
     margin-right: auto;
     height: auto;
+    background-color: #e6e6e6;
 
     grid-template-columns: auto;
     grid-template-rows: auto auto auto auto auto auto;
@@ -289,53 +293,52 @@
       "secondRow"
       "thirdRow";
 
-    .header {
-      text-align: center;
-    }
-
     .leftColumn {
-      text-align: center;
-      max-width: 160px;
       margin-left: auto;
       margin-right: auto;
+      max-width: unset;
+
+      .poolOverview {
+        padding: 0;
+      }
     }
 
-    .rightColumn {
-      margin-bottom: 18px;
+    .table {
+      grid-template-columns: auto;
+      grid-template-rows: auto;
 
-      .table .cell {
-        &.heading.heading3 {
-          white-space: unset;
+      .rightColumn {
+        margin-bottom: 18px;
+
+        .table .cell {
+          &.heading.heading3 {
+            white-space: unset;
+          }
+          input {
+            max-width: 74px;
+          }
         }
-        input {
-          max-width: 74px;
+        .table .cell:nth-child(4n) {
+          min-width: unset;
         }
-      }
-      .table .cell:nth-child(4n) {
-        min-width: unset;
-      }
 
-      .table .cell:nth-child(4n + 2) {
-        min-width: unset;
-      }
+        .table .cell:nth-child(4n + 2) {
+          min-width: unset;
+        }
 
-      .poolTokenAmount {
-        input {
-          width: 55px;
+        .poolTokenAmount {
+          input {
+            width: 55px;
+          }
         }
       }
     }
   }
 }
 
-// @media screen and (max-width: 1380px) {
-//   .liquidityContainer {
-//     .leftColumn {
-//       .poolOverview {
-//         .wethEthExchange {
-//           flex-direction: column;
-//         }
-//       }
-//     }
-//   }
-// }
+@media screen and (max-width: 1035px) {
+  .liquidityContainer {
+    border: 2px solid $color-light-purple;
+    border-radius: 20px;
+  }
+}
