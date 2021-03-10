@@ -159,8 +159,21 @@
   }
 }
 
-@media screen and (max-width: 1300px) {
-}
+@media screen and (max-width: 780px) {
+  .appWrapper {
+    grid-template-areas:
+      "logo header"
+      "mainContent mainContent";
 
-@media screen and (max-width: 830px) {
+    .sidebarContainer {
+      display: none;
+    }
+
+    .mainContent {
+      .page {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+    }
+  }
 }
