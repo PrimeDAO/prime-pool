@@ -261,6 +261,16 @@
         row-gap: 12px;
         text-align: center;
       }
+
+      .tabSection {
+        .details {
+          .detail {
+            .labelValue {
+              flex-direction: column-reverse;
+            }
+          }
+        }
+      }
     }
   }
 }
