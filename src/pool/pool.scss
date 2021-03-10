@@ -306,9 +306,13 @@
       }
       .topRow {
         flex-direction: column;
+        text-align: center;
 
         .icon {
-          margin-bottom: 16px;
+          margin-left: auto;
+          margin-right: auto;
+          padding-right: 0;
+          margin-bottom: 24px;
         }
       }
 
@@ -324,11 +328,15 @@
 
         border: unset;
         border-radius: unset;
+        padding-top: 0;
 
         .donutAndStats {
+          text-align: center;
           .donut {
-            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
             text-align: center;
+            margin-bottom: 4px;
           }
         }
 
