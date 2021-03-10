@@ -153,6 +153,7 @@
       .priceTracker {
         padding-left: 0;
         padding-right: 0;
+        height: 300px;
       }
 
       .story {
@@ -202,6 +203,11 @@
                   color: $color-light-purple;
                 }
               }
+            }
+
+            .label {
+              white-space: nowrap;
+              margin-right: 6px;
             }
           }
 
@@ -275,6 +281,7 @@
           .stuff {
             flex-direction: column;
             align-items: unset;
+            row-gap: 4px;
           }
         }
       }
