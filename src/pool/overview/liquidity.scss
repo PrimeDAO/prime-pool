@@ -15,11 +15,15 @@
 
   .leftColumn {
     grid-area: leftColumn;
-    padding-bottom: 15px;
+    background-color: #e6e6e6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 44px;
+    padding-right: 44px;
+    padding-top: 38px;
 
     .poolOverview {
-      background-color: #e6e6e6;
-      padding: 20px;
       .heading {
         color: $color-light-purple;
       }
@@ -97,19 +101,15 @@
 
   .rightColumn {
     grid-area: rightColumn;
-    margin-bottom: 0;
+    padding: 18px 20px;
     background-color: $color-white;
-    padding-right: 20px;
-    padding-left: 20px;
-    padding-top: 16px;
-    padding-bottom: 16px;
 
     .table {
       display: grid;
+      background-color: $color-white;
       margin-bottom: 16px;
       grid-template-columns: auto 1fr 1fr minmax(128px, 1fr);
       grid-template-rows: auto;
-      background-color: $color-white;
 
       .cell {
         border-bottom: $section-border;
@@ -131,6 +131,7 @@
       .cell.heading {
         color: $color-light-purple;
         border-top: $section-border;
+        white-space: normal;
       }
 
       .cell.heading:not(:first-child) {
@@ -281,7 +282,6 @@
     margin-left: auto;
     margin-right: auto;
     height: auto;
-    background-color: #e6e6e6;
 
     grid-template-columns: auto;
     grid-template-rows: auto auto auto auto auto auto;
@@ -294,43 +294,30 @@
       "thirdRow";
 
     .leftColumn {
-      margin-left: auto;
-      margin-right: auto;
       max-width: unset;
 
       .poolOverview {
         padding: 0;
+        align-items: center;
       }
     }
 
-    .table {
-      grid-template-columns: auto;
-      grid-template-rows: auto;
-
-      .rightColumn {
-        margin-bottom: 18px;
-
-        .table .cell {
-          &.heading.heading3 {
-            white-space: unset;
-          }
+    .rightColumn {
+      .table {
+        .cell {
           input {
             max-width: 74px;
           }
         }
-        .table .cell:nth-child(4n) {
-          min-width: unset;
-        }
+      }
 
-        .table .cell:nth-child(4n + 2) {
-          min-width: unset;
+      .poolTokenAmount {
+        input {
+          width: 55px;
         }
-
-        .poolTokenAmount {
-          input {
-            width: 55px;
-          }
-        }
+      }
+      .messageRow {
+        letter-spacing: 0;
       }
     }
   }
@@ -338,7 +325,21 @@
 
 @media screen and (max-width: 1035px) {
   .liquidityContainer {
-    border: 2px solid $color-light-purple;
-    border-radius: 20px;
+    .leftColumn {
+      max-width: unset;
+      border-top: 2px solid #8668fc;
+      border-left: 2px solid #8668fc;
+      border-right: 2px solid #8668fc;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+
+    .rightColumn {
+      border-bottom: 2px solid #8668fc;
+      border-left: 2px solid #8668fc;
+      border-right: 2px solid #8668fc;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
   }
 }

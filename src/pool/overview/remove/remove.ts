@@ -299,7 +299,7 @@ export class LiquidityRemove extends PoolBase {
     let message: string;
 
     if (this.isSingleAsset) {
-      if (this.selectedToken.inputAmount_remove.gt(this.selectedToken.balanceInPool)) {
+      if (this.selectedToken.inputAmount_remove && this.selectedToken.inputAmount_remove.gt(this.selectedToken.balanceInPool)) {
         message = "Can't remove this amount because it exceeds the amount in the pool";
       } else {
         const maxOutRatio = 1 / 3;

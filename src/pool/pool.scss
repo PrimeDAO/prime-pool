@@ -288,21 +288,7 @@
     }
   }
 
-  @media screen and (max-width: 1075px) {
-    .poolContainer {
-      .topRow {
-        .nameAndStuff {
-          .stuff {
-            flex-direction: column;
-            align-items: unset;
-            row-gap: 4px;
-          }
-        }
-      }
-    }
-  }
-
-  @media screen and (max-width: 1035px) {
+  @media screen and (max-width: 1080px) {
     .poolContainer {
       .mmButton1 {
         display: none;
@@ -313,6 +299,14 @@
       .topRow {
         flex-direction: column;
         text-align: center;
+
+        .nameAndStuff {
+          .stuff {
+            flex-direction: column;
+            align-items: unset;
+            row-gap: 4px;
+          }
+        }
 
         .icon {
           margin-left: auto;
