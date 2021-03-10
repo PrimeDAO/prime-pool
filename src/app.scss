@@ -100,46 +100,10 @@
         }
       }
 
-      .appFooter {
+      > .appFooter {
         padding: 0 20px;
         position: fixed;
         bottom: 30px;
-        .footerContainer {
-          .links {
-            text-decoration: underline;
-            font-size: 11px;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-          }
-
-          .social {
-            border-bottom: 2px solid #1ee0fc;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-
-            a {
-              img {
-                width: 16px;
-              }
-            }
-          }
-
-          .logo {
-            align-items: center;
-            display: flex;
-            img {
-              width: 24px;
-              margin-right: 6px;
-            }
-            .text {
-              font-size: 6px;
-              display: inline-block;
-            }
-          }
-        }
       }
     }
   }
@@ -159,13 +123,58 @@
       }
     }
   }
+
+  > .appFooter {
+    display: none;
+    grid-area: footer;
+  }
+
+  .appFooter {
+    .footerContainer {
+      .links {
+        text-decoration: underline;
+        font-size: 11px;
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .social {
+        border-bottom: 2px solid #1ee0fc;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+
+        a {
+          img {
+            width: 16px;
+          }
+        }
+      }
+
+      .logo {
+        align-items: center;
+        display: flex;
+        img {
+          width: 24px;
+          margin-right: 6px;
+        }
+        .text {
+          font-size: 6px;
+          display: inline-block;
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 780px) {
   .appWrapper {
     grid-template-areas:
       "logo header"
-      "mainContent mainContent";
+      "mainContent mainContent"
+      "footer footer";
 
     .sidebarContainer {
       display: none;
@@ -176,6 +185,13 @@
         padding-left: 8px;
         padding-right: 8px;
       }
+    }
+
+    > .appFooter {
+      display: unset;
+      width: 150px;
+      margin: auto;
+      padding: 16px;
     }
   }
 }
