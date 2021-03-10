@@ -179,7 +179,7 @@ export class TxHistory {
 
           return {
             date: blockDate,
-            actionDescription: withdraw ? "Harvested farmed tokens" : "Farmed tokens",
+            actionDescription: withdraw ? "Harvested farmed tokens" : "Initiated farming",
             assetsIn: withdraw ? [] : [txInfo],
             assetsOut: withdraw ? [txInfo].concat(getStakingRewardTransfer(event)) : [],
             etherscanUrl: this.transactionsService.getEtherscanLink(txHash),
