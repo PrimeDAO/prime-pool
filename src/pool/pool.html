@@ -18,11 +18,12 @@
               </formatted-number>%
             </div>
           </div>
-          <div class="anchorArrow"><img src="/anchorArrow.svg" /></div>
-          <div class="gotoBalancer"><a href="https://pools.balancer.exchange/#/pool/${pool.address}/" target="_blank" rel="noopener noreferrer">Go to ${pool.name} on Balancer</a></div>
+          <div class="gotoBalancer">
+            <div class="anchorArrow"><img src="/anchorArrow.svg" /></div> <a href="https://pools.balancer.exchange/#/pool/${pool.address}/" target="_blank" rel="noopener noreferrer">Go to ${pool.name} on Balancer</a>
+          </div>
         </div>
       </div>
-      <div class="mmButton">
+      <div class="mmButton1">
         <metamask-token-button token-info.to-view="tokenInfo"></metamask-token-button>
       </div>
     </div>
@@ -78,7 +79,9 @@
       <div class="tabSection">
         <router-view></router-view>
       </div>
+      <div class="mmButton2">
+        <metamask-token-button token-info.to-view="tokenInfo"></metamask-token-button>
+      </div>
     </div>
-  </div>
   </div>
 </template>

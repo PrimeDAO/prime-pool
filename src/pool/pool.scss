@@ -23,9 +23,13 @@
       }
       .stuff {
         display: flex;
+        align-items: center;
 
         .cap24 {
           margin-right: 16px;
+          white-space: nowrap;
+          position: relative;
+          top: 1px;
           .label {
             display: inline-block;
             margin-right: 8px;
@@ -39,12 +43,26 @@
           }
         }
 
-        .anchorArrow {
-          margin-right: 8px;
+        .gotoBalancer {
+          white-space: nowrap;
+
+          .anchorArrow {
+            margin-right: 8px;
+            display: inline-block;
+
+            img {
+              position: relative;
+              top: 3px;
+            }
+          }
+
+          a {
+            color: $color-light-purple;
+          }
         }
       }
     }
-    .mmButton {
+    .mmButton1 {
       flex-shrink: 2;
     }
   }
@@ -215,7 +233,62 @@
       }
     }
   }
+
+  .mmButton2 {
+    display: none;
+  }
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1275px) {
+  .poolContainer {
+    .mainBody {
+      .tabButtons {
+        flex-direction: column;
+        row-gap: 12px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  .poolContainer {
+    .mainBody {
+      .tabSection {
+        .liquidityButtons {
+          flex-direction: column;
+          row-gap: 12px;
+          text-align: center;
+
+          button {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1075px) {
+    .poolContainer {
+      .topRow {
+        .nameAndStuff {
+          .stuff {
+            flex-direction: column;
+            align-items: unset;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1035px) {
+    .poolContainer {
+      .mmButton1 {
+        display: none;
+      }
+      .mmButton2 {
+        display: block;
+      }
+    }
+  }
 }
