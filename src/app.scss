@@ -2,11 +2,11 @@
 .appWrapper {
   display: grid;
   grid-template-columns: 213px 1fr;
-  grid-template-rows: auto;
+  grid-template-rows: 1fr 100fr;
   grid-template-areas:
     "logo header"
     "sidebar mainContent";
-  height: 100%;
+  height: 100vh;
 
   > .logo {
     grid-area: logo;
@@ -124,15 +124,6 @@
         padding-top: 12px;
         padding-bottom: 12px;
       }
-
-      /**
-       * sidebar footer
-       */
-      > .appFooter {
-        padding: 0 20px;
-        position: fixed;
-        bottom: 30px;
-      }
     }
   }
 
@@ -153,16 +144,10 @@
   }
 
   /**
-   * the mobile footer that appears at the bottom of every page
-   */
-  > .appFooter {
-    display: none;
-  }
-
-  /**
    * styles common to both footer instances
    */
   .appFooter {
+    display: none;
     grid-area: footer;
     .footerContainer {
       .links {
@@ -211,12 +196,14 @@
       "footer footer";
 
     grid-template-columns: 132px 1fr;
+    grid-template-rows: 1fr 100fr 1fr;
 
     &.showingMobileMenu {
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
         "logo header"
-        "sidebar sidebar";
+        "sidebar sidebar"
+        "footer footer";
     }
 
     .appHeader {
@@ -244,7 +231,7 @@
       }
     }
 
-    > .appFooter {
+    .appFooter {
       display: unset;
       width: 150px;
       margin: auto;
