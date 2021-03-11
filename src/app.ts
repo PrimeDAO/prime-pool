@@ -144,10 +144,16 @@ export class App {
   }
 
   gotoPool(pool: Pool): void {
+    this.showingMobileMenu = false;
     this.router.navigate(`pool/${pool.address}`);
   }
 
   toggleMobileMenu(): void {
     this.showingMobileMenu = !this.showingMobileMenu;
+  }
+
+  navigate(href: string): void {
+    this.showingMobileMenu = false;
+    this.router.navigate(href);
   }
 }

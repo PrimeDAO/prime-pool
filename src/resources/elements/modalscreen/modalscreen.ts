@@ -1,5 +1,5 @@
 import "./modalscreen.scss";
-import { bindable, bindingMode, containerless, customElement } from "aurelia-framework";
+import { bindable, containerless, customElement } from "aurelia-framework";
 import { AureliaHelperService } from "services/AureliaHelperService";
 import { IDisposable } from "services/IDisposable";
 
