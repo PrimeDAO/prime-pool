@@ -63,8 +63,9 @@
 
   .sidebarContainer {
     z-index: 10000; // so stays above model screen
+    grid-area: sidebar;
+
     .sidebar {
-      grid-area: sidebar;
       padding: 20px 0;
 
       .menuitems {
@@ -118,7 +119,6 @@
        * sidebar connect button
        */
       > .connectButton {
-        display: none;
         flex-grow: 2;
         padding-right: 20px;
         padding-top: 12px;
@@ -157,13 +157,13 @@
    */
   > .appFooter {
     display: none;
-    grid-area: footer;
   }
 
   /**
    * styles common to both footer instances
    */
   .appFooter {
+    grid-area: footer;
     .footerContainer {
       .links {
         text-decoration: underline;
@@ -212,6 +212,13 @@
 
     grid-template-columns: 132px 1fr;
 
+    &.showingMobileMenu {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "logo header"
+        "sidebar sidebar";
+    }
+
     .appHeader {
       > .connectButton {
         display: none;
@@ -224,8 +231,9 @@
     .sidebarContainer {
       display: none;
 
-      > .connectButton {
+      &.showingMobileMenu {
         display: unset;
+        justify-self: center;
       }
     }
 
