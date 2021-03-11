@@ -16,7 +16,6 @@ export class ModalScreen {
   private container: HTMLElement;
   private mask: HTMLElement;
   private subscription: IDisposable;
-
   constructor(
     private aureliaHelperService: AureliaHelperService,
   ) {
@@ -33,7 +32,7 @@ export class ModalScreen {
 
   private onResize() {
     if (this.container) {
-      const header = document.querySelector(".connectButton");
+      const header = document.querySelector(".hConnectButton");
       this.mask.style.height = `${this.container.scrollHeight - header.scrollHeight}px`;
       this.mask.style.top = `${this.container.offsetTop + header.scrollHeight}px`;
     }
