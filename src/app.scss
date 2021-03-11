@@ -14,8 +14,7 @@
     align-items: center;
     // just for vertical alignment of the logo
     display: flex;
-    justify-content: center;
-
+    padding-left: 24px;
     img {
       margin-right: 10px;
     }
@@ -196,11 +195,11 @@
       "mainContent mainContent"
       "footer footer";
 
-    grid-template-columns: 132px 1fr;
+    grid-template-columns: 137px 1fr;
     grid-template-rows: 1fr 100fr 1fr;
 
     &.showingMobileMenu {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 100fr;
       grid-template-areas:
         "logo header"
         "sidebar sidebar"
