@@ -21,6 +21,7 @@ export class App {
   modalMessage: string;
   initializing = true;
   pools = new Array<Pool>();
+  showingMobileMenu = false;
 
   errorHandler = (ex: unknown): boolean => {
     this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an unexpected error occurred", ex));
@@ -138,11 +139,15 @@ export class App {
     Utils.goto(where);
   }
 
-  contactUs() {
+  contactUs(): void {
     window.open("mailto:hello@primedao.io", "#", "noopener noreferrer");
   }
 
-  gotoPool(pool: Pool) {
+  gotoPool(pool: Pool): void {
     this.router.navigate(`pool/${pool.address}`);
+  }
+
+  toggleMobileMenu(): void {
+    this.showingMobileMenu = !this.showingMobileMenu;
   }
 }

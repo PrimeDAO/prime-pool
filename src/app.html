@@ -14,9 +14,13 @@
         <div class="connectButton">
           <connectbutton></connectbutton>
         </div>
+        <div class="mobilemenuButton"><img click.delegate="toggleMobileMenu()" src="/hamburger_menu.svg" /></div>
       </div>
       <div class="sidebarContainer">
         <div class="sidebar">
+          <div class="connectButton">
+            <connectbutton></connectbutton>
+          </div>
           <div class="menuitems">
             <template repeat.for="row of router.navigation">
               <a class="item ${row.isActive ? 'active' : ''}"

@@ -25,6 +25,7 @@
     grid-area: header;
     text-align: right;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     background-color: $color-black;
     height: 76px;
@@ -38,11 +39,25 @@
       }
     }
 
-    .connectButton {
+    /**
+     * header connectButton
+     */
+    > .connectButton {
       flex-grow: 2;
       padding-right: 20px;
       padding-top: 12px;
       padding-bottom: 12px;
+    }
+
+    > .mobilemenuButton {
+      display: none;
+      padding-right: 24px;
+      position: relative;
+      top: 2px;
+      img {
+        width: 32px;
+        height: 32px;
+      }
     }
   }
 
@@ -99,7 +114,20 @@
           }
         }
       }
+      /**
+       * sidebar connect button
+       */
+      > .connectButton {
+        display: none;
+        flex-grow: 2;
+        padding-right: 20px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
 
+      /**
+       * sidebar footer
+       */
       > .appFooter {
         padding: 0 20px;
         position: fixed;
@@ -124,11 +152,17 @@
     }
   }
 
+  /**
+   * the mobile footer that appears at the bottom of every page
+   */
   > .appFooter {
     display: none;
     grid-area: footer;
   }
 
+  /**
+   * styles common to both footer instances
+   */
   .appFooter {
     .footerContainer {
       .links {
@@ -176,8 +210,23 @@
       "mainContent mainContent"
       "footer footer";
 
+    grid-template-columns: 132px 1fr;
+
+    .appHeader {
+      > .connectButton {
+        display: none;
+      }
+      > .mobilemenuButton {
+        display: block;
+      }
+    }
+
     .sidebarContainer {
       display: none;
+
+      > .connectButton {
+        display: unset;
+      }
     }
 
     .mainContent {
@@ -192,6 +241,17 @@
       width: 150px;
       margin: auto;
       padding: 16px;
+
+      .footerContainer {
+        .social {
+          margin-bottom: 8px;
+          padding-bottom: 8px;
+        }
+
+        .links {
+          margin-bottom: 12px;
+        }
+      }
     }
   }
 }
