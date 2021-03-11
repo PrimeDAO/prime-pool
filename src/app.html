@@ -9,15 +9,15 @@
         <div class="networkFeedback">
           <networkfeedback></networkfeedback>
         </div>
-        <div class="connectButton">
+        <div class="hConnectButton">
           <connectbutton></connectbutton>
         </div>
         <div class="mobilemenuButton"><img click.delegate="toggleMobileMenu()" src="/hamburger_menu.svg" /></div>
       </div>
       <div class="sidebarContainer ${showingMobileMenu ? 'showingMobileMenu' : ''}">
         <div class="sidebar">
-          <div if.to-view="showingMobileMenu" class="connectButton">
-            <connectbutton></connectbutton>
+          <div if.to-view="showingMobileMenu" class="sbConnectButton">
+            <connectbutton hideBalances></connectbutton>
           </div>
           <div class="menuitems">
             <template repeat.for="row of router.navigation">
@@ -32,7 +32,7 @@
                 <div else class="poolItems">
                   <template repeat.for="pool of $parent.pools">
                     <a if.to-view="!pool.preview"
-                      class="item"
+                      class="item pool"
                       href="#"
                       click.delegate="gotoPool(pool)">
                       <div class="text"><img src="/PoolMenuBullet.svg" />${pool.name}</div>

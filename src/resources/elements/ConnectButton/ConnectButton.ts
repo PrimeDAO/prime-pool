@@ -6,6 +6,7 @@ import { Address, EthereumService, Networks } from "services/EthereumService";
 import { EventConfigTransaction } from "services/GeneralEvents";
 import { TransactionReceipt } from "services/TransactionsService";
 import "./ConnectButton.scss";
+import { bindable } from "aurelia-typed-observable-plugin";
 
 enum Phase {
   None = "None",
@@ -26,6 +27,7 @@ export class ConnectButton {
   private primeAddress: Address;
   private bPrimeAddress: Address;
   private wethAddress: Address;
+  @bindable.booleanAttr private hideBalances = false;
 
   constructor(
     private ethereumService: EthereumService,

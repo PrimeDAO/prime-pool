@@ -1,6 +1,6 @@
 <template>
   <div class="connectButtonContainer ${accountAddress ? 'connected' : ''}">
-    <div class="connectedButtons" if.bind="accountAddress">
+    <div class="connectedButtons" if.to-view="accountAddress && !hideBalances">
       <div class="ethBalanceContainer">
         <tokenbalance formatted="0.00a" token-address.to-view="primeAddress"></tokenbalance> PRIME<span class="separator">|</span>
       </div>

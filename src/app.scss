@@ -42,7 +42,7 @@
     /**
      * header connectButton
      */
-    > .connectButton {
+    > .hConnectButton {
       flex-grow: 2;
       padding-right: 20px;
       padding-top: 12px;
@@ -74,6 +74,7 @@
           display: block;
           margin-bottom: 6px;
           padding: 14px 20px;
+          cursor: pointer;
 
           &.active,
           &:hover {
@@ -118,12 +119,12 @@
       /**
        * sidebar connect button
        */
-      > .connectButton {
-        flex-grow: 2;
-        padding-right: 20px;
-        padding-top: 12px;
-        padding-bottom: 12px;
-      }
+      // > .connectButton {
+      //   flex-grow: 2;
+      //   padding-right: 20px;
+      //   padding-top: 12px;
+      //   padding-bottom: 12px;
+      // }
     }
   }
 
@@ -207,7 +208,7 @@
     }
 
     .appHeader {
-      > .connectButton {
+      > .hConnectButton {
         display: none;
       }
       > .mobilemenuButton {
@@ -220,7 +221,23 @@
 
       &.showingMobileMenu {
         display: unset;
-        justify-self: center;
+        width: 100%;
+        text-align: center;
+      }
+
+      .sidebar {
+        .sbConnectButton {
+          margin-bottom: 26px;
+        }
+
+        .menuitems {
+          a.item {
+            padding-left: calc(50% - 80px);
+            .text {
+              justify-items: unset;
+            }
+          }
+        }
       }
     }
 
