@@ -213,3 +213,19 @@
     }
   }
 }
+
+@media screen and (max-width: 780px) {
+  .home {
+    .banner {
+      background-position-x: -200px !important;
+    }
+  }
+}
+
+@media screen and (max-width: 602px) {
+  .home {
+    .banner {
+      background-position-x: -600px !important;
+    }
+  }
+}
