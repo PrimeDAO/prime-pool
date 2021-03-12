@@ -4,7 +4,7 @@ import { ContractsService } from "services/ContractsService";
 import "./tx-history.scss";
 import { EventAggregator } from "aurelia-event-aggregator";
 import TransactionsService from "services/TransactionsService";
-import { Address, EthereumService, fromWei, Hash, Networks } from "services/EthereumService";
+import { Address, EthereumService, Hash } from "services/EthereumService";
 import { BigNumber } from "ethers";
 import { SortService } from "services/SortService";
 import { TokenService } from "services/TokenService";
@@ -48,7 +48,6 @@ export class TxHistory {
   stakingTokenName: string;
   stakingRewardTokenName: string;
   loading = false;
-  @computedFrom("ethereumService.defaultAccountAddress")
   get currentAccount(): Address { return this.ethereumService.defaultAccountAddress; }
 
   @computedFrom("currentAccount")
