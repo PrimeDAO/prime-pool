@@ -9,14 +9,14 @@
         <div class="networkFeedback">
           <networkfeedback></networkfeedback>
         </div>
-        <div class="hConnectButton" if.to-view="!showingMobileMenu">
+        <div class="hConnectButton" show.to-view="!showingMobileMenu">
           <connectbutton></connectbutton>
         </div>
         <div class="mobilemenuButton"><img click.delegate="toggleMobileMenu()" src="/hamburger_menu.svg" /></div>
       </div>
       <div class="sidebarContainer ${showingMobileMenu ? 'showingMobileMenu' : ''}">
         <div class="sidebar">
-          <div if.to-view="showingMobileMenu" class="sbConnectButton">
+          <div show.to-view="showingMobileMenu" class="sbConnectButton">
             <connectbutton hide-balances></connectbutton>
           </div>
           <div class="menuitems">
@@ -44,7 +44,7 @@
           </div>
         </div>
       </div>
-      <div if.to-view="!showingMobileMenu" class="mainContent">
+      <div show.to-view="!showingMobileMenu" class="mainContent">
         <router-view></router-view>
       </div>
       <div class="appFooter">
