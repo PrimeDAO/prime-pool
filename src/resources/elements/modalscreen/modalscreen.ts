@@ -32,9 +32,10 @@ export class ModalScreen {
 
   private onResize() {
     if (this.container) {
-      const header = document.querySelector(".hConnectButton");
-      this.mask.style.height = `${this.container.scrollHeight - header.scrollHeight}px`;
-      this.mask.style.top = `${this.container.offsetTop + header.scrollHeight}px`;
+      // header maybe undefined on mobile
+      const headerHeight = document.querySelector(".hConnectButton")?.scrollHeight ?? 0;
+      this.mask.style.height = `${this.container.scrollHeight - headerHeight}px`;
+      this.mask.style.top = `${this.container.offsetTop + headerHeight}px`;
     }
   }
 

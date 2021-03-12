@@ -9,7 +9,7 @@
         <div class="networkFeedback">
           <networkfeedback></networkfeedback>
         </div>
-        <div class="hConnectButton">
+        <div class="hConnectButton" if.to-view="!showingMobileMenu">
           <connectbutton></connectbutton>
         </div>
         <div class="mobilemenuButton"><img click.delegate="toggleMobileMenu()" src="/hamburger_menu.svg" /></div>
@@ -17,7 +17,7 @@
       <div class="sidebarContainer ${showingMobileMenu ? 'showingMobileMenu' : ''}">
         <div class="sidebar">
           <div if.to-view="showingMobileMenu" class="sbConnectButton">
-            <connectbutton hideBalances></connectbutton>
+            <connectbutton hide-balances></connectbutton>
           </div>
           <div class="menuitems">
             <template repeat.for="row of router.navigation">

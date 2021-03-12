@@ -27,7 +27,7 @@ export class ConnectButton {
   private primeAddress: Address;
   private bPrimeAddress: Address;
   private wethAddress: Address;
-  @bindable.booleanAttr private hideBalances = false;
+  @bindable.booleanAttr private hideBalances: boolean;
 
   constructor(
     private ethereumService: EthereumService,

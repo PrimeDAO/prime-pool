@@ -1,18 +1,20 @@
 <template>
   <div class="connectButtonContainer ${accountAddress ? 'connected' : ''}">
-    <div class="connectedButtons" if.to-view="accountAddress && !hideBalances">
-      <div class="ethBalanceContainer">
-        <tokenbalance formatted="0.00a" token-address.to-view="primeAddress"></tokenbalance> PRIME<span class="separator">|</span>
-      </div>
-      <div class="ethBalanceContainer">
-        <tokenbalance formatted="0.00a" token-address.to-view="wethAddress"></tokenbalance> WETH<span class="separator">|</span>
-      </div>
-      <!-- <div class="ethBalanceContainer">
+    <div class="connectedButtons" if.to-view="accountAddress">
+      <template if.to-view="!hideBalances">
+        <div class="ethBalanceContainer">
+          <tokenbalance formatted="0.00a" token-address.to-view="primeAddress"></tokenbalance> PRIME<span class="separator">|</span>
+        </div>
+        <div class="ethBalanceContainer">
+          <tokenbalance formatted="0.00a" token-address.to-view="wethAddress"></tokenbalance> WETH<span class="separator">|</span>
+        </div>
+        <!-- <div class="ethBalanceContainer">
         <tokenbalance formatted="0.00a" token-address.to-view="bPrimeAddress"></tokenbalance> BPRIME<span class="separator">|</span>
       </div> -->
-      <div class="ethBalanceContainer">
-        <ethbalance formatted="0.00a"></ethbalance> ETH
-      </div>
+        <div class="ethBalanceContainer">
+          <ethbalance formatted="0.00a"></ethbalance> ETH
+        </div>
+      </template>
       <div class="connectButton">
         <div if.to-view="txPhase !== 'None'" click.delegate="gotoTx()" class.bind="'pending' + ((txPhase==='Confirming')
           ? ' confirming' : '')">
