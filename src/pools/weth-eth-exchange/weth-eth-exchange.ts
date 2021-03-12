@@ -25,7 +25,7 @@ export class WethEthExchange {
   ) {
   }
 
-  async attached() {
+  async attached(): Promise<void> {
     this.subscriptions.push(this.eventAggregator.subscribe("Contracts.Changed",
       async () => {
         this.loadContracts();
@@ -46,15 +46,15 @@ export class WethEthExchange {
     this.getUserBalances();
   }
 
-  detached() {
+  detached(): void {
     this.subscriptions.dispose();
   }
 
-  async loadContracts() {
+  async loadContracts(): Promise<void> {
     this.weth = await this.contractsService.getContractFor(ContractNames.WETH);
   }
 
-  async getUserBalances() {
+  async getUserBalances(): Promise<void> {
     const provider = this.ethereumService.readOnlyProvider;
     this.userWethBalance = await this.weth.balanceOf(this.ethereumService.defaultAccountAddress);
     this.userEthBalance = await provider.getBalance(this.ethereumService.defaultAccountAddress);
@@ -62,7 +62,10 @@ export class WethEthExchange {
 
   private async handleDeposit() {
     if (this.ethereumService.ensureConnected()) {
-      if (this.ethWethAmount.gt(this.userEthBalance)) {
+      if (!this.ethWethAmount || this.ethWethAmount.eq(0)) {
+        this.eventAggregator.publish("handleValidationError", new EventConfigFailure("Enter a value for ETH"));
+      }
+      else if (this.ethWethAmount.gt(this.userEthBalance)) {
         this.eventAggregator.publish("handleValidationError", new EventConfigFailure("You don't have enough ETH to wrap the amount you requested"));
       } else {
         await this.transactionsService.send(() => this.weth.deposit({ value: this.ethWethAmount }));
@@ -74,7 +77,10 @@ export class WethEthExchange {
 
   private async handleWithdraw() {
     if (this.ethereumService.ensureConnected()) {
-      if (this.wethEthAmount.gt(this.userWethBalance)) {
+      if (!this.wethEthAmount || this.wethEthAmount.eq(0)) {
+        this.eventAggregator.publish("handleValidationError", new EventConfigFailure("Enter a value for WETH"));
+      }
+      else if (this.wethEthAmount.gt(this.userWethBalance)) {
         this.eventAggregator.publish("handleValidationError", new EventConfigFailure("You don't have enough WETH to unwrap the amount you requested"));
       } else {
         await this.transactionsService.send(() => this.weth.withdraw(this.wethEthAmount));
