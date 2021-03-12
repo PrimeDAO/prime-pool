@@ -362,7 +362,7 @@ export class LiquidityAdd extends PoolBase {
         const tokenBalance = toBigNumberJs(this.selectedToken.balanceInPool);
 
         if (amount.div(tokenBalance).gt(maxInRatio)) {
-          message = "Insufficient pool liquidity.  Reduce the amount you wish to add.";
+          message = "Insufficient pool liquidity.  Reduce the amount you wish to buy.";
         }
       }
     } else if (this.isMultiAsset) {
@@ -384,17 +384,9 @@ export class LiquidityAdd extends PoolBase {
       message = `Please specify an amount of ${token.symbol}`;
     } else {
       if (token.inputAmount_add.gt(token.userBalance)) {
-        message = `Cannot add this amount of ${token.symbol} because it exceeds your balance`;
+        message = `You can't pay this amount of ${token.symbol} because it exceeds your balance`;
       }
     }
-
-    /**
-     * TODO confirm this is commented-out in RA I
-     */
-
-    // if (!this.primeHasSufficientAllowance) {
-    //   message = "Can't add this amount, you will exceed your balance of PRIME";
-    // }
 
     return message;
   }

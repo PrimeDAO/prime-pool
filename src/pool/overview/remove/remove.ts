@@ -222,7 +222,7 @@ export class LiquidityRemove extends PoolBase {
     let expectedAmount: BigNumberJs;
 
     if (amount.div(poolTokenShares).gt(0.99)) {
-      // Invalidate user's attempt to withdraw the entire pool supply in a single token
+      // Invalidate user's attempt to redeem the entire pool supply in a single token
       // At amounts close to 100%, solidity math freaks out
       return "";
     }
@@ -300,7 +300,7 @@ export class LiquidityRemove extends PoolBase {
 
     if (this.isSingleAsset) {
       if (this.selectedToken.inputAmount_remove && this.selectedToken.inputAmount_remove.gt(this.selectedToken.balanceInPool)) {
-        message = "Can't remove this amount because it exceeds the amount in the pool";
+        message = `Can't redeem this amount of ${this.selectedToken.symbol} because it exceeds the amount in the pool`;
       } else {
         const maxOutRatio = 1 / 3;
         const amount = toBigNumberJs(this.poolTokenAmount);
@@ -311,9 +311,9 @@ export class LiquidityRemove extends PoolBase {
         const swapfee = toBigNumberJs(this.pool.swapfee);
 
         if (amount.div(poolTokenShares).gt(0.99)) {
-          // Invalidate user's attempt to withdraw the entire pool supply in a single token
+          // Invalidate user's attempt to redeem the entire pool supply in a single token
           // At amounts close to 100%, solidity math freaks out
-          message = "Insufficient pool liquidity.  Reduce the amount you wish to remove.";
+          message = "Insufficient pool liquidity.  Reduce the amount you wish to redeem.";
         } else {
           const tokenAmountOut = calcSingleOutGivenPoolIn(
             tokenBalance,
@@ -324,7 +324,7 @@ export class LiquidityRemove extends PoolBase {
             swapfee);
 
           if (tokenAmountOut.div(tokenBalance).gt(maxOutRatio)) {
-            message = "Insufficient pool liquidity.  Reduce the amount you wish to remove.";
+            message = "Insufficient pool liquidity.  Reduce the amount you wish to redeem.";
           }
         }
       }
@@ -337,8 +337,11 @@ export class LiquidityRemove extends PoolBase {
     let message;
 
     if (this.isSingleAsset) {
-      if (this.poolTokenAmount.gt(this.pool.userPoolTokenBalance)) {
-        message = "Can't remove this amount because it exceeds your total share of BPRIME";
+      if (!this.poolTokenAmount) {
+        message = `To redeem tokens, you must enter an amount of ${this.pool.poolToken.symbol} you wish to return`;
+      }
+      else if (this.poolTokenAmount.gt(this.pool.userPoolTokenBalance)) {
+        message = `You can't return this amount of ${this.pool.poolToken.symbol} because it exceeds your balance`;
       }
     }
 

@@ -69,6 +69,7 @@
       }
     }
   }
+
   .mainBody {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -329,6 +330,8 @@
         border: unset;
         border-radius: unset;
         padding-top: 0;
+        padding-left: 0;
+        padding-right: 0;
 
         .donutAndStats {
           text-align: center;
