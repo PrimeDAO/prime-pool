@@ -1,10 +1,9 @@
 @import "styles/colors.scss";
 .txHistory {
-  .heading1 {
-    padding-bottom: 30px;
-  }
-
-  .body {
+  .topSection {
+    .subtitle {
+      padding-bottom: 30px;
+    }
     .loading {
       display: flex;
       i {
@@ -12,7 +11,9 @@
         font-size: 22px;
       }
     }
+  }
 
+  .body {
     .gridArea {
       .reloadButton {
         margin-bottom: 16px;
@@ -171,8 +172,18 @@
   }
 }
 
-@media screen and (max-width: 710px) {
+@media screen and (max-width: 780px) {
   .txHistory {
+    text-align: center;
+
+    .topSection {
+      .subtitle {
+        margin-left: auto;
+        margin-right: auto;
+        width: 60%;
+      }
+    }
+
     .body {
       .gridArea {
         .grid {

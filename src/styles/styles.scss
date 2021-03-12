@@ -54,9 +54,7 @@ html {
       font-size: 18px;
       font-family: "Cera Pro";
       margin-bottom: 8px;
-      position: relative; // for triangle z-index to work
       color: $color-light-purple;
-      width: 60%;
     }
     .heading2 {
       font-size: 24px;
@@ -123,20 +121,6 @@ html {
     .buttonBw {
       color: $color-black;
       border: 2px solid $color-green;
-    }
-
-    .triangle {
-      position: absolute;
-      transform: translateY(-21px);
-
-      img {
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 0 0 38px 38px;
-        border-color: transparent transparent $triangle-color transparent;
-        display: inline-block;
-      }
     }
 
     .sectionStyles {

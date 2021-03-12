@@ -48,10 +48,12 @@ export class TxHistory {
   stakingTokenName: string;
   stakingRewardTokenName: string;
   loading = false;
-
   @computedFrom("ethereumService.defaultAccountAddress")
+  get currentAccount(): Address { return this.ethereumService.defaultAccountAddress; }
+
+  @computedFrom("currentAccount")
   get connected(): boolean {
-    return !!this.ethereumService.defaultAccountAddress;
+    return !!this.currentAccount;
   }
 
   constructor(
@@ -110,18 +112,18 @@ export class TxHistory {
         const crPoolAddress = this.contractsService.getContractAddress(ContractNames.ConfigurableRightsPool);
         const crPool = this.poolService.pools.get(crPoolAddress);
 
-        const txJoinEvents = await crPool.getJoinEvents(this.ethereumService.defaultAccountAddress);
-        const txExitEvents = await crPool.getExitEvents(this.ethereumService.defaultAccountAddress);
-        const txJoinBpoolTransferEvents = await crPool.getPoolTokenTransferEvents(crPoolAddress, this.ethereumService.defaultAccountAddress);
-        const txExitBpoolTransferEvents = await crPool.getPoolTokenTransferEvents(this.ethereumService.defaultAccountAddress, crPoolAddress);
+        const txJoinEvents = await crPool.getJoinEvents("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
+        const txExitEvents = await crPool.getExitEvents("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
+        const txJoinBpoolTransferEvents = await crPool.getPoolTokenTransferEvents(crPoolAddress, "0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
+        const txExitBpoolTransferEvents = await crPool.getPoolTokenTransferEvents("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19", crPoolAddress);
 
-        const filterStaked = this.stakingRewards.filters.Staked(this.ethereumService.defaultAccountAddress);
+        const filterStaked = this.stakingRewards.filters.Staked("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
         const txStakedEvents: Array<IStandardEvent<IStakingEventArgs>> = await this.stakingRewards.queryFilter(filterStaked, crPool.startingBlockNumber);
 
-        const filterStakeWithdrawn = this.stakingRewards.filters.Withdrawn(this.ethereumService.defaultAccountAddress);
+        const filterStakeWithdrawn = this.stakingRewards.filters.Withdrawn("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
         const txStakeWithdrawnEvents: Array<IStandardEvent<IStakingEventArgs>> = await this.stakingRewards.queryFilter(filterStakeWithdrawn, crPool.startingBlockNumber);
 
-        const filterStakeRewarded = this.stakingRewards.filters.RewardPaid(this.ethereumService.defaultAccountAddress);
+        const filterStakeRewarded = this.stakingRewards.filters.RewardPaid("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
         const txStakeRewardedEvents: Array<IStandardEvent<IStakingRewardTransferEventArgs>> = await this.stakingRewards.queryFilter(filterStakeRewarded, crPool.startingBlockNumber);
 
         const getStakingRewardTransfer = (withdrawEvent: IStandardEvent<IStakingEventArgs>): Array<IAssetTokenTxInfo> => {
