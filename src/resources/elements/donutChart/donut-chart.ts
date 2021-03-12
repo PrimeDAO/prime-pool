@@ -21,8 +21,15 @@ export class DonutChart {
 
   async attached(): Promise<void> {
     await this.poolService.ensureInitialized();
-    const donuts = new Donut(this.chartContainer, this.donutContainer, this.interactive, this.numberService);
-    donuts.create(this.pool);
+    /**
+     * sometimes for some reason this gets called before this.chartContainer and
+     * this.donutContainer are initialized.  Happens when navigating to the containing page
+     * when already on the containing page.
+     */
+    if (this.chartContainer && this.donutContainer) {
+      const donuts = new Donut(this.chartContainer, this.donutContainer, this.interactive, this.numberService);
+      donuts.create(this.pool);
+    }
   }
 }
 
