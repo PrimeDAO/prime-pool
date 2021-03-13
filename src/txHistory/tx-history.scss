@@ -33,7 +33,7 @@
         &.large {
           .columnHeader,
           .cell {
-            padding: 16px;
+            padding: 20px;
           }
 
           .columnHeader {
@@ -42,7 +42,8 @@
             border-bottom-style: solid;
 
             .subheader {
-              font-size: 11px;
+              font-size: 12px;
+              margin-top: 8px;
             }
           }
 
