@@ -371,7 +371,7 @@ export class LiquidityAdd extends PoolBase {
         if (message) break;
       }
     } else {
-      message = `To buy ${this.pool.poolToken.symbol} you must select at least one asset to stake`;
+      message = `To buy ${this.pool.poolToken.symbol} you must select at least one asset to pay`;
     }
 
     return message;
