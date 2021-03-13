@@ -1,5 +1,5 @@
 import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject, bindable, containerless} from "aurelia-framework";
+import { computedFrom, autoinject, bindable, containerless} from "aurelia-framework";
 import { EventConfigException } from "services/GeneralEvents";
 import { ITokenInfo } from "services/TokenService";
 import "./metamask-token-button.scss";
@@ -13,17 +13,19 @@ export class MetamaskTokenButton {
   constructor(private eventAggregator: EventAggregator) {
   }
 
-  get showMMButton() {
-    return !!window.ethereum;
+  @computedFrom("window.ethereum", "tokenInfo")
+  get showMMButton(): boolean {
+    return !!window.ethereum && !!this.tokenInfo;
   }
 
-  async addToMetamask() {
+  async addToMetamask(): Promise<void> {
     /**
      * from: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-747.md
      */
     try {
       // wasAdded is a boolean. Like any RPC method, an error may be thrown.
-      const wasAdded = await window.ethereum.request({
+      // const wasAdded =
+      await window.ethereum.request({
         method: "wallet_watchAsset",
         params: {
           type: "ERC20", // Initially only supports ERC20, but eventually more!
