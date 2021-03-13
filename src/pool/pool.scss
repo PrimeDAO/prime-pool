@@ -62,12 +62,6 @@
         }
       }
     }
-    .mmButton1 {
-      flex-shrink: 2;
-      button {
-        justify-content: center;
-      }
-    }
   }
 
   .mainBody {
@@ -239,15 +233,6 @@
       }
     }
   }
-
-  .mmButton2 {
-    display: none;
-
-    button {
-      width: 100% !important;
-      justify-content: center;
-    }
-  }
 }
 
 @media screen and (max-width: 1275px) {
@@ -291,12 +276,6 @@
 
   @media screen and (max-width: 1080px) {
     .poolContainer {
-      .mmButton1 {
-        display: none;
-      }
-      .mmButton2 {
-        display: block;
-      }
       .topRow {
         flex-direction: column;
         text-align: center;
