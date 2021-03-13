@@ -25,6 +25,10 @@
           align-items: center;
           margin-bottom: 12px;
 
+          &.isPreview {
+            cursor: default;
+          }
+
           > .icon {
             width: 20px;
             display: flex;
