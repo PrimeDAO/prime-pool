@@ -31,6 +31,7 @@
         }
 
         &.large {
+          border-radius: 20px;
           .columnHeader,
           .cell {
             padding: 20px;
@@ -40,6 +41,7 @@
             color: $color-white;
             border-bottom-width: 8px;
             border-bottom-style: solid;
+            box-shadow: 3px 3px 8px #00000029;
 
             .subheader {
               font-size: 12px;
@@ -48,6 +50,7 @@
           }
 
           div.columnHeader:nth-child(1) {
+            border-top-left-radius: 20px;
             background-color: $color-light-purple;
             border-bottom-color: $color-pink;
           }
@@ -68,6 +71,7 @@
             border-bottom-color: #39a1d8;
           }
           div.columnHeader:nth-child(6) {
+            border-top-right-radius: 20px;
             background-color: #bf62a8;
             border-bottom-color: #ffa2ce;
           }
@@ -83,6 +87,10 @@
 
             .etherscanLink {
               color: $button4-color;
+            }
+
+            &:nth-last-child(-n + 6) {
+              border-bottom: none;
             }
           }
         }
