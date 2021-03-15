@@ -139,10 +139,6 @@ export class App {
     Utils.goto(where);
   }
 
-  contactUs(): void {
-    window.open("mailto:hello@primedao.io", "#", "noopener noreferrer");
-  }
-
   gotoPool(pool: Pool): void {
     this.showingMobileMenu = false;
     this.router.navigate(`pool/${pool.address}`);
