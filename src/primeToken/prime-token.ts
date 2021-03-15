@@ -23,6 +23,7 @@ export class PrimeToken {
   totalStaked: BigNumber;
   percentStaked: number;
   pool: Pool;
+  loading = true;
 
   constructor(
     private tokenService: TokenService,
@@ -51,6 +52,7 @@ export class PrimeToken {
           this.circulatingSupply = response.data;
         });
 
+      this.loading = true;
       this.totalStaked = await this.pool.assetTokens.get(primeTokenAddress).balanceInPool;
       this.percentStaked = this.numberService.fromString(toBigNumberJs(this.totalStaked).div(toBigNumberJs(toWei(this.circulatingSupply))).times(100).toString());
     } catch (ex) {
@@ -58,6 +60,7 @@ export class PrimeToken {
     }
     finally {
       this.eventAggregator.publish("pools.loading", false);
+      this.loading = false;
     }
   }
 }

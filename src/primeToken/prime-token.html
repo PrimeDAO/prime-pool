@@ -16,7 +16,8 @@
       <div class="blob supply">
         <div class="title">Circulating Supply</div>
         <div class="body">
-          <formatted-number value.to-view="circulatingSupply"
+          <div if.to-view="loading">--</div>
+          <formatted-number else value.to-view="circulatingSupply"
             average="false"
             thousands-separated
             mantissa="2"></formatted-number>
@@ -34,7 +35,8 @@
             PRIME
           </div>
           <div>
-            <formatted-number value.to-view="percentStaked"
+            <div if.to-view="loading">--</div>
+            <formatted-number else value.to-view="percentStaked"
               average="false"
               mantissa="2"></formatted-number>%
             of Circulating Supply
