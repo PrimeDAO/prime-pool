@@ -121,7 +121,7 @@
         white-space: nowrap;
 
         numeric-input input {
-          width: 90px;
+          width: 56px;
           text-align: right;
         }
       }
@@ -223,7 +223,7 @@
         }
       }
       input {
-        width: 90px;
+        width: 68px;
         text-align: right;
       }
     }
@@ -310,18 +310,6 @@
 
       .table {
         margin-right: 13px;
-
-        .cell {
-          input {
-            max-width: 74px;
-          }
-        }
-      }
-
-      .poolTokenAmount {
-        input {
-          width: 55px;
-        }
       }
       .messageRow {
         letter-spacing: 0;
