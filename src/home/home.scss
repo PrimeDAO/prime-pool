@@ -150,6 +150,11 @@
     .towards {
       margin-bottom: 40px;
     }
+
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+    }
   }
 }
 
@@ -210,6 +215,13 @@
   .home {
     .banner {
       background-position-x: -600px !important;
+    }
+    .invitation {
+      width: unset;
+      .buttons {
+        flex-direction: column;
+        row-gap: 12px;
+      }
     }
   }
 }
