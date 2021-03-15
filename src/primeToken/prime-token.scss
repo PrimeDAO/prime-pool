@@ -190,7 +190,6 @@
     }
 
     .buttons {
-      width: 245px;
       margin: auto;
       display: flex;
       flex-direction: column;
@@ -202,10 +201,22 @@
 
       .mmButton2 {
         display: unset;
+
+        button.mmTokenButton {
+          width: 100%;
+        }
       }
     }
   }
 }
 
 @media screen and (max-width: 830px) {
+  .primeToken {
+    max-width: unset;
+
+    .buttons {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 }
