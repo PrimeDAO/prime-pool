@@ -148,6 +148,15 @@
         padding-left: 0;
         padding-right: 0;
         height: 300px;
+
+        .spinny {
+          font-size: 38px;
+          color: $color-lightblue;
+          height: 100%;
+          position: relative;
+          top: calc(50% - 19px);
+          left: calc(50% - 19px);
+        }
       }
 
       .story {

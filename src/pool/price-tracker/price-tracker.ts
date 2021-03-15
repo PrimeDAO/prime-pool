@@ -8,13 +8,21 @@ import { autoinject, singleton } from "aurelia-framework";
 export class PriceTracker {
   pool: Pool;
   data: Array<any>
+  loading = true;
 
   constructor(
     private poolService: PoolService) {
   }
 
-  protected async activate(model: { poolAddress: Address }): Promise<void> {
+  protected activate(model: { poolAddress: Address }): void {
+    this.loading = true;
     this.pool = this.poolService.pools.get(model.poolAddress);
-    this.data = await this.pool.getMarketCapHistory();
+    setTimeout(async () => {
+      try {
+        this.data = await this.pool.getMarketCapHistory();
+      } finally {
+        this.loading = false;
+      }
+    }, 0);
   }
 }
