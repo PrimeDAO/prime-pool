@@ -259,7 +259,7 @@ export class Pool implements IPoolConfig {
 
       this.poolTokenTotalSupply = await this.poolToken.tokenContract.totalSupply();
       this.poolTokenPrice = this.marketCap / this.numberService.fromString(fromWei(this.poolTokenTotalSupply));
-      this.poolTokenMarketCap = this.numberService.fromString(fromWei(this.poolTokenTotalSupply)) * this.poolTokenPrice;
+      // this.poolTokenMarketCap = this.marketCap; // this.numberService.fromString(fromWei(this.poolTokenTotalSupply)) * this.poolTokenPrice;
       this.totalDenormWeight = await this.bPool.getTotalDenormalizedWeight();
 
       await this.hydrateMembers();
