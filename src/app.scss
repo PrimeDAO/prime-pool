@@ -127,8 +127,8 @@
     }
 
     /**
-       * sidebar footer
-       */
+     * sidebar footer
+     */
     > .appFooter {
       padding: 0 20px;
       position: fixed;
@@ -152,9 +152,6 @@
     }
   }
 
-  /**
-   * the mobile footer that appears at the bottom of every page
-   */
   > .appFooter {
     display: none;
   }
@@ -231,7 +228,7 @@
     }
 
     .sidebarContainer {
-      display: none;
+      display: none; // hide when small, unless when &.showingMobileMenu, see below
 
       &.showingMobileMenu {
         display: unset;
@@ -253,17 +250,15 @@
           }
         }
       }
-    }
 
-    .mainContent {
-      .page {
-        padding-left: 8px;
-        padding-right: 8px;
+      .appFooter {
+        position: unset;
+        bottom: unset;
       }
     }
 
-    > .appFooter {
-      display: unset;
+    // footers are the same in this respect in menu or at the bottom of the page
+    .appFooter {
       width: 150px;
       margin: auto;
       padding: 16px;
@@ -277,6 +272,22 @@
         .links {
           margin-bottom: 12px;
         }
+      }
+    }
+
+    /**
+      * the mobile footer that appears at the bottom of every page
+      */
+    :not(&.showingMobileMenu) {
+      > .appFooter {
+        display: block;
+      }
+    }
+
+    .mainContent {
+      .page {
+        padding-left: 8px;
+        padding-right: 8px;
       }
     }
   }
