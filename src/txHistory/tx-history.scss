@@ -138,7 +138,10 @@
             .assetsContainer {
               display: flex;
               justify-content: left;
-              column-gap: 18px;
+              margin-bottom: 18px;
+            }
+
+            .cell:not(:last) {
               margin-bottom: 18px;
             }
 

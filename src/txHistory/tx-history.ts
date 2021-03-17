@@ -112,18 +112,18 @@ export class TxHistory {
         const crPool = this.poolService.pools.get(crPoolAddress);
 
         // fake data for mainnet: "0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19"
-        const txJoinEvents = await crPool.getJoinEvents(this.currentAccount);
-        const txExitEvents = await crPool.getExitEvents(this.currentAccount);
-        const txJoinBpoolTransferEvents = await crPool.getPoolTokenTransferEvents(crPoolAddress, this.currentAccount);
-        const txExitBpoolTransferEvents = await crPool.getPoolTokenTransferEvents(this.currentAccount, crPoolAddress);
+        const txJoinEvents = await crPool.getJoinEvents("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
+        const txExitEvents = await crPool.getExitEvents("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
+        const txJoinBpoolTransferEvents = await crPool.getPoolTokenTransferEvents(crPoolAddress, "0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
+        const txExitBpoolTransferEvents = await crPool.getPoolTokenTransferEvents("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19", crPoolAddress);
 
-        const filterStaked = this.stakingRewards.filters.Staked(this.currentAccount);
+        const filterStaked = this.stakingRewards.filters.Staked("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
         const txStakedEvents: Array<IStandardEvent<IStakingEventArgs>> = await this.stakingRewards.queryFilter(filterStaked, crPool.startingBlockNumber);
 
-        const filterStakeWithdrawn = this.stakingRewards.filters.Withdrawn(this.currentAccount);
+        const filterStakeWithdrawn = this.stakingRewards.filters.Withdrawn("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
         const txStakeWithdrawnEvents: Array<IStandardEvent<IStakingEventArgs>> = await this.stakingRewards.queryFilter(filterStakeWithdrawn, crPool.startingBlockNumber);
 
-        const filterStakeRewarded = this.stakingRewards.filters.RewardPaid(this.currentAccount);
+        const filterStakeRewarded = this.stakingRewards.filters.RewardPaid("0x9Ab1A23a1d2aC3603c73d8d3C1E96B7Fd4e7aA19");
         const txStakeRewardedEvents: Array<IStandardEvent<IStakingRewardTransferEventArgs>> = await this.stakingRewards.queryFilter(filterStakeRewarded, crPool.startingBlockNumber);
 
         const getStakingRewardTransfer = (withdrawEvent: IStandardEvent<IStakingEventArgs>): Array<IAssetTokenTxInfo> => {
