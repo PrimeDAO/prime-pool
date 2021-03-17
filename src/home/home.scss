@@ -167,7 +167,11 @@
     }
     .benefits {
       flex-direction: column;
-      row-gap: 24px;
+
+      .access,
+      .safe {
+        margin-bottom: 24px;
+      }
 
       .access,
       .safe,
@@ -220,7 +224,19 @@
       width: unset;
       .buttons {
         flex-direction: column;
-        row-gap: 12px;
+
+        > div {
+          display: inline-flex;
+          width: 100%;
+
+          a {
+            width: 100%;
+          }
+        }
+
+        > div:first-child {
+          margin-bottom: 12px;
+        }
       }
     }
   }
