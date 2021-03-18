@@ -115,6 +115,11 @@
       display: flex;
       justify-content: space-around;
 
+      a {
+        display: inline-flex;
+        justify-content: center;
+      }
+
       .button {
         color: $color-black;
       }
@@ -230,6 +235,7 @@
         grid-area: liquidityButtons;
         display: flex;
         justify-content: space-around;
+
         .button {
           color: $color-black;
           border-color: $button3-color;
@@ -249,8 +255,11 @@
     .mainBody {
       .tabButtons {
         flex-direction: column;
-        row-gap: 12px;
         text-align: center;
+      }
+
+      a:not(:last-child) {
+        margin-bottom: 12px;
       }
 
       .tabSection {
@@ -272,11 +281,16 @@
       .tabSection {
         .liquidityButtons {
           flex-direction: column;
-          row-gap: 12px;
           text-align: center;
 
-          button {
-            width: 100%;
+          .liquidityButton:not(:last-child) {
+            margin-bottom: 12px;
+          }
+
+          .liquidityButton {
+            button {
+              width: 100%;
+            }
           }
         }
       }
@@ -293,7 +307,9 @@
           .stuff {
             flex-direction: column;
             align-items: unset;
-            row-gap: 4px;
+          }
+          .stuff:not(:last-child) {
+            margin-bottom: 4px;
           }
         }
 
@@ -312,8 +328,6 @@
           "donutAndStats"
           "tabButtons"
           "tabSection";
-        // column-gap: 40px;
-        // row-gap: 36px;
 
         border: unset;
         border-radius: unset;
