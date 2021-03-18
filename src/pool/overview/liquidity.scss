@@ -67,8 +67,11 @@
       .wethEthExchange {
         display: flex;
         flex-direction: column;
-        row-gap: 6px;
         margin-bottom: 20px;
+
+        .inputButtonGroup:not(:last-child) {
+          margin-bottom: 6px;
+        }
 
         .inputButtonGroup {
           text-align: left;
