@@ -139,29 +139,13 @@
               display: flex;
               justify-content: left;
               margin-bottom: 18px;
-            }
 
-            .cell:not(:last) {
-              margin-bottom: 18px;
-            }
-
-            .cell {
-              &.name {
-                font-weight: bold;
-                color: $color-light-purple;
+              > div:not(:last-child) {
+                margin-right: 18px;
               }
 
-              &.type {
-                margin-bottom: 18px;
-                display: inline-block;
-              }
-
-              &.date {
-                display: inline-block;
-              }
-
-              &.out,
-              &.in {
+              .out,
+              .in {
                 .assets {
                   .amount,
                   .name {
@@ -169,12 +153,26 @@
                   }
                 }
               }
+            }
 
-              &.etherscan {
-                display: inline-block;
-                .etherscanLink {
-                  color: $button4-color;
-                }
+            > .name {
+              font-weight: bold;
+              color: $color-light-purple;
+            }
+
+            > .type {
+              margin-bottom: 18px;
+              display: inline-block;
+            }
+
+            > .date {
+              display: inline-block;
+            }
+
+            > .etherscan {
+              display: inline-block;
+              .etherscanLink {
+                color: $button4-color;
               }
             }
           }
@@ -203,23 +201,21 @@
           .card {
             .assetsContainer {
               flex-direction: column;
-            }
 
-            .cell {
-              &.type {
-                margin-bottom: 0;
-                display: block;
-              }
-
-              &.date {
-                margin-bottom: 18px;
-              }
-
-              &.in {
+              .in {
                 .assets {
                   margin-bottom: 12px;
                 }
               }
+            }
+
+            > .type {
+              margin-bottom: 0;
+              display: block;
+            }
+
+            > .date {
+              margin-bottom: 18px;
             }
           }
         }

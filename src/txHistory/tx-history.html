@@ -77,13 +77,13 @@
 
                 <div class="cell date">${tx.date | date:"table-datetime"}</div>
 
-                <div class="assetsContainer">
+                <div class="cell assetsContainer">
 
                   <div class="columnHeader in">Assets In:
                     <!-- <div class="subheader">What assets did you deposit or send for exchange??</div> -->
                   </div>
 
-                  <div class="cell in">
+                  <div class="in">
                     <div class="assets" repeat.for="action of tx.assetsIn">
                       <div class="amount">
                         <formatted-number value.to-view="action.amount | ethwei"></formatted-number>
@@ -96,7 +96,7 @@
                     <!-- <div class="subheader">What assets did you withdraw or receive??</div> -->
                   </div>
 
-                  <div class="cell out">
+                  <div class="out">
                     <div class="assets" repeat.for="action of tx.assetsOut">
                       <div class="amount">
                         <formatted-number value.to-view="action.amount | ethwei"></formatted-number>
