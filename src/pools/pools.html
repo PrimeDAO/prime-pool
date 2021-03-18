@@ -19,18 +19,8 @@
       <div class="poolRows">
         <template repeat.for="pool of pools">
           <div if.to-view="!pool.preview" class="poolRow">
-            <!-- <template if.to-view="pool.preview">
-            <div class="previewPool">
-              <div class="name">${pool.name}</div>
-              <div class="donutchart">
-                <inline-svg svg.to-view="pool.icon"></inline-svg>
-              </div>
-              Coming soon!
-            </div>
-          </template> -->
             <div class="name">${pool.name}</div>
             <div class="donutchart" click.delegate="gotoPool(pool)">
-              <!-- <inline-svg svg.to-view="pool.icon"></inline-svg> -->
               <donut-chart pool.to-view="pool"></donut-chart>
             </div>
             <div class="marketCap">
