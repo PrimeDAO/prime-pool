@@ -64,17 +64,8 @@
           "name name name name name name name"
           "donutchart marketCap priceDelta1 priceDelta2 priceDelta3 chart addLiquidity"
           "donutchart price assets assets assets assets assets";
-        justify-content: space-between;
-
-        .marketCap,
-        .priceDelta1,
-        .priceDelta2,
-        .priceDelta3,
-        .donutchart,
-        .price,
-        .chart {
-          padding-right: 30px;
-        }
+        column-gap: 30px;
+        row-gap: 24px;
 
         .priceDelta1,
         .priceDelta2,
@@ -99,7 +90,6 @@
           grid-area: name;
           font-family: "Cera Pro";
           font-weight: bold;
-          margin-bottom: 12px;
         }
         .donutchart {
           grid-area: donutchart;
@@ -108,7 +98,6 @@
         .marketCap {
           grid-area: marketCap;
           white-space: nowrap;
-          margin-bottom: 24px;
         }
         .priceDelta1 {
           grid-area: priceDelta1;
@@ -198,6 +187,7 @@
             "name name name name"
             "donutchart marketCap chart addLiquidity"
             "donutchart price assets assets";
+          row-gap: 18px;
 
           .addLiquidity {
             .poolDataHeader {
@@ -274,18 +264,7 @@
             "addLiquidity addLiquidity";
 
           .donutchart {
-            padding-right: 0;
-          }
-
-          .marketCap {
-            padding-right: 15px;
-          }
-          .price {
-            padding-left: 15px;
-          }
-
-          .donutchart {
-            width: 130px;
+            width: 160px;
             margin: auto;
           }
           .assets {
