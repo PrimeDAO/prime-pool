@@ -7,7 +7,10 @@
     .poolButtons {
       display: flex;
       justify-content: flex-start;
-      column-gap: 16px;
+
+      .pool:not(:last-child) {
+        margin-right: 16px;
+      }
 
       .pool {
         max-width: 220px;
@@ -57,12 +60,21 @@
         display: grid;
         grid-template-columns: 130px repeat(6, 1fr);
         grid-template-rows: auto;
-        column-gap: 30px;
-        row-gap: 24px;
         grid-template-areas:
           "name name name name name name name"
           "donutchart marketCap priceDelta1 priceDelta2 priceDelta3 chart addLiquidity"
           "donutchart price assets assets assets assets assets";
+
+        .name,
+        .marketCap,
+        .priceDelta1,
+        .priceDelta2,
+        .priceDelta3,
+        .donutchart,
+        .price,
+        .chart {
+          padding-right: 30px;
+        }
 
         .priceDelta1,
         .priceDelta2,
@@ -95,6 +107,7 @@
         .marketCap {
           grid-area: marketCap;
           white-space: nowrap;
+          margin-bottom: 24px;
         }
         .priceDelta1 {
           grid-area: priceDelta1;
@@ -115,6 +128,7 @@
         }
         .addLiquidity {
           grid-area: addLiquidity;
+          text-align: center;
         }
         .price {
           grid-area: price;
@@ -183,11 +197,11 @@
             "name name name name"
             "donutchart marketCap chart addLiquidity"
             "donutchart price assets assets";
-          row-gap: 0;
 
           .name {
             margin-bottom: 6px;
           }
+
           .addLiquidity {
             .poolDataHeader {
               text-align: center;
@@ -244,7 +258,7 @@
     .body {
       .poolButtons {
         flex-direction: column;
-        row-gap: 8px;
+        margin-bottom: 8px;
         align-items: center;
 
         .pool:not(:last-child) {
