@@ -151,8 +151,8 @@ export class TxHistory {
         const newPoolTx = async (isJoin: boolean, txHash,
           joinExitEvents: Array<IStandardEvent<IExitEventArgs> | IStandardEvent<IJoinEventArgs>>, poolName: string) => {
 
-          let assetsIn: Array<IAssetTokenTxInfo>;
-          let assetsOut: Array<IAssetTokenTxInfo>;
+          let assetsIn = new Array<IAssetTokenTxInfo>();
+          let assetsOut = new Array<IAssetTokenTxInfo>();
           const blockDate = new Date((await joinExitEvents[0].getBlock()).timestamp * 1000);
 
           if (isJoin) {

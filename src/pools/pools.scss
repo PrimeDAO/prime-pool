@@ -248,6 +248,7 @@
         align-items: center;
 
         .pool:not(:last-child) {
+          margin-right: 0;
           padding-bottom: 18px;
           margin-bottom: 38px;
           border-bottom: 1px solid #eeeeee;

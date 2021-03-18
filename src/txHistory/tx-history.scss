@@ -79,6 +79,7 @@
           .cell {
             border-bottom: 2px solid #b2b2b2;
             .assets {
+              white-space: nowrap;
               .amount,
               .name {
                 display: inline-block;
@@ -99,7 +100,7 @@
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 985px) {
   .txHistory {
     .body {
       .gridArea {
@@ -136,20 +137,16 @@
             }
 
             .assetsContainer {
-              display: flex;
-              justify-content: left;
               margin-bottom: 18px;
 
-              > div:not(:last-child) {
-                margin-right: 18px;
-              }
+              .assets {
+                margin-bottom: 12px;
+                .asset {
+                  display: flex;
+                  justify-content: flex-start;
 
-              .out,
-              .in {
-                .assets {
-                  .amount,
-                  .name {
-                    display: inline-block;
+                  .amount {
+                    margin-right: 4px;
                   }
                 }
               }
@@ -203,11 +200,9 @@
           text-align: center;
           .card {
             .assetsContainer {
-              flex-direction: column;
-
-              .in {
-                .assets {
-                  margin-bottom: 12px;
+              .assets {
+                .asset {
+                  justify-content: center;
                 }
               }
             }

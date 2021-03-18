@@ -79,12 +79,12 @@
 
                 <div class="cell assetsContainer">
 
-                  <div class="columnHeader in">Assets In:
+                  <div if.to-view="tx.assetsIn.length" class="columnHeader in">Assets In:
                     <!-- <div class="subheader">What assets did you deposit or send for exchange??</div> -->
                   </div>
 
-                  <div class="in">
-                    <div class="assets" repeat.for="action of tx.assetsIn">
+                  <div if.to-view="tx.assetsIn.length" class="assets in">
+                    <div class="asset" repeat.for="action of tx.assetsIn">
                       <div class="amount">
                         <formatted-number value.to-view="action.amount | ethwei"></formatted-number>
                       </div>
@@ -92,12 +92,12 @@
                     </div>
                   </div>
 
-                  <div class="columnHeader out">Assets Out:
+                  <div if.to-view="tx.assetsOut.length" class="columnHeader out">Assets Out:
                     <!-- <div class="subheader">What assets did you withdraw or receive??</div> -->
                   </div>
 
-                  <div class="out">
-                    <div class="assets" repeat.for="action of tx.assetsOut">
+                  <div if.to-view="tx.assetsOut.length" class="assets out">
+                    <div class="asset" repeat.for="action of tx.assetsOut">
                       <div class="amount">
                         <formatted-number value.to-view="action.amount | ethwei"></formatted-number>
                       </div>
