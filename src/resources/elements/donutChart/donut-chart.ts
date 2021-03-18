@@ -238,8 +238,8 @@ class Donut {
 
   public create(pool: Pool) {
     const width = parseInt(window.getComputedStyle(this.donutContainerElement).width);
-    this.chartPadding = width / 2 * 0.14;
-    this.chartRadius = width / 2 * 0.85;
+    this.chartPadding = width / 2 * (this.interactive ? 0.14 : 0);
+    this.chartRadius = width / 2 * (this.interactive ? 0.85 : 1);
 
     this.donutContainer.selectAll(".donut")
       .data([pool])

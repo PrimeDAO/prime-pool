@@ -65,8 +65,10 @@ export class SparkChart {
         },
       };
 
-      options.width = this.sparkChart.offsetWidth;
-      options.height = this.height || this.sparkChart.offsetHeight;
+      // we want dimensions not-including padding
+      const innerDimensions = this.innerDimensions(this.sparkChart);
+      options.width = innerDimensions.width;
+      options.height = this.height || innerDimensions.height;
       options.timeScale.barSpacing = Math.max(options.width / this.data.length, 6);
 
       this.chart = createChart(this.sparkChart, options);
@@ -100,6 +102,17 @@ export class SparkChart {
         }, 200);
       };
     }
+  }
+
+  private innerDimensions(node: HTMLElement) {
+    const computedStyle = window.getComputedStyle(node);
+
+    let width = node.clientWidth; // width with padding
+    let height = node.clientHeight; // height with padding
+
+    height -= parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom);
+    width -= parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight);
+    return { height, width };
   }
 
   detached(): void {
