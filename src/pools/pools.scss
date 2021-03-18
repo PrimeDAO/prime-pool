@@ -258,11 +258,11 @@
     .body {
       .poolButtons {
         flex-direction: column;
-        margin-bottom: 8px;
         align-items: center;
 
         .pool:not(:last-child) {
           padding-bottom: 18px;
+          margin-bottom: 38px;
           border-bottom: 1px solid #eeeeee;
         }
       }
