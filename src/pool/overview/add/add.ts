@@ -43,6 +43,15 @@ export class LiquidityAdd extends PoolBase {
   private showSlippage: boolean;
   private poolTokens: any;
   private selectedTokens = new Array<IPoolTokenInfoEx>();
+  /**
+   * true if more than one non-zero assets are entered
+   */
+  private isMultiAsset: boolean;
+  /**
+   * true if exactly one non-zero asset is entered
+   */
+  private isSingleAsset: boolean;
+  private selectedToken: IPoolTokenInfoEx;
 
   protected activate(model: { poolAddress: Address }): void {
 
@@ -59,42 +68,6 @@ export class LiquidityAdd extends PoolBase {
     } else {
       return true;
     }
-  }
-
-  private _selectedToken: IPoolTokenInfoEx;
-
-  private get selectedToken(): IPoolTokenInfoEx {
-    return this._selectedToken;
-  }
-
-  private set selectedToken(newToken: IPoolTokenInfoEx) {
-    this._selectedToken = newToken;
-  }
-
-  private _isMultiAsset: boolean;
-
-  /**
-   * true if more than one non-zero assets are entered
-   */
-  private get isMultiAsset(): boolean {
-    return this._isMultiAsset;
-  }
-
-  private set isMultiAsset(is: boolean) {
-    this._isMultiAsset = is;
-  }
-
-  private _isSingleAsset: boolean;
-
-  /**
- * true if exactly one non-zero asset is entered
- */
-  private get isSingleAsset(): boolean {
-    return this._isSingleAsset;
-  }
-
-  private set isSingleAsset(is: boolean) {
-    this._isSingleAsset = is;
   }
 
   private getShowTokenUnlock(token: IPoolTokenInfoEx): boolean {

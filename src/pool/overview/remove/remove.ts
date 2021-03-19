@@ -42,6 +42,16 @@ export class LiquidityRemove extends PoolBase {
   private showSlippage: boolean;
   private selectedTokens = new Array<IPoolTokenInfoEx>();
 
+  /**
+   * true if more than one non-zero assets are entered
+   */
+  private isMultiAsset: boolean;
+  /**
+   * true if exactly one non-zero asset is entered
+   */
+  private isSingleAsset: boolean;
+  private selectedToken: IPoolTokenInfoEx;
+
   protected activate(model: { poolAddress: Address }): void {
 
     super.activate(model);
@@ -57,42 +67,6 @@ export class LiquidityRemove extends PoolBase {
     } else {
       return true;
     }
-  }
-
-  private _selectedToken: IPoolTokenInfoEx;
-
-  private get selectedToken(): IPoolTokenInfoEx {
-    return this._selectedToken;
-  }
-
-  private set selectedToken(newToken: IPoolTokenInfoEx) {
-    this._selectedToken = newToken;
-  }
-
-  private _isMultiAsset: boolean;
-
-  /**
-   * true if more than one non-zero assets are entered
-   */
-  private get isMultiAsset(): boolean {
-    return this._isMultiAsset;
-  }
-
-  private set isMultiAsset(is: boolean) {
-    this._isMultiAsset = is;
-  }
-
-  private _isSingleAsset: boolean;
-
-  /**
-   * true if exactly one non-zero asset is entered
-   */
-  private get isSingleAsset(): boolean {
-    return this._isSingleAsset;
-  }
-
-  private set isSingleAsset(is: boolean) {
-    this._isSingleAsset = is;
   }
 
   private handleTokenSelected(splices: Array<ICollectionObserverSplice<IPoolTokenInfoEx>>) {
@@ -218,15 +192,14 @@ export class LiquidityRemove extends PoolBase {
 
     const amount = toBigNumberJs(this.poolTokenAmount);
 
-    let amountOut: BigNumberJs;
-    let expectedAmount: BigNumberJs;
 
     if (amount.div(poolTokenShares).gt(0.99)) {
       // Invalidate user's attempt to redeem the entire pool supply in a single token
       // At amounts close to 100%, solidity math freaks out
       return "";
     }
-    amountOut = calcSingleOutGivenPoolIn(
+
+    const amountOut = calcSingleOutGivenPoolIn(
       tokenBalance,
       tokenWeight,
       poolTokenShares,
@@ -234,7 +207,7 @@ export class LiquidityRemove extends PoolBase {
       amount,
       swapfee);
 
-    expectedAmount = amount
+    const expectedAmount = amount
       .times(totalWeight)
       .times(tokenBalance)
       .div(poolTokenShares)
@@ -338,11 +311,13 @@ export class LiquidityRemove extends PoolBase {
 
     if (this.isSingleAsset) {
       if (!this.poolTokenAmount) {
-        message = `To redeem tokens, you must enter an amount of ${this.pool.poolToken.symbol} you wish to return`;
+        message = `To redeem tokens, you must enter an amount of ${this.pool.poolToken.symbol} you wish to receive`;
       }
       else if (this.poolTokenAmount.gt(this.pool.userPoolTokenBalance)) {
         message = `You can't return this amount of ${this.pool.poolToken.symbol} because it exceeds your balance`;
       }
+    } else {
+      message = `To redeem ${this.pool.poolToken.symbol} you must select at least one asset you wish receive`;
     }
 
     if (!message) {
