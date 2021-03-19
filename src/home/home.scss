@@ -193,9 +193,11 @@
         .title {
           display: inline-block;
           margin-left: auto;
+          line-height: 34px;
 
           .divider.one {
             display: block;
+            margin-top: 24px;
           }
         }
 
@@ -206,6 +208,11 @@
         .already,
         .browse {
           margin-bottom: 30px;
+        }
+
+        .already,
+        .needMore {
+          text-align: left;
         }
       }
     }
