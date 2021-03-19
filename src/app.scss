@@ -61,7 +61,7 @@
   }
 
   .sidebarContainer {
-    z-index: 10000; // so stays above model screen
+    z-index: 9998; // so stays above model screen, below tooltips
     grid-area: sidebar;
 
     .sidebar {

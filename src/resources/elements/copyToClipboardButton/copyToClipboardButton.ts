@@ -1,5 +1,6 @@
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, bindable, containerless } from "aurelia-framework";
+import tippy from "tippy.js";
 
 @containerless
 @autoinject
@@ -23,16 +24,7 @@ export class CopyToClipboardButton {
   ) { }
 
   public attached(): void {
-    // ($(this.button) as any).tooltip(
-    //   {
-    //     placement: "right",
-    //     title: "Copy to clipboard",
-    //     toggle: "tooltip",
-    //     trigger: "hover",
-    //   },
-    // )
-    // .css("z-index", "100000")
-
+    tippy("[data-tippy-content]");
   }
 
   private listener(e) { e.clipboardData.setData("text/plain", this.textToCopy); e.preventDefault(); }
