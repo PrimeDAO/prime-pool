@@ -206,12 +206,9 @@ export class LiquidityAdd extends PoolBase {
 
     const amount = toBigNumberJs(this.amounts.get(tokenAddress));
 
-    let amountOut: BigNumberJs;
-    let expectedAmount: BigNumberJs;
-
     const roundedIntAmount = toBigNumberJs(amount.integerValue(BigNumberJs.ROUND_UP));
 
-    amountOut = calcPoolOutGivenSingleIn(
+    const amountOut = calcPoolOutGivenSingleIn(
       tokenBalance,
       tokenWeight,
       poolTokenShares,
@@ -219,7 +216,7 @@ export class LiquidityAdd extends PoolBase {
       roundedIntAmount,
       swapfee);
 
-    expectedAmount = roundedIntAmount
+    const expectedAmount = roundedIntAmount
       .times(tokenWeight)
       .times(poolTokenShares)
       .div(tokenBalance)

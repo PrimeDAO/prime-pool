@@ -4,7 +4,7 @@ import { IPoolConfig } from "services/PoolService";
 import { IErc20Token, ITokenHolder, ITokenInfo, TokenService } from "services/TokenService";
 import { autoinject } from "aurelia-framework";
 import { ContractNames, ContractsService, IStandardEvent } from "services/ContractsService";
-import { Address, EthereumService, fromWei, Networks } from "services/EthereumService";
+import { Address, EthereumService, fromWei, Networks, toWei } from "services/EthereumService";
 import { NumberService } from "services/numberService";
 import { toBigNumberJs } from "services/BigNumberService";
 import { DisposableCollection } from "services/DisposableCollection";
@@ -96,7 +96,7 @@ export class Pool implements IPoolConfig {
   poolTokenTotalSupply: BigNumber;
   poolTokenMarketCap: number;
   totalDenormWeight: BigNumber;
-  swapfee: number;
+  swapfee: BigNumber;
   swapfeePercentage: number;
   accruedFees: number;
   accruedVolume: number;
@@ -419,8 +419,9 @@ export class Pool implements IPoolConfig {
         if (pool) {
           this.accruedFees = pool.totalSwapFee;
           this.accruedVolume = pool.totalSwapVolume;
-          this.swapfee = this.numberService.fromString(pool.swapFee);
-          this.swapfeePercentage = this.swapfee * 100;
+          const swapfee = this.numberService.fromString(pool.swapFee);
+          this.swapfee = toWei(swapfee);
+          this.swapfeePercentage = swapfee * 100;
           this.marketCap = this.numberService.fromString(pool.liquidity);
           // this.membersCount = this.numberService.fromString(pool.holdersCount);
         }
