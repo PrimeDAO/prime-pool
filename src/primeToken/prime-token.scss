@@ -99,6 +99,10 @@
       font-size: 15px;
       line-height: 25px;
       margin-bottom: 20px;
+
+      > a {
+        color: $color-light-purple;
+      }
     }
   }
 
