@@ -58,7 +58,7 @@ Prime Pool relies on solidity contract addresses and ABIs that it obtains from t
 npm run fetchContracts
 ```
 
-## Pool Configuration
+## <a name="poolConfig"></a> Pool Configuration
 
 Prime Pool refers to a list of pools that it will display to its users, looking at runtime for this list in the master branch of this repository at [/src/poolConfigurations/pools.json](https://github.com/PrimeDAO/prime-pool-dapp/blob/master/src/poolConfigurations/pools.json).
 
