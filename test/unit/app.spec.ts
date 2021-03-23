@@ -13,11 +13,11 @@ describe("Stage App Component", () => {
 
   afterEach(() => component.dispose());
 
-  it("should showdashboard", done => {
+  it("should show home page", done => {
     component.create(bootstrap).then(async () => {
       // const view = component.element;
-      const dashboardElement = document.querySelector("dashboard");
-      expect(dashboardElement).toBeDefined();
+      const homeElement = document.querySelector(".home");
+      expect(homeElement).toBeDefined();
       // expect(view.textContent.trim()).toBe("primepool.eth!");
       done();
     }).catch(e => {
