@@ -16,7 +16,7 @@ Install dependencies with the following command:
 npm ci
 ```
 
-## Build
+## <a name="build"></a> Build
 There are several ways to build and run the application.  Each of the following build commands will output to the `dist` folder. After building, run following to launch the result in the browser:
 
 ```
@@ -40,9 +40,9 @@ npm run start
 
 `npm run build-dev-mainnet`
 
-## Build for debugging
+## Debug
 
-Each of the following will serve up a site that will support Hot Module Reload (HMR).  Use your favorate debugger to launch the app at http://localhost:3300.
+Each of the following commands will serve up a site that will support Hot Module Reload (HMR).  You can then use your favorate debugger to launch the app at http://localhost:3300.
 
 ### Build and serve, running against kovan
 To run: `npm run serve-dev`
@@ -50,13 +50,49 @@ To run: `npm run serve-dev`
 ### Build and serve, running against mainnet
 `npm run serve-dev-mainnet`
 
-## Formatting and Linting
+## Update Required Contracts Information
+
+Prime Pool relies on solidity contract addresses and ABIs that it obtains from the [contracts package](https://github.com/PrimeDAO/contracts). In the case that any of these contracts change, you may clone the contracts package in a folder sibling to this one, and run a script to pull the required information from the contracts package into this one, by running the following:
+
+```
+npm run fetchContracts
+```
+
+## Pool Configuration
+
+Prime Pool refers to a list of pools that it will display to its users, looking at runtime for this list in the master branch of this repository at [/src/poolConfigurations/pools.json](https://github.com/PrimeDAO/prime-pool-dapp/blob/master/src/poolConfigurations/pools.json).
+
+Notes on a few of the pool entries:
+
+| Property      | Description |
+| ----------- | ----------- |
+| description   | Appears on the All Pools page. Plain text only. |
+| story      | Appears on the "Overview" tab of the [*] Pool page.  You can use HTML, and divs may have the classes `para` and `header`. |
+| icon      | Appears on the All Pools and [*] Pool page.  Must be SVG. Use single quotes, not double. |
+| addresses | Address of the `ConfigurableRightsPool` |
+| preview | If true, the pool will appear only as an unclickable button on the All Pools page |
+
+## Dependencies
+
+Various code dependencies include:
+
+* [ethplorer.io](https://ethplorer.io/) for token information
+* [coingecko](https://www.coingecko.com/en/api) for token information
+* the [Balancer subgraph](https://api.thegraph.com/subgraphs/name/balancer-labs/balancer) for pool information
+* [PrimeDAO](https://api.primedao.io/circulatingSupply) for the total supply of PRIME
+* [d3](https://d3js.org/) for the pool donut graph
+* [lightweight-charts](https://github.com/tradingview/lightweight-charts) for the pool marketcap sparkline graph
+* [Web3Modal](https://github.com/Web3Modal/web3modal) for selecting wallet providers
+* [ethers.js](https://docs.ethers.io/v5/) for interacting with ethereum and wallet providers
+* [Rivet](https://rivet.cloud/) for the mainnet provider
+
+## Lint
 
 Run `npm run lint` and confirm that lint succeeds before git commits.
 
 You can run `npm run lint.fix` to have lint automatically fix all  fixable errors.
 
-## Unit tests
+## Automated Tests
 
 Run `npm run test`.
 
@@ -66,15 +102,9 @@ To run in watch mode, `npm run test --watch`.
 
 To run the Webpack Bundle Analyzer, do `npm run analyze` (production build).
 
-## Update the Required Contracts information
+## Deploy
 
-Prime Pool relies on solidity contract addresses and ABIs that it obtains from the [contracts package](https://github.com/PrimeDAO/contracts). In the case that any of these contracts change, you may clone the contracts package in a folder sibling to this one, and run a script to pull the required information from the contracts package into this one, by running the following:
-
-```
-npm run fetchContracts
-```
-
-## Deployment
+### <a name="env"></a> Environment Variables
 
 Make sure you have in your environment (or in a .env file) the following:
 
@@ -89,32 +119,54 @@ ETHERSCAN_KEY=
 
 ### IPFS
 
-We host the dApp in IPFS.
+To deploy the dApp to IPFS you must first create your build in the `dist` folder using one of the [build commands above](#build).
 
-You must first create your build in the `dist` folder (using one of the "build" commands above).
+Then the fastest way to deploy the site on ipfs is using [Pinata](https://pinata.cloud/). Pinata will automatically deploy the code to IPFS, generating a hash of the code, and the "pin" the hash so that it remains in a cache and doesn't eventually fall out of easy sight of the cloud of IPFS nodes.
 
-Then the fastest way to deploy the site on ipfs is using Pinata. Make sure you added your Pinata `IPFS_DEPLOY_PINATA__API_KEY` and `IPFS_DEPLOY_PINATA__SECRET_API_KEY` in a .env file and run the following command:
+Make sure you added your Pinata `IPFS_DEPLOY_PINATA__API_KEY` and `IPFS_DEPLOY_PINATA__SECRET_API_KEY` in a .env file.
+
+Install IPFS: [https://docs.ipfs.io/install/ipfs-desktop/](https://docs.ipfs.io/install/ipfs-desktop/)
+
+Then run:
+
+```
+ipfs daemon
+```
+
+And in another shell:
 
 ```
 npm run ipfs-deploy
 ```
 
-You can also use the Pinata website to upload the `dist` folder.
+Note that this command has shown you the hash that has been pinned in IPFS, and which you will need to associate with an ENS URI like `primepool.eth.link`.  You'll also find the hash in Pinata.
 
-Or you can follow the installation instructions here https://docs-beta.ipfs.io/how-to/command-line-quick-start/#install-ipfs.
+You can also use the Pinata website to upload the `dist` folder directly from your computer.
 
-Executables for ipfs-update can be downloaded from https://dist.ipfs.io/#ipfs-update.
-
-Or you can be upload to ipfs using the following command:
+Or you can directly upload to ipfs using the following command, but note this won't pin the hash.  Note you still have to have `ipfs daemon` running.
 
 ```
 ipfs add dist -r dist
 ```
 
-### Verification Instructions
+### ENS
 
-To calculate the same ipfs hash used for the application deployed you will need the ENV variables that were used for build.
+Having deployed and pinned the hash in IPFS, you can associate it with a URI like `primepool.eth.link` using [https://app.ens.domains/](https://app.ens.domains/).
 
-Once you have your ENV variables set you should delete the `node_modules` and `dist` folders, run `npm ci` to install fresh dependencies, then run `npm run build` to generate a clean build.
+You have to be a controller of the ENS domain.  On the domain's details page, add or edit the `content` record so it looks something like this:
+
+<img src="./documentation/ensScreenshot.jpg"/>
+
+### Verify
+
+To verify that the code you are building is the same as what you see stored in IPFS, you can compute the hash of the code and compare it to the hash stored in IPFS.
+
+To calculate the ipfs hash you will need the [environment variables](#env) that were used for the original build.
+
+Next run `npm ci` to install fresh dependencies.
+
+Then run `npm run build` to generate a clean build.
 
 Now with the build at your disposal you can calculate the hash of the folder by running `ipfs add dist -r -n dist`.
+
+(Install IPFS from here: [https://docs.ipfs.io/install/ipfs-desktop/](https://docs.ipfs.io/install/ipfs-desktop/))
