@@ -454,7 +454,7 @@ export class LiquidityAdd extends PoolBase {
     }
   }
 
-  goBack() {
+  goBack(): void {
     this.router.navigateBack();
   }
 }

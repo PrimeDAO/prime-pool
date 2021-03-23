@@ -113,7 +113,10 @@ export class TokenService {
       return axios.get(uri)
         .then(async (response) => {
           tokenInfo = response.data;
+          // TODO: remove these lint warnings
+          // eslint-disable-next-line require-atomic-updates
           tokenInfo.id = await this.getTokenGeckoId(tokenInfo.name, tokenInfo.symbol);
+          // eslint-disable-next-line require-atomic-updates
           tokenInfo.address = address;
           this.tokenInfos.set(address, tokenInfo);
 

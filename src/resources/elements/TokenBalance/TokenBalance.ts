@@ -1,5 +1,5 @@
 import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject, containerless, customElement, bindable, bindingMode } from "aurelia-framework";
+import { autoinject, containerless, customElement, bindable } from "aurelia-framework";
 import { DisposableCollection } from "services/DisposableCollection";
 import { Address, EthereumService } from "services/EthereumService";
 import { BigNumber } from "ethers";

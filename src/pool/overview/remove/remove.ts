@@ -360,14 +360,14 @@ export class LiquidityRemove extends PoolBase {
     }
   }
 
-  async exitPool(poolAmountIn, minAmountsOut): Promise<void> {
+  async exitPool(poolAmountIn: BigNumber, minAmountsOut: Array<string>): Promise<void> {
     if (this.ensureConnected()) {
       await this.transactionsService.send(() => this.pool.crPool.exitPool(poolAmountIn, minAmountsOut));
       this.refresh();
     }
   }
 
-  async exitswapPoolAmountIn(tokenOutAddress, poolAmountIn, minTokenAmountOut): Promise<void> {
+  async exitswapPoolAmountIn(tokenOutAddress: Address, poolAmountIn: BigNumber, minTokenAmountOut: string): Promise<void> {
     if (this.ensureConnected()) {
       await this.transactionsService.send(() => this.pool.crPool.exitswapPoolAmountIn(tokenOutAddress, poolAmountIn, minTokenAmountOut));
       this.refresh();
@@ -378,7 +378,7 @@ export class LiquidityRemove extends PoolBase {
     this.poolTokenAmount = this.pool.userPoolTokenBalance;
   }
 
-  goBack() {
+  goBack(): void {
     this.router.navigateBack();
   }
 }
