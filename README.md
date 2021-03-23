@@ -76,10 +76,10 @@ Notes on a few of the pool entries:
 
 Various code dependencies include:
 
-* [ethplorer.io](https://ethplorer.io/) for token information
-* [coingecko](https://www.coingecko.com/en/api) for token information
-* the Balancer subgraph, at https://api.thegraph.com/subgraphs/name/balancer-labs/balancer, for pool information
-* the PrimeDAO API, at https://api.primedao.io/circulatingSupply, for the total supply of PRIME
+* ethplorer<span>.</span>io, at api.ethplorer.io, for token information
+* coingecko, at api.coingecko.com/api/v3/coins,  for token information
+* the Balancer subgraph, at api.thegraph.com/subgraphs/name/balancer-labs/balancer, for pool information
+* the PrimeDAO API, at api.primedao.io/circulatingSupply, for the total supply of PRIME
 * [d3](https://d3js.org/) for the pool donut graph
 * [lightweight-charts](https://github.com/tradingview/lightweight-charts) for the pool marketcap sparkline graph
 * [Web3Modal](https://github.com/Web3Modal/web3modal) for selecting wallet providers
