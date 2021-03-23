@@ -35,8 +35,8 @@ export function configure(aurelia: Aurelia): void {
     try {
       const ethereumService = aurelia.container.get(EthereumService);
       ethereumService.initialize(
-        process.env.NODE_ENV === "development" ?
-          (process.env.NETWORK as AllowedNetworks ?? Networks.Kovan) : Networks.Mainnet);
+        process.env.NETWORK as AllowedNetworks ??
+          (process.env.NODE_ENV === "development" ? Networks.Kovan : Networks.Mainnet));
 
       aurelia.container.get(ContractsService);
 
