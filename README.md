@@ -72,7 +72,7 @@ Notes on a few of the pool entries:
 | addresses | Address of the `ConfigurableRightsPool` |
 | preview | If true, the pool will appear only as an unclickable button on the All Pools page |
 
-## Dependencies
+## <a name="dependencies"></a> Dependencies
 
 Various code dependencies include:
 
