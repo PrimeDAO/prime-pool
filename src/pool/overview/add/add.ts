@@ -68,15 +68,15 @@ export class LiquidityAdd extends PoolBase {
     await super.attached();
     if (!inited) {
       this.subscriptions.push(this.aureliaHelperService.createCollectionWatch(this.selectedTokens, this.handleTokenSelected.bind(this)));
-      /**
-       * default is all selected
-       */
-      this.pool.assetTokensArray.forEach(tokenInfo => {
-      /**
-       * setTimeout so handleTokenSelected will be invoved one check operation at a time.
-       */
-        setTimeout(() => this.selectedTokens.push(tokenInfo as IPoolTokenInfoEx), 0);
-      });
+      // /**
+      //  * default is all selected
+      //  */
+      // this.pool.assetTokensArray.forEach(tokenInfo => {
+      // /**
+      //  * setTimeout so handleTokenSelected will be invoved one check operation at a time.
+      //  */
+      //   setTimeout(() => this.selectedTokens.push(tokenInfo as IPoolTokenInfoEx), 0);
+      // });
     }
   }
 
