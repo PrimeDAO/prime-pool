@@ -98,7 +98,7 @@
             padding-bottom: 16px;
 
             > .text {
-              font-size: 11px;
+              font-size: 12px;
               display: flex;
               justify-items: center;
 
@@ -133,6 +133,14 @@
       padding: 0 20px;
       position: fixed;
       bottom: 30px;
+
+      .logo {
+        flex-direction: column;
+
+        img {
+          margin-bottom: 10px;
+        }
+      }
     }
   }
 
@@ -164,7 +172,7 @@
     .footerContainer {
       .links {
         text-decoration: underline;
-        font-size: 11px;
+        font-size: 12px;
         margin-bottom: 16px;
         display: flex;
         justify-content: space-between;
@@ -192,7 +200,7 @@
           margin-right: 6px;
         }
         .text {
-          font-size: 6px;
+          font-size: 10px;
           display: inline-block;
         }
       }
@@ -259,7 +267,7 @@
 
     // footers are the same in this respect in menu or at the bottom of the page
     .appFooter {
-      width: 150px;
+      width: 208px;
       margin: auto;
       padding: 16px;
 
