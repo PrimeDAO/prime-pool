@@ -280,4 +280,31 @@
 }
 
 @media screen and (max-width: 830px) {
+  .pools {
+    text-align: center;
+
+    .subtitle {
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 30px;
+      width: 60%;
+    }
+
+    .body {
+      .poolButtons {
+        .pool {
+          .poolButton {
+            font-size: 11px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+
+            > .icon {
+              width: 17px;
+              height: 17px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
