@@ -172,22 +172,22 @@
     .footerContainer {
       .links {
         text-decoration: underline;
-        font-size: 12px;
+        font-size: 14px;
         margin-bottom: 16px;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
       }
 
       .social {
         border-bottom: 2px solid #1ee0fc;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
         margin-bottom: 16px;
         padding-bottom: 16px;
 
         a {
           img {
-            width: 16px;
+            width: 17px;
           }
         }
       }
@@ -273,7 +273,7 @@
 
       .footerContainer {
         .social {
-          margin-bottom: 8px;
+          margin-bottom: 12px;
           padding-bottom: 8px;
         }
 
