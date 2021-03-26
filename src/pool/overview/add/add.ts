@@ -53,6 +53,11 @@ export class LiquidityAdd extends PoolBase {
   private isSingleAsset: boolean;
   private selectedToken: IPoolTokenInfoEx;
 
+  protected activate(model: { poolAddress: Address }): void {
+    super.activate(model);
+    this.subscriptions.push(this.aureliaHelperService.createCollectionWatch(this.selectedTokens, this.handleTokenSelected.bind(this)));
+  }
+
   public canActivate(model: { poolAddress: Address }): Redirect | boolean | undefined {
     const pool = this.poolService?.pools?.get(model.poolAddress);
     if (!pool?.connected) {
@@ -63,22 +68,21 @@ export class LiquidityAdd extends PoolBase {
     }
   }
 
-  protected async attached(): Promise<void> {
-    const inited = !!this.pool;
-    await super.attached();
-    if (!inited) {
-      this.subscriptions.push(this.aureliaHelperService.createCollectionWatch(this.selectedTokens, this.handleTokenSelected.bind(this)));
-      // /**
-      //  * default is all selected
-      //  */
-      // this.pool.assetTokensArray.forEach(tokenInfo => {
-      // /**
-      //  * setTimeout so handleTokenSelected will be invoved one check operation at a time.
-      //  */
-      //   setTimeout(() => this.selectedTokens.push(tokenInfo as IPoolTokenInfoEx), 0);
-      // });
-    }
-  }
+  // protected async attached(): Promise<void> {
+  //   const inited = !!this.pool;
+  //   await super.attached();
+  //   if (!inited) {
+  //     /**
+  //      * default is all selected
+  //      */
+  //     this.pool.assetTokensArray.forEach(tokenInfo => {
+  //     /**
+  //      * setTimeout so handleTokenSelected will be invoved one check operation at a time.
+  //      */
+  //       setTimeout(() => this.selectedTokens.push(tokenInfo as IPoolTokenInfoEx), 0);
+  //     });
+  //   }
+  // }
 
   private getShowTokenUnlock(token: IPoolTokenInfoEx): boolean {
     return !this.getInvalidTokenAdd(token) && !this.getTokenHasSufficientAllowance(token);
