@@ -249,6 +249,10 @@
         align-items: center;
         padding-right: 0;
 
+        .pool {
+          width: 42%;
+        }
+
         .pool:not(:last-child) {
           margin-right: 0;
           padding-bottom: 18px;
