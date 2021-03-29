@@ -4,7 +4,7 @@
   "description": "The PrimeDAO’s home for network members",
   "repository": {
     "type": "git",
-    "url": "https://github.com/PrimeDAO/monorepo/tree/master/packages/interface"
+    "url": "https://github.com/PrimeDAO/prime-pool-dapp"
   },
   "author": "CL Cybernetix GmbH",
   "homepage": "./",
