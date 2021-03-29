@@ -75,7 +75,7 @@ export class FormattedNumber {
       // tippy(this.textElement, "dispose");
       const instance = tippy(this.textElement, {
         appendTo: () => document.body, // because is "interactive" and otherwise messes with the layout on hover
-        zIndex: 10001,
+        zIndex: 10005,
       });
       instance.setContent(this.value.toString());
     }
