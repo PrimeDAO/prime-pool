@@ -7,6 +7,7 @@
           value.two-way="ethWethAmount"
           placeholder="0.0"></numeric-input>
       </div>
+      <label if.to-view="userEthBalance.gt(0)"><button click.delegate="handleGetMaxEth()" class="button4 small" click.delegate="handleGetMax()">Max</button></label>
       <button class="button1 small" click.delegate="handleDeposit()">Wrap</button>
     </div>
     <div class="inputButtonGroup">
@@ -16,7 +17,7 @@
           value.two-way="wethEthAmount"
           placeholder="0.0"></numeric-input>
       </div>
-      <label if.to-view="userWethBalance.gt(0)"><button click.delegate="handleGetMax()" class="button4 small" click.delegate="handleGetMax()">Max</button></label>
+      <label if.to-view="userWethBalance.gt(0)"><button click.delegate="handleGetMaxWeth()" class="button4 small" click.delegate="handleGetMax()">Max</button></label>
       <button class="button2 small" click.delegate="handleWithdraw()">Unwrap</button>
     </div>
   </div>

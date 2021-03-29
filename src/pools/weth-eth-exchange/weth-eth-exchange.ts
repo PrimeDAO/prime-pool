@@ -90,7 +90,11 @@ export class WethEthExchange {
     }
   }
 
-  private handleGetMax() {
+  private handleGetMaxWeth() {
     this.wethEthAmount = this.userWethBalance;
+  }
+
+  private handleGetMaxEth() {
+    this.ethWethAmount = this.userEthBalance;
   }
 }
