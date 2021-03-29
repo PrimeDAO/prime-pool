@@ -360,7 +360,7 @@ export class Pool implements IPoolConfig {
     if (accountAddress) {
       this.userPoolTokenBalance = await this.poolToken.tokenContract.balanceOf(accountAddress);
       this.userPoolTokenShare = toBigNumberJs(this.userPoolTokenBalance).div(this.poolTokenTotalSupply.toString()).toNumber();
-      this.userPoolTokenSharePercentage = this.userPoolTokenShare / 100;
+      this.userPoolTokenSharePercentage = this.userPoolTokenShare * 100;
 
       for (const token of this.assetTokensArray) {
 
