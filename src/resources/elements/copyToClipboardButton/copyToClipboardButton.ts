@@ -24,7 +24,7 @@ export class CopyToClipboardButton {
   ) { }
 
   public attached(): void {
-    tippy("[data-tippy-content]");
+    tippy(this.button);
   }
 
   private listener(e) { e.clipboardData.setData("text/plain", this.textToCopy); e.preventDefault(); }
