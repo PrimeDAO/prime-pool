@@ -24,11 +24,13 @@
       .stuff {
         display: flex;
         align-items: center;
+        margin-bottom: 0.5em;
 
         .cap24 {
           margin-right: 16px;
           white-space: nowrap;
           position: relative;
+
           top: 1px;
           .label {
             display: inline-block;
@@ -59,6 +61,18 @@
           a {
             color: $color-light-purple;
           }
+        }
+      }
+
+      .poolTokenPrice {
+        display: flex;
+        align-items: center;
+        .label {
+          margin-right: 0.5em;
+        }
+
+        .price {
+          color: #5aae2a;
         }
       }
     }

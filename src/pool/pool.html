@@ -22,6 +22,16 @@
             <div class="anchorArrow"><img src="/anchorArrow.svg" /></div> <a href="https://pools.balancer.exchange/#/pool/${pool.bPool.address}/" target="_blank" rel="noopener noreferrer">Go to ${pool.name} on Balancer</a>
           </div>
         </div>
+        <div class="poolTokenPrice">
+          <div class="label">${pool.poolToken.symbol} Price:</div>
+          <div class="price">$<formatted-number
+              value.to-view="pool.poolTokenPrice"
+              average="false"
+              mantissa="2"
+              thousands-separated>
+            </formatted-number>
+          </div>
+        </div>
       </div>
     </div>
     <div class="mainBody">
