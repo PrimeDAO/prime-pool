@@ -45,7 +45,7 @@ export class PoolDashboard extends PoolBase {
         nav: true,
         name: "priceTracker",
         route: "priceTracker",
-        title: "Price Tracker",
+        title: "Market Cap Tracker",
       },
     ]);
 
