@@ -31,8 +31,6 @@ export function configure(aurelia: Aurelia): void {
     aurelia.use.plugin(PLATFORM.moduleName("aurelia-testing"));
   }
 
-  const eventAggregator = aurelia.container.get(EventAggregator);
-
   aurelia.start().then(async () => {
     aurelia.container.get(ConsoleLogService);
     try {
@@ -43,21 +41,14 @@ export function configure(aurelia: Aurelia): void {
 
       aurelia.container.get(ContractsService);
 
-      eventAggregator.publish("pools.loading", true);
-
-      const promises = [];
-
       const poolService = aurelia.container.get(PoolService);
-      promises.push(poolService.initialize());
+      poolService.initialize();
 
       const farmService = aurelia.container.get(FarmService);
-      promises.push(farmService.initialize());
-
-      Promise.all(promises).then(() => {
-        eventAggregator.publish("pools.loading", false);
-      });
+      farmService.initialize();
 
     } catch (ex) {
+      const eventAggregator = aurelia.container.get(EventAggregator);
       eventAggregator.publish("handleException", new EventConfigException("Sorry, couldn't connect to ethereum", ex));
       alert(`Sorry, couldn't connect to ethereum: ${ex.message}`);
     }
