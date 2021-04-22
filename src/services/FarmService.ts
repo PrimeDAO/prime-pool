@@ -1,0 +1,93 @@
+import { autoinject } from "aurelia-framework";
+import axios from "axios";
+import { EventAggregator } from "aurelia-event-aggregator";
+import { EventConfigException } from "services/GeneralEvents";
+import { Container } from "aurelia-dependency-injection";
+import { Address, EthereumService } from "services/EthereumService";
+import { Farm } from "entities/farm";
+
+interface IFarmAddresses {
+  pool: Address;
+  farm: Address;
+}
+
+interface IFarmConfigInternal {
+  /**
+   * one set of address for each chain
+   */
+  addresses: Array<{ [network: string]: IFarmAddresses }>;
+  name: string;
+}
+
+export interface IFarmConfig {
+  name: string;
+  poolAddress: Address;
+  address: Address;
+}
+
+@autoinject
+export class FarmService {
+
+  public farms: Map<Address, Farm>;
+  public get poolsArray(): Array<Farm> {
+    return Array.from(this.farms.values());
+  }
+  public initializing = true;
+  private initializedPromise: Promise<void>;
+
+  constructor(
+    private ethereumService: EthereumService,
+    private eventAggregator: EventAggregator,
+    private container: Container,
+  ) {
+    /**
+     * otherwise singleton is the default
+     */
+    this.container.registerTransient(Farm);
+  }
+
+  public async initialize(): Promise<void> {
+    return this.createFarms();
+  }
+
+  private createFarms(): Promise<void> {
+    return this.initializedPromise = new Promise(
+      (resolve: (value: void | PromiseLike<void>) => void,
+        reject: (reason?: any) => void): Promise<void> => {
+        if (!this.farms?.size) {
+          return axios.get("https://raw.githubusercontent.com/PrimeDAO/prime-pool-dapp/master/src/poolConfigurations/farms.json")
+            .then(async (response) => {
+              const farmsMap = new Map<Address, Farm>();
+              for (const config of response.data as Array<IFarmConfigInternal>) {
+                const farm = await this.createFarmFromConfig(config);
+                // assign random key to preview pools
+                farmsMap.set(farm.address, farm);
+              }
+              this.farms = farmsMap;
+              this.initializing = false;
+              return resolve();
+            })
+            .catch((error) => {
+              this.farms = new Map();
+              this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", error));
+              this.initializing = false;
+              return reject();
+            });
+        }
+      });
+  }
+
+  private createFarmFromConfig(config: IFarmConfigInternal): Promise<Farm> {
+    const farmConfig = {
+      poolAddress: config.addresses[this.ethereumService.targetedNetwork].pool,
+      address: config.addresses[this.ethereumService.targetedNetwork].farm,
+      name: config.name,
+    };
+    const farm = this.container.get(Farm);
+    return farm.initialize(farmConfig);
+  }
+
+  public ensureInitialized(): Promise<void> {
+    return this.initializedPromise;
+  }
+}

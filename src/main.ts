@@ -7,6 +7,7 @@ import { ConsoleLogService } from "services/ConsoleLogService";
 import { ContractsService } from "services/ContractsService";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { PoolService } from "services/PoolService";
+import { FarmService } from "services/FarmService";
 
 export function configure(aurelia: Aurelia): void {
   aurelia.use
@@ -30,6 +31,8 @@ export function configure(aurelia: Aurelia): void {
     aurelia.use.plugin(PLATFORM.moduleName("aurelia-testing"));
   }
 
+  const eventAggregator = aurelia.container.get(EventAggregator);
+
   aurelia.start().then(async () => {
     aurelia.container.get(ConsoleLogService);
     try {
@@ -40,12 +43,21 @@ export function configure(aurelia: Aurelia): void {
 
       aurelia.container.get(ContractsService);
 
-      const poolService = aurelia.container.get(PoolService);
+      eventAggregator.publish("pools.loading", true);
 
-      poolService.initialize();
+      const promises = [];
+
+      const poolService = aurelia.container.get(PoolService);
+      promises.push(poolService.initialize());
+
+      const farmService = aurelia.container.get(FarmService);
+      promises.push(farmService.initialize());
+
+      Promise.all(promises).then(() => {
+        eventAggregator.publish("pools.loading", false);
+      });
 
     } catch (ex) {
-      const eventAggregator = aurelia.container.get(EventAggregator);
       eventAggregator.publish("handleException", new EventConfigException("Sorry, couldn't connect to ethereum", ex));
       alert(`Sorry, couldn't connect to ethereum: ${ex.message}`);
     }

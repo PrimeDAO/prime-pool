@@ -1,6 +1,6 @@
 import { autoinject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
-import { EventConfigException } from "services/GeneralEvents";
+import { EventConfigException, EventConfigFailure } from "services/GeneralEvents";
 import { Router, RouterConfiguration } from "aurelia-router";
 import { PLATFORM } from "aurelia-pal";
 import "./styles/styles.scss";
@@ -9,15 +9,18 @@ import { Utils } from "services/utils";
 import tippy from "tippy.js";
 import { Pool } from "entities/pool";
 import { PoolService } from "services/PoolService";
+import { ConsoleLogService } from "services/ConsoleLogService";
 
 @autoinject
 export class App {
   constructor (
     private eventAggregator: EventAggregator,
-    private poolService: PoolService) { }
+    private poolService: PoolService,
+    private consoleLogService: ConsoleLogService) { }
 
   router: Router;
   onOff = false;
+  onOffStack = 0;
   modalMessage: string;
   initializing = true;
   pools = new Array<Pool>();
@@ -36,20 +39,20 @@ export class App {
 
     this.eventAggregator.subscribe("pools.loading", async (onOff: boolean) => {
       this.modalMessage = "Thank you for your patience while we initialize for a few moments...";
-      this.onOff = onOff;
+      this.handleOnOff(onOff);
     });
 
     this.eventAggregator.subscribe("transaction.sent", async () => {
       this.modalMessage = "Awaiting confirmation...";
-      this.onOff = true;
+      this.handleOnOff(true);
     });
 
     this.eventAggregator.subscribe("transaction.confirmed", async () => {
-      this.onOff = false;
+      this.handleOnOff(false);
     });
 
     this.eventAggregator.subscribe("transaction.failed", async () => {
-      this.onOff = false;
+      this.handleOnOff(false);
     });
 
     if (!this.pools?.length) {
@@ -64,6 +67,19 @@ export class App {
           this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
         }
       }, 0);
+    }
+  }
+
+  private handleOnOff(onOff: boolean): void {
+    this.onOffStack += onOff ? 1 : -1;
+    if (this.onOffStack < 0) {
+      this.onOffStack = 0;
+      this.consoleLogService.handleFailure(new EventConfigFailure("underflow in onOffStack"));
+    }
+    if (this.onOffStack && !this.onOff) {
+      this.onOff = true;
+    } else if ((this.onOffStack === 0) && this.onOff) {
+      this.onOff = false;
     }
   }
 
