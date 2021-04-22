@@ -136,6 +136,13 @@
 
       .button {
         color: $color-black;
+        padding-left: 20px;
+        padding-right: 20px;
+        width: 100%;
+      }
+
+      .button:not(:last-child) {
+        margin-right: 16px;
       }
 
       .button:hover,

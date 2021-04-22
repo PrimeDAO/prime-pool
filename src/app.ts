@@ -1,6 +1,6 @@
 import { autoinject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
-import { EventConfigException, EventConfigFailure } from "services/GeneralEvents";
+import { EventConfig, EventConfigException } from "services/GeneralEvents";
 import { Router, RouterConfiguration } from "aurelia-router";
 import { PLATFORM } from "aurelia-pal";
 import "./styles/styles.scss";
@@ -74,7 +74,7 @@ export class App {
     this.onOffStack += onOff ? 1 : -1;
     if (this.onOffStack < 0) {
       this.onOffStack = 0;
-      this.consoleLogService.handleFailure(new EventConfigFailure("underflow in onOffStack"));
+      this.consoleLogService.handleWarning(new EventConfig("underflow in onOffStack"));
     }
     if (this.onOffStack && !this.onOff) {
       this.onOff = true;

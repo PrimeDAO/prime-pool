@@ -1,4 +1,4 @@
-.env
+.env*
 package.json.lerna_backup*
 
 # You may want to customise this file depending on your Operating System

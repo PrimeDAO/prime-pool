@@ -38,7 +38,7 @@ export abstract class PoolBase {
   }
 
   protected async attached(): Promise<void> {
-    await this.initialize();
+    return this.initialize();
   }
 
   protected async initialize(): Promise<void> {

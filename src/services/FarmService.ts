@@ -28,8 +28,15 @@ export interface IFarmConfig {
 @autoinject
 export class FarmService {
 
+  /**
+   * farm by farm address
+   */
   public farms: Map<Address, Farm>;
-  public get poolsArray(): Array<Farm> {
+  /**
+   * Farm by pool address
+   */
+  public poolFarms: Map<Address, Farm>;
+  public get farmsArray(): Array<Farm> {
     return Array.from(this.farms.values());
   }
   public initializing = true;
@@ -58,12 +65,15 @@ export class FarmService {
           return axios.get("https://raw.githubusercontent.com/PrimeDAO/prime-pool-dapp/master/src/poolConfigurations/farms.json")
             .then(async (response) => {
               const farmsMap = new Map<Address, Farm>();
+              const poolFarmsMap = new Map<Address, Farm>();
               for (const config of response.data as Array<IFarmConfigInternal>) {
                 const farm = await this.createFarmFromConfig(config);
                 // assign random key to preview pools
                 farmsMap.set(farm.address, farm);
+                poolFarmsMap.set(farm.poolAddress, farm);
               }
               this.farms = farmsMap;
+              this.poolFarms = poolFarmsMap;
               this.initializing = false;
               return resolve();
             })
