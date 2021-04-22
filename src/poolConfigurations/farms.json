@@ -1,0 +1,36 @@
+[
+  {
+    "name": "PRIME/WETH",
+    "addresses": {
+      "kovan": [
+        {
+          "pool": "0xeFbc366b57aa1c91dDE87b09367310F973D7aB8c",
+          "farm": "0xC5DB682Aeb48eF1dbF195E39C68A88E9D9d818a3"
+        }
+      ],
+      "mainnet": [
+        {
+          "pool": "0x51A2310B37ead1D8F8Fe01B89b4Cd68FA58992d0",
+          "farm": "0xE25faBF901Be98099b0FD8C8b3827A4c69F909E4"
+        }
+      ]
+    }
+  },
+  {
+    "name": "PRIME/BAL",
+    "addresses": {
+      "kovan": [
+        {
+          "pool": "",
+          "farm": ""
+        }
+      ],
+      "mainnet": [
+        {
+          "pool": "",
+          "farm": ""
+        }
+      ]
+    }
+  }
+]
