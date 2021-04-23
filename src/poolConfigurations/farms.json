@@ -11,18 +11,5 @@
         "farm": "0xE25faBF901Be98099b0FD8C8b3827A4c69F909E4"
       }
     }
-  },
-  {
-    "name": "PRIME/BAL",
-    "addresses": {
-      "kovan": {
-        "pool": "",
-        "farm": ""
-      },
-      "mainnet": {
-        "pool": "",
-        "farm": ""
-      }
-    }
   }
 ]
