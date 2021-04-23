@@ -15,8 +15,6 @@ export class Staking {
 
   private farm: Farm;
   private currentAPY: number;
-  private rewardTokenRewarded: BigNumber;
-  private stakingTokenFarmed: BigNumber;
   private loaded = false;
 
   private subscriptions: DisposableCollection = new DisposableCollection();
@@ -50,7 +48,7 @@ export class Staking {
 
     this.currentAPY = liquidity ?
       (((this.numberService.fromString(fromWei((await this.farm.contract.initreward()))) / 30) * rewardTokenPrice * 365) / liquidity)
-      : 0;
+      : undefined;
 
     await this.hydrateUserValues();
     this.loaded = true;
@@ -58,11 +56,6 @@ export class Staking {
 
   async hydrateUserValues(): Promise<void> {
     if (this.ethereumService.defaultAccountAddress) {
-      /**
-       * current balance of rewardable reward tokens
-       */
-      this.rewardTokenRewarded = await this.farm.contract.earned(this.ethereumService.defaultAccountAddress);
-      this.stakingTokenFarmed = await this.farm.contract.balanceOf(this.ethereumService.defaultAccountAddress);
     }
   }
 

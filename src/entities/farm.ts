@@ -1,16 +1,14 @@
-import { BigNumber } from "ethers";
 import { IFarmConfig } from "services/FarmService";
 import { autoinject } from "aurelia-framework";
 import { ContractNames, ContractsService } from "services/ContractsService";
 import { Address, EthereumService } from "services/EthereumService";
-import { NumberService } from "services/numberService";
 import { DisposableCollection } from "services/DisposableCollection";
 import { EventAggregator } from "aurelia-event-aggregator";
-import { ConsoleLogService } from "services/ConsoleLogService";
-import { DateService } from "services/DateService";
 import { Pool } from "entities/pool";
 import { PoolService } from "services/PoolService";
 import { ITokenInfo, TokenService } from "services/TokenService";
+import { BigNumber } from "ethers";
+import TransactionsService from "services/TransactionsService";
 
 
 @autoinject
@@ -34,6 +32,8 @@ export class Farm implements IFarmConfig {
   stakingTokenAddress: Address;
   stakingTokenInfo: ITokenInfo;
   stakingTokenContract: any;
+  rewardTokenRewardable: BigNumber;
+  stakingTokenFarming: BigNumber;
 
   public constructor(
     private contractsService: ContractsService,
@@ -41,6 +41,7 @@ export class Farm implements IFarmConfig {
     private eventAggregator: EventAggregator,
     private poolService: PoolService,
     private tokenService: TokenService,
+    private transactionsService: TransactionsService,
   ) {
 
     this.subscriptions.push(this.eventAggregator.subscribe("Contracts.Changed", async () => {
@@ -78,17 +79,13 @@ export class Farm implements IFarmConfig {
     this.stakingTokenContract = await this.contractsService.getContractAtAddress(ContractNames.IERC20, this.stakingTokenAddress);
   }
 
-  /**
-  * @param config pass `this` to refresh
-  * @param full true to load contracts and hydrate everything.  false to keep contracts and the list of tokens.
-  */
   public async initialize(config: IFarmConfig, full = true): Promise<Farm> {
     /**
      * do a partial initialization only if the pool has previously been initialized
      * !full means the list of tokens will be retained, but their values will be refreshed.
      */
     if (!full && !this.address) {
-      full = true; // shoudn't ever happen
+      full = true; // shouldn't ever happen
     }
 
     if (full) {
@@ -104,10 +101,6 @@ export class Farm implements IFarmConfig {
 
       this.rewardTokenInfo = (await this.tokenService.getTokenInfoFromAddress(this.rewardTokenAddress)) as ITokenInfo;
       this.stakingTokenInfo = (await this.tokenService.getTokenInfoFromAddress(this.stakingTokenAddress)) as ITokenInfo;
-
-      // this.swapfee = await this.bPool.getSwapFee();
-      // this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
-    } else {
     }
 
     await this.hydrateUserValues();
@@ -115,21 +108,33 @@ export class Farm implements IFarmConfig {
     return this;
   }
 
-  public async refresh(full = false): Promise<Farm> {
-    return this.initialize(this, full);
-  }
-
   public async hydrateUserValues(): Promise<void> {
 
     const accountAddress = this.ethereumService.defaultAccountAddress;
 
     if (accountAddress) {
+      /**
+       * current balance of rewardable reward tokens
+       */
+      this.rewardTokenRewardable = await this.contract.earned(this.ethereumService.defaultAccountAddress);
+      this.stakingTokenFarming = await this.contract.balanceOf(this.ethereumService.defaultAccountAddress);
       this.connected = true;
     } else {
       this.connected = false;
+    }
+  }
 
-      // this.primeFarmed =
-      // this.bPrimeStaked = undefined;
+  public async stakingHarvest(): Promise<void> {
+    if (this.ensureConnected()) {
+      await this.transactionsService.send(() => this.contract.getReward());
+      this.hydrateUserValues();
+    }
+  }
+
+  public async stakingExit(): Promise<void> {
+    if (this.ensureConnected()) {
+      await this.transactionsService.send(() => this.contract.exit());
+      this.hydrateUserValues();
     }
   }
 

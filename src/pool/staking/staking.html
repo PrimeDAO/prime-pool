@@ -11,18 +11,16 @@
           placement.to-view="top"></formatted-number>%
       </div>
       <div class="value">
-        <formatted-number if.to-view="rewardTokenRewarded" value.to-view="rewardTokenRewarded | ethwei"
-          placement.to-view="top"></formatted-number>
+        <formatted-number if.to-view="farm.rewardTokenRewardable" value.to-view="farm.rewardTokenRewardable | ethwei"></formatted-number>
         <span else>--</span>
       </div>
       <div class="value">
-        <formatted-number if.to-view="rewardTokenRewarded" value.to-view="stakingTokenFarmed | ethwei"
-          placement.to-view="top"></formatted-number>
+        <formatted-number if.to-view="farm.stakingTokenFarming" value.to-view="farm.stakingTokenFarming | ethwei"></formatted-number>
         <span else>--</span>
       </div>
       <div class="label">Current APY</div>
       <div class="label">Your Current ${farm.rewardTokenInfo.symbol} Rewardable</div>
-      <div class="label">Your Current ${farm.stakingTokenInfo.symbol} Farmed</div>
+      <div class="label">Your Current ${farm.stakingTokenInfo.symbol} Farming</div>
     </div>
     <div else class="loading">
       <i class="fas fa-circle-notch fa-spin"></i>

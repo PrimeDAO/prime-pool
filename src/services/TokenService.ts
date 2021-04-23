@@ -116,10 +116,10 @@ export class TokenService {
           tokenInfo = response.data;
           tokenInfo.address = address;
           // TODO: remove these lint warnings
-          tokenInfo.price =
-            tokenInfo.priceChangePercentage_24h =
-            tokenInfo.priceChangePercentage_7d =
-            tokenInfo.priceChangePercentage_30d = 0;
+          // tokenInfo.price =
+          //   tokenInfo.priceChangePercentage_24h =
+          //   tokenInfo.priceChangePercentage_7d =
+          //   tokenInfo.priceChangePercentage_30d = 0;
           tokenInfo.id = await this.getTokenGeckoId(tokenInfo.name, tokenInfo.symbol);
 
           this.tokenInfos.set(address, tokenInfo);
@@ -129,7 +129,7 @@ export class TokenService {
 
             await axios.get(uri)
               .then((response) => {
-                tokenInfo.price = response.data.market_data.current_price.usd;
+                tokenInfo.price = response.data.market_data.current_price.usd ?? 0;
                 tokenInfo.icon = response.data.image.thumb;
                 tokenInfo.priceChangePercentage_24h = response.data.market_data.price_change_percentage_24h ?? 0;
                 tokenInfo.priceChangePercentage_7d = response.data.market_data.price_change_percentage_7d ?? 0;
