@@ -1,35 +1,32 @@
 <template>
-  <div class="animated-page au-animate stakingContainer">
+  <div class="animated-page au-animate staking">
     <div if.to-view="loaded" class="body">
-      <div class="currentAPY">
-        <div class="value">
-          <formatted-number value.to-view="currentAPY * 100"
-            average="false"
-            mantissa="2"
-            placement.to-view="top"></formatted-number>%
-        </div>
-        <div class="label">Current APY</div>
+      <div class="icon"><img src="/TvChart.svg" /></div>
+      <div class="icon"><img src="/Basket.svg" /></div>
+      <div class="icon"><img src="/Shovel.svg" /></div>
+      <div class="value">
+        <formatted-number value.to-view="currentAPY * 100"
+          average="false"
+          mantissa="2"
+          placement.to-view="top"></formatted-number>%
       </div>
-      <div class="primeFarmed">
-        <div class="value">
-          <formatted-number if.to-view="rewardTokenRewarded" value.to-view="rewardTokenRewarded | ethwei"
-            placement.to-view="top"></formatted-number>
-          <span else>--</span>
-        </div>
-        <div class="label">Your Current ${farm.rewardTokenInfo.symbol} Rewardable</div>
+      <div class="value">
+        <formatted-number if.to-view="rewardTokenRewarded" value.to-view="rewardTokenRewarded | ethwei"
+          placement.to-view="top"></formatted-number>
+        <span else>--</span>
       </div>
-      <div class="bprimeStaked">
-        <div class="value">
-          <formatted-number if.to-view="rewardTokenRewarded" value.to-view="stakingTokenFarmed | ethwei"
-            placement.to-view="top"></formatted-number>
-          <span else>--</span>
-        </div>
-        <div class="label">Your Current ${farm.stakingTokenInfo.symbol} Farmed</div>
+      <div class="value">
+        <formatted-number if.to-view="rewardTokenRewarded" value.to-view="stakingTokenFarmed | ethwei"
+          placement.to-view="top"></formatted-number>
+        <span else>--</span>
       </div>
-      <liquidity-buttons farm.to-view="farm"></liquidity-buttons>
+      <div class="label">Current APY</div>
+      <div class="label">Your Current ${farm.rewardTokenInfo.symbol} Rewardable</div>
+      <div class="label">Your Current ${farm.stakingTokenInfo.symbol} Farmed</div>
     </div>
     <div else class="loading">
       <i class="fas fa-circle-notch fa-spin"></i>
     </div>
   </div>
+  <liquidity-buttons farm.to-view="farm"></liquidity-buttons>
 </template>
