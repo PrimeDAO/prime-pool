@@ -32,7 +32,7 @@ export class LiquidityButtons {
 
   stake(): void {
     if (this.farm.connected) {
-      this.router.navigate(`/pool/${this.pool.address}/farm/${this.farm.address}`);
+      this.router.navigate(`/pool/${this.farm.pool.address}/farm/${this.farm.address}/stakingForm`);
     }
   }
 

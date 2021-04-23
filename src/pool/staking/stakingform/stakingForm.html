@@ -1,0 +1,27 @@
+<template>
+  <div class="animated-page au-animate stakingForm">
+    <div class="headingContainer">Farm ${farm.stakingTokenInfo.symbol} Tokens for ${farm.rewardTokenInfo.symbol}</div>
+    <div if.to-view="farm.connected" class="body">
+      <div class="balance">
+        You have
+        <formatted-number value.to-view="userStakingTokenBalance | ethwei"></formatted-number>
+        ${farm.stakingTokenInfo.symbol} available to farm.
+      </div>
+      <div>
+
+        <label if.to-view="userStakingTokenBalance.gt(0)"><button class="button4 small" click.delegate="handleGetMaxPoolToken()">Max</button></label>
+        <numeric-input id="amountToStake"
+          value.two-way="amountToStake"
+          placeholder="0.0"
+          css="clearInput"></numeric-input>
+        <button if.to-view="!invalid && !bPrimeHasSufficientAllowance" class="unlock button4 small" click.delegate="unlock()">Unlock</button>
+      </div>
+    </div>
+    <div class="buttonContainer">
+      <button disabled.to-view="!amountToStake || amountToStake.eq(0)" class="button1" click.delegate="handleSubmit()">Farm</button>
+    </div>
+    <div class="back">
+      <a click.delegate="goBack()" href="#"><img src="/back.svg"></img> Back</a>
+    </div>
+  </div>
+</template>

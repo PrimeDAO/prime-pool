@@ -1,30 +1,5 @@
 <template>
   <div class="animated-page au-animate staking">
-    <div if.to-view="loaded" class="body">
-      <div class="icon"><img src="/TvChart.svg" /></div>
-      <div class="icon"><img src="/Basket.svg" /></div>
-      <div class="icon"><img src="/Shovel.svg" /></div>
-      <div class="value">
-        <formatted-number value.to-view="currentAPY * 100"
-          average="false"
-          mantissa="2"
-          placement.to-view="top"></formatted-number>%
-      </div>
-      <div class="value">
-        <formatted-number if.to-view="farm.rewardTokenRewardable" value.to-view="farm.rewardTokenRewardable | ethwei"></formatted-number>
-        <span else>--</span>
-      </div>
-      <div class="value">
-        <formatted-number if.to-view="farm.stakingTokenFarming" value.to-view="farm.stakingTokenFarming | ethwei"></formatted-number>
-        <span else>--</span>
-      </div>
-      <div class="label">Current APY</div>
-      <div class="label">Your Current ${farm.rewardTokenInfo.symbol} Rewardable</div>
-      <div class="label">Your Current ${farm.stakingTokenInfo.symbol} Farming</div>
-    </div>
-    <div else class="loading">
-      <i class="fas fa-circle-notch fa-spin"></i>
-    </div>
+    <router-view></router-view>
   </div>
-  <liquidity-buttons farm.to-view="farm"></liquidity-buttons>
 </template>

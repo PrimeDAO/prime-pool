@@ -1,21 +1,26 @@
-import { FarmService } from "./../../services/FarmService";
-// import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject, computedFrom, singleton } from "aurelia-framework";
+import { BigNumber } from "ethers";
+import { FarmService } from "services/FarmService";
+import { autoinject, singleton, computedFrom } from "aurelia-framework";
 import { Farm } from "entities/farm";
 import { Address } from "services/EthereumService";
-import { Router } from "aurelia-router";
-// import { BigNumber } from "ethers";
-// import { Address } from "services/EthereumService";
-import "./staking.scss";
-// import { Redirect } from "aurelia-router";
+import { Router, Redirect } from "aurelia-router";
+import "./stakingForm.scss";
 
 @singleton(false)
 @autoinject
 export class StakingForm {
 
-  private farm: Farm;
-  // private model: IStakingModel;
-  // private bPrimeAmount: BigNumber;
+  farm: Farm;
+  amountToStake: BigNumber;
+
+  get userRewardTokenBalance(): BigNumber {
+    return this.farm.pool.assetTokens.get(this.farm.rewardTokenAddress).userBalance;
+  }
+
+  @computedFrom("farm.pool.userPoolTokenBalance")
+  get userStakingTokenBalance(): BigNumber {
+    return this.farm.pool.userPoolTokenBalance;
+  }
 
   constructor(
     //private eventAggregator: EventAggregator
@@ -25,6 +30,16 @@ export class StakingForm {
 
   public async activate(model: { farmAddress: Address }): Promise<void> {
     this.farm = this.farmService.farms.get(model.farmAddress);
+  }
+
+  public canActivate(model: { farmAddress: Address }): Redirect | boolean | undefined {
+    const farm = this.farmService.farms.get(model.farmAddress);
+    if (!farm?.connected) {
+      // this.eventAggregator.publish("handleInfo", "Please connect to a wallet");
+      return false;
+    } else {
+      return true;
+    }
   }
 
   // @computedFrom("model.poolTokenAllowances")
@@ -91,9 +106,10 @@ export class StakingForm {
   //   }
   // }
 
-  // private handleGetMaxPoolToken() {
-  //   this.bPrimeAmount = this.model.userBPrimeBalance;
-  // }
+  handleGetMaxPoolToken(): void {
+    this.amountToStake = this.userStakingTokenBalance;
+  }
+
   goBack(): void {
     this.router.navigateBack();
   }
