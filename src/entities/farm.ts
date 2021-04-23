@@ -10,6 +10,7 @@ import { ConsoleLogService } from "services/ConsoleLogService";
 import { DateService } from "services/DateService";
 import { Pool } from "entities/pool";
 import { PoolService } from "services/PoolService";
+import { ITokenInfo, TokenService } from "services/TokenService";
 
 
 @autoinject
@@ -27,12 +28,19 @@ export class Farm implements IFarmConfig {
   pool: Pool;
   public connected = false;
   private subscriptions: DisposableCollection = new DisposableCollection();
+  rewardTokenAddress: Address;
+  rewardTokenInfo: ITokenInfo;
+  rewardTokenContract: any;
+  stakingTokenAddress: Address;
+  stakingTokenInfo: ITokenInfo;
+  stakingTokenContract: any;
 
   public constructor(
     private contractsService: ContractsService,
     private ethereumService: EthereumService,
     private eventAggregator: EventAggregator,
     private poolService: PoolService,
+    private tokenService: TokenService,
   ) {
 
     this.subscriptions.push(this.eventAggregator.subscribe("Contracts.Changed", async () => {
@@ -40,9 +48,9 @@ export class Farm implements IFarmConfig {
       this.hydrateUserValues();
     }));
 
-    this.subscriptions.push(this.eventAggregator.subscribe("ethWethExchanged", async () => {
-      this.hydrateUserValues();
-    }));
+    /**
+     * TODO: watch for changes in the user's balance of reward and staking tokens
+     */
   }
 
   /**
@@ -57,6 +65,17 @@ export class Farm implements IFarmConfig {
     this.contract = contract ?? await this.contractsService.getContractAtAddress(
       ContractNames.STAKINGREWARDS,
       this.address);
+
+    if (!this.rewardTokenAddress) {
+      this.rewardTokenAddress = await this.contract.rewardToken();
+    }
+
+    if (!this.stakingTokenAddress) {
+      this.stakingTokenAddress = await this.contract.stakingToken();
+    }
+
+    this.rewardTokenContract = await this.contractsService.getContractAtAddress(ContractNames.IERC20, this.rewardTokenAddress);
+    this.stakingTokenContract = await this.contractsService.getContractAtAddress(ContractNames.IERC20, this.stakingTokenAddress);
   }
 
   /**
@@ -77,12 +96,14 @@ export class Farm implements IFarmConfig {
     }
 
     if (full) {
-      await this.loadContracts();
 
       await this.poolService.ensureInitialized();
       this.pool = this.poolService.pools.get(this.poolAddress);
 
       await this.loadContracts();
+
+      this.rewardTokenInfo = (await this.tokenService.getTokenInfoFromAddress(this.rewardTokenAddress)) as ITokenInfo;
+      this.stakingTokenInfo = (await this.tokenService.getTokenInfoFromAddress(this.stakingTokenAddress)) as ITokenInfo;
 
       // this.swapfee = await this.bPool.getSwapFee();
       // this.swapfeePercentage = this.numberService.fromString(toBigNumberJs(fromWei(this.swapfee)).times(100).toString());
@@ -103,8 +124,6 @@ export class Farm implements IFarmConfig {
     const accountAddress = this.ethereumService.defaultAccountAddress;
 
     if (accountAddress) {
-      // this.primeFarmed = await this.stakingRewards.earned(accountAddress);
-      // this.bPrimeStaked = await this.stakingRewards.balanceOf(accountAddress);
       this.connected = true;
     } else {
       this.connected = false;

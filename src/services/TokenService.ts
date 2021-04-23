@@ -1,3 +1,4 @@
+/* eslint-disable require-atomic-updates */
 import { autoinject } from "aurelia-framework";
 import { BigNumber, Contract, ethers } from "ethers";
 import axios from "axios";
@@ -113,11 +114,14 @@ export class TokenService {
       return axios.get(uri)
         .then(async (response) => {
           tokenInfo = response.data;
-          // TODO: remove these lint warnings
-          // eslint-disable-next-line require-atomic-updates
-          tokenInfo.id = await this.getTokenGeckoId(tokenInfo.name, tokenInfo.symbol);
-          // eslint-disable-next-line require-atomic-updates
           tokenInfo.address = address;
+          // TODO: remove these lint warnings
+          tokenInfo.price =
+            tokenInfo.priceChangePercentage_24h =
+            tokenInfo.priceChangePercentage_7d =
+            tokenInfo.priceChangePercentage_30d = 0;
+          tokenInfo.id = await this.getTokenGeckoId(tokenInfo.name, tokenInfo.symbol);
+
           this.tokenInfos.set(address, tokenInfo);
 
           if (tokenInfo.id) {

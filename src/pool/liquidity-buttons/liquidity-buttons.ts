@@ -7,8 +7,8 @@ import { Farm } from "entities/farm";
 @autoinject
 export class LiquidityButtons {
 
-  @bindable pool: Pool;
-  @bindable farm: Farm;
+  @bindable pool?: Pool;
+  @bindable farm?: Farm;
 
   constructor(
     private router: Router,
@@ -27,9 +27,19 @@ export class LiquidityButtons {
     }
   }
 
-  gotoFarm(): void {
+  stake(): void {
     if (this.farm.connected) {
       this.router.navigate(`/pool/${this.pool.address}/farm/${this.farm.address}`);
+    }
+  }
+
+  stakingHarvest(): void {
+    if (this.farm.connected) {
+    }
+  }
+
+  stakingExit(): void {
+    if (this.farm.connected) {
     }
   }
 

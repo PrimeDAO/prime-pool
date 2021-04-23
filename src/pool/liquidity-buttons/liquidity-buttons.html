@@ -13,10 +13,16 @@
     </div>
     <div if.to-view="farm" class="liquidityButton">
       <div class="liquidityButton" show.to-view="farm.connected">
-        <button class="button3" click.delegate="gotoFarm()">Farm ${pool.poolToken.symbol}</button>
+        <button class="button1 stakeBPrime" click.delegate="stake()">Farm ${farm.pool.poolToken.symbol} Tokens</button>
+      </div>
+      <div class="liquidityButton" show.to-view="farm.connected">
+        <button class="button2 harvestYield" click.delegate="stakingHarvest()">Withdraw Rewards</button>
+      </div>
+      <div class="liquidityButton" show.to-view="farm.connected">
+        <button class="button3 harvestAndWithdraw" click.delegate="stakingExit()">Withdraw Rewards &amp; Farmed Tokens</button>
       </div>
       <div class="liquidityButton" show.to-view="!farm.connected">
-        <button class="button1 connect" click.delegate="connect()">Connect to Farm</button>
+        <button class="button1 connect" click.delegate="connect()">Connect to Farm ${farm.pool.poolToken.symbol} Tokens</button>
       </div>
     </div>
   </div>

@@ -1,109 +1,72 @@
 import { FarmService } from "./../../services/FarmService";
-// import { EventAggregator } from "aurelia-event-aggregator";
-import { autoinject, computedFrom, singleton } from "aurelia-framework";
+import { autoinject, singleton } from "aurelia-framework";
 import { Farm } from "entities/farm";
-import { Address } from "services/EthereumService";
+import { Address, EthereumService, fromWei } from "services/EthereumService";
 import { Router } from "aurelia-router";
-// import { BigNumber } from "ethers";
-// import { Address } from "services/EthereumService";
+import { BigNumber } from "ethers";
 import "./staking.scss";
-// import { Redirect } from "aurelia-router";
+import { NumberService } from "services/numberService";
+import { DisposableCollection } from "services/DisposableCollection";
+import { EventAggregator } from "aurelia-event-aggregator";
 
 @singleton(false)
 @autoinject
 export class Staking {
 
   private farm: Farm;
-  // private model: IStakingModel;
-  // private bPrimeAmount: BigNumber;
+  private currentAPY: number;
+  private rewardTokenRewarded: BigNumber;
+  private stakingTokenFarmed: BigNumber;
+  private loaded = false;
+
+  private subscriptions: DisposableCollection = new DisposableCollection();
 
   constructor(
-    //private eventAggregator: EventAggregator
     private router: Router,
     private farmService: FarmService,
-  ) {}
+    private numberService: NumberService,
+    private eventAggregator: EventAggregator,
+    private ethereumService: EthereumService,
+  ) {
+    this.subscriptions.push(this.eventAggregator.subscribe("Contracts.Changed", async () => {
+      this.hydrateUserValues();
+    }));
+  }
 
   public async activate(model: { farmAddress: Address }): Promise<void> {
     this.farm = this.farmService.farms.get(model.farmAddress);
+    this.hydrate();
   }
 
-  // @computedFrom("model.poolTokenAllowances")
-  // private get bPrimeAllowance(): BigNumber {
-  //   return this.model.poolTokenAllowances.get(this.model.bPrimeTokenAddress);
-  // }
+  async hydrate(): Promise<void> {
 
-  // @computedFrom("bPrimeAmount", "bPrimeAllowance")
-  // private get bPrimeHasSufficientAllowance(): boolean {
-  //   return !this.bPrimeAmount || this.bPrimeAllowance.gte(this.bPrimeAmount);
-  // }
+    let liquidity = 0;
 
-  // private assetsAreLocked(issueMessage = true): boolean {
-  //   let message: string;
-  //   if (!this.bPrimeHasSufficientAllowance) {
-  //     message = "You need to unlock BPRIME for transfer";
-  //   }
+    for (const token of this.farm.pool.assetTokensArray) {
+      liquidity += (this.numberService.fromString(fromWei(token.balanceInPool)) * token.price);
+    }
 
-  //   if (message) {
-  //     if (issueMessage) {
-  //       this.eventAggregator.publish("handleValidationError", message);
-  //     }
-  //     return false;
-  //   }
+    const rewardTokenPrice = this.farm.rewardTokenInfo.price;
 
-  //   return true;
-  // }
+    this.currentAPY = liquidity ?
+      (((this.numberService.fromString(fromWei((await this.farm.contract.initreward()))) / 30) * rewardTokenPrice * 365) / liquidity)
+      : 0;
 
-  // /**
-  //  * return is valid enough to submit, except for checking unlocked condition
-  //  */
-  // @computedFrom("bPrimeAmount", "userBPrimeBalance")
-  // private get invalid(): string {
-  //   let message: string;
+    await this.hydrateUserValues();
+    this.loaded = true;
+  }
 
-  //   if (!this.bPrimeAmount || this.bPrimeAmount.eq(0)) {
-  //     message = "You must enter an amount of BPRIME to stake";
-  //   }
+  async hydrateUserValues(): Promise<void> {
+    if (this.ethereumService.defaultAccountAddress) {
+      /**
+       * current balance of rewardable reward tokens
+       */
+      this.rewardTokenRewarded = await this.farm.contract.earned(this.ethereumService.defaultAccountAddress);
+      this.stakingTokenFarmed = await this.farm.contract.balanceOf(this.ethereumService.defaultAccountAddress);
+    }
+  }
 
-  //   else if (this.bPrimeAmount.gt(this.model.userBPrimeBalance)) {
-  //     message = "You don't have enough BPRIME to stake the amount you requested";
-  //   }
-
-  //   return message;
-  // }
-
-  // private isValid(): boolean {
-  //   const message = this.invalid;
-
-  //   if (message) {
-  //     this.eventAggregator.publish("handleValidationError", message);
-  //   }
-
-  //   return !message;
-  // }
-
-  // private unlock() {
-  //   this.model.stakingSetTokenAllowance(this.bPrimeAmount);
-  // }
-
-  // private handleSubmit(): void {
-  //   if (this.isValid() && this.assetsAreLocked()) {
-  //     this.model.stakingStake(this.bPrimeAmount);
-  //   }
-  // }
-
-  // private handleGetMaxPoolToken() {
-  //   this.bPrimeAmount = this.model.userBPrimeBalance;
-  // }
   goBack(): void {
     this.router.navigateBack();
   }
 }
-
-// interface IStakingModel {
-//   connected: boolean;
-//   userBPrimeBalance: BigNumber
-//   bPrimeTokenAddress: Address;
-//   poolTokenAllowances: Map<Address, BigNumber>;
-//   stakingSetTokenAllowance(amount: BigNumber): void;
-//   stakingStake(amount: BigNumber): Promise<void>;
-// }
