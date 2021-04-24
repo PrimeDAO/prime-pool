@@ -1,43 +1,42 @@
+@import "styles/colors.scss";
 .stakingForm {
   display: flex;
   flex-direction: column;
+  text-align: center;
 
-  .header {
+  .headingContainer {
     margin-bottom: 20px;
-
-    .triangle {
-      transform: translateY(-13px);
-    }
-
-    .title {
-      position: relative; // for triangle z-index to work
-    }
+    color: $color-light-purple;
+    font-size: 24px;
+    font-family: "Cera Pro";
   }
 
-  .form {
-    margin-bottom: 20px;
-    text-align: center;
-
-    > div:not(:last-child) {
-      margin-bottom: 16px;
-    }
-
-    .balance {
-      margin-bottom: 12px;
-    }
-
+  .buttonsContainer {
+    margin-bottom: 12px;
     input {
       width: 90px;
+      color: $color-light-purple;
       text-align: right;
+      border-color: $color-light-purple;
     }
   }
 
-  .secondRow {
+  .balance {
+    margin-bottom: 28px;
+
+    .amount {
+      color: $color-light-purple;
+      font-weight: bold;
+    }
+  }
+
+  .submitContainer {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
 
     button {
-      width: 100%;
+      width: 50%;
+      font-size: 16px;
     }
   }
 

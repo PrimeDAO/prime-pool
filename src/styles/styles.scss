@@ -72,6 +72,7 @@ html {
     .button2,
     .button3,
     .button4,
+    .button5,
     .buttonBw {
       border-radius: $global-button-radius;
       padding: 6px 48px;
@@ -117,6 +118,10 @@ html {
     .button4 {
       color: $button4-color;
       border: 2px solid $button4-color;
+    }
+    .button5 {
+      color: $button3-color;
+      border: 2px solid $button3-color;
     }
     .buttonBw {
       color: $color-black;
