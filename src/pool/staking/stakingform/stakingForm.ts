@@ -5,6 +5,8 @@ import { Farm } from "entities/farm";
 import { Address } from "services/EthereumService";
 import { Router, Redirect } from "aurelia-router";
 import "./stakingForm.scss";
+import { EventAggregator } from "aurelia-event-aggregator";
+import TransactionsService from "services/TransactionsService";
 
 @singleton(false)
 @autoinject
@@ -23,8 +25,9 @@ export class StakingForm {
   }
 
   constructor(
-    //private eventAggregator: EventAggregator
+    private eventAggregator: EventAggregator,
     private router: Router,
+    private transactionsService: TransactionsService,
     private farmService: FarmService,
   ) { }
 
@@ -42,69 +45,70 @@ export class StakingForm {
     }
   }
 
-  // @computedFrom("model.poolTokenAllowances")
-  // private get bPrimeAllowance(): BigNumber {
-  //   return this.model.poolTokenAllowances.get(this.model.bPrimeTokenAddress);
-  // }
+  @computedFrom("amountToStake", "farm.stakingTokenAllowance")
+  private get stakingTokenHasSufficientAllowance(): boolean {
+    return !this.amountToStake || this.farm.stakingTokenAllowance.gte(this.amountToStake);
+  }
 
-  // @computedFrom("bPrimeAmount", "bPrimeAllowance")
-  // private get bPrimeHasSufficientAllowance(): boolean {
-  //   return !this.bPrimeAmount || this.bPrimeAllowance.gte(this.bPrimeAmount);
-  // }
+  private assetsAreLocked(issueMessage = true): boolean {
+    let message: string;
+    if (!this.stakingTokenHasSufficientAllowance) {
+      message = `You need to unlock ${this.farm.stakingTokenInfo.symbol} for the transfer`;
+    }
 
-  // private assetsAreLocked(issueMessage = true): boolean {
-  //   let message: string;
-  //   if (!this.bPrimeHasSufficientAllowance) {
-  //     message = "You need to unlock BPRIME for transfer";
-  //   }
+    if (message) {
+      if (issueMessage) {
+        this.eventAggregator.publish("handleValidationError", message);
+      }
+      return false;
+    }
 
-  //   if (message) {
-  //     if (issueMessage) {
-  //       this.eventAggregator.publish("handleValidationError", message);
-  //     }
-  //     return false;
-  //   }
+    return true;
+  }
 
-  //   return true;
-  // }
+  /**
+   * return is valid enough to submit, except for checking unlocked condition
+   */
+  @computedFrom("amountToStake", "userStakingTokenBalance")
+  private get invalid(): string {
+    let message: string;
 
-  // /**
-  //  * return is valid enough to submit, except for checking unlocked condition
-  //  */
-  // @computedFrom("bPrimeAmount", "userBPrimeBalance")
-  // private get invalid(): string {
-  //   let message: string;
+    if (!this.amountToStake || this.amountToStake.eq(0)) {
+      message = `You must enter an amount of ${this.farm.stakingTokenInfo.symbol} to farm`;
+    }
 
-  //   if (!this.bPrimeAmount || this.bPrimeAmount.eq(0)) {
-  //     message = "You must enter an amount of BPRIME to stake";
-  //   }
+    else if (this.amountToStake.gt(this.userStakingTokenBalance)) {
+      message = `You don't have enough ${this.farm.stakingTokenInfo.symbol} to farm the amount you requested`;
+    }
 
-  //   else if (this.bPrimeAmount.gt(this.model.userBPrimeBalance)) {
-  //     message = "You don't have enough BPRIME to stake the amount you requested";
-  //   }
+    return message;
+  }
 
-  //   return message;
-  // }
+  private isValid(): boolean {
+    const message = this.invalid;
 
-  // private isValid(): boolean {
-  //   const message = this.invalid;
+    if (message) {
+      this.eventAggregator.publish("handleValidationError", message);
+    }
 
-  //   if (message) {
-  //     this.eventAggregator.publish("handleValidationError", message);
-  //   }
+    return !message;
+  }
 
-  //   return !message;
-  // }
+  private async handleSubmit(): Promise<void> {
+    if (this.farm.connected) {
+      if (this.isValid() && this.assetsAreLocked()) {
+        await this.farm.stake(this.amountToStake);
+        this.farm.hydrateUserValues();
+      }
+    }
+  }
 
-  // private unlock() {
-  //   this.model.stakingSetTokenAllowance(this.bPrimeAmount);
-  // }
-
-  // private handleSubmit(): void {
-  //   if (this.isValid() && this.assetsAreLocked()) {
-  //     this.model.stakingStake(this.bPrimeAmount);
-  //   }
-  // }
+  private async unlock() {
+    if (this.farm.connected) {
+      await this.transactionsService.send(() => this.farm.stakingTokenContract.approve(this.farm.address, this.amountToStake));
+      this.farm.hydrateUserValues();
+    }
+  }
 
   handleGetMaxPoolToken(): void {
     this.amountToStake = this.userStakingTokenBalance;
@@ -114,12 +118,3 @@ export class StakingForm {
     this.router.navigateBack();
   }
 }
-
-// interface IStakingModel {
-//   connected: boolean;
-//   userBPrimeBalance: BigNumber
-//   bPrimeTokenAddress: Address;
-//   poolTokenAllowances: Map<Address, BigNumber>;
-//   stakingSetTokenAllowance(amount: BigNumber): void;
-//   stakingStake(amount: BigNumber): Promise<void>;
-// }

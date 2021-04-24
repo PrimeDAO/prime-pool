@@ -32,8 +32,15 @@ export class Farm implements IFarmConfig {
   stakingTokenAddress: Address;
   stakingTokenInfo: ITokenInfo;
   stakingTokenContract: any;
+  /**
+   * amount of the reward token that the user is due to receive
+   */
   rewardTokenRewardable: BigNumber;
+  /**
+   * amount of staking token that this contract currentlyholds for the user
+   */
   stakingTokenFarming: BigNumber;
+  stakingTokenAllowance: BigNumber;
 
   public constructor(
     private contractsService: ContractsService,
@@ -118,6 +125,7 @@ export class Farm implements IFarmConfig {
        */
       this.rewardTokenRewardable = await this.contract.earned(this.ethereumService.defaultAccountAddress);
       this.stakingTokenFarming = await this.contract.balanceOf(this.ethereumService.defaultAccountAddress);
+      this.stakingTokenAllowance = await this.stakingTokenContract.allowance(this.ethereumService.defaultAccountAddress, this.address);
       this.connected = true;
     } else {
       this.connected = false;
@@ -125,20 +133,23 @@ export class Farm implements IFarmConfig {
   }
 
   public async stakingHarvest(): Promise<void> {
-    if (this.ensureConnected()) {
+    if (this.connected) {
       await this.transactionsService.send(() => this.contract.getReward());
       this.hydrateUserValues();
     }
   }
 
   public async stakingExit(): Promise<void> {
-    if (this.ensureConnected()) {
+    if (this.connected) {
       await this.transactionsService.send(() => this.contract.exit());
       this.hydrateUserValues();
     }
   }
 
-  public ensureConnected(): boolean {
-    return this.ethereumService.ensureConnected();
+  public async stake(amount: BigNumber): Promise<void> {
+    if (this.connected) {
+      await this.transactionsService.send(() => this.contract.stake(amount));
+      this.hydrateUserValues();
+    }
   }
 }
