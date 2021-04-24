@@ -281,6 +281,14 @@
       .tabButtons {
         flex-direction: column;
         text-align: center;
+
+        .button {
+          width: unset;
+        }
+
+        .button:not(:last-child) {
+          margin-right: 0;
+        }
       }
 
       a:not(:last-child) {
@@ -335,6 +343,10 @@
           }
           .stuff:not(:last-child) {
             margin-bottom: 4px;
+          }
+
+          .poolTokenPrice {
+            justify-content: center;
           }
         }
 
