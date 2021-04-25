@@ -1,5 +1,6 @@
+import { FarmService } from "services/FarmService";
 import { autoinject, singleton, computedFrom } from "aurelia-framework";
-import { ContractNames, IStandardEvent } from "services/ContractsService";
+import { IStandardEvent } from "services/ContractsService";
 import { ContractsService } from "services/ContractsService";
 import "./tx-history.scss";
 import { EventAggregator } from "aurelia-event-aggregator";
@@ -11,8 +12,6 @@ import { TokenService } from "services/TokenService";
 import { EventConfigException } from "services/GeneralEvents";
 import { PoolService } from "services/PoolService";
 import { IExitEventArgs, IJoinEventArgs, IPoolTokenTransferEventArgs } from "entities/pool";
-import { calcSingleInGivenPoolOut } from "services/BalancerPoolLiquidity/helpers/math";
-import { getContractAddress } from "@ethersproject/address";
 
 interface IAssetTokenTxInfo {
   amount: BigNumber;
@@ -58,7 +57,8 @@ export class TxHistory {
     private ethereumService: EthereumService,
     private transactionsService: TransactionsService,
     private tokenService: TokenService,
-    private poolService: PoolService) {
+    private poolService: PoolService,
+    private farmService: FarmService) {
 
     this.eventAggregator.subscribe("Contracts.Changed", async () => {
       this.reload();
@@ -114,19 +114,16 @@ export class TxHistory {
   private async fetchForPool(crPoolAddress: Address): Promise<Array<ITransaction>> {
 
     const crPool = this.poolService.pools.get(crPoolAddress);
+    const farm = this.farmService.poolFarms.get(crPoolAddress);
 
     const poolTokenName = (await this.tokenService.getTokenInfoFromAddress(crPoolAddress)).symbol;
 
     const transactions = new Array<ITransaction>();
 
-    /**
-     * until we can know when farms are created for pools, we can't know the farm addresses for a pool,
-     * so just stick to Prime Pool.
-     */
-    if (crPool.address === await this.contractsService.getContractAddress(ContractNames.ConfigurableRightsPool)) {
-      const stakingRewards = await this.contractsService.getContractFor(ContractNames.STAKINGREWARDS);
-      const stakingTokenName = (await this.tokenService.getTokenInfoFromAddress(await stakingRewards.stakingToken())).symbol;
-      const stakingRewardTokenName = (await this.tokenService.getTokenInfoFromAddress(await stakingRewards.rewardToken())).symbol;
+    if (farm) {
+      const stakingRewards = farm.contract;
+      const stakingTokenName = farm.stakingTokenInfo.symbol;
+      const stakingRewardTokenName = farm.rewardTokenInfo.symbol;
 
       const filterStaked = stakingRewards.filters.Staked(this.currentAccount);
       const txStakedEvents: Array<IStandardEvent<IStakingEventArgs>> = await stakingRewards.queryFilter(filterStaked, crPool.startingBlockNumber);

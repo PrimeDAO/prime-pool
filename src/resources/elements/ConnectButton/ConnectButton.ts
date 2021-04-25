@@ -25,7 +25,6 @@ export class ConnectButton {
   private txPhase = Phase.None;
   private txReceipt: TransactionReceipt;
   private primeAddress: Address;
-  private bPrimeAddress: Address;
   private wethAddress: Address;
   @bindable.booleanAttr private hideBalances: boolean;
 
@@ -62,7 +61,6 @@ export class ConnectButton {
 
     this.accountAddress = this.ethereumService.defaultAccountAddress || null;
     this.primeAddress = this.contractsService.getContractAddress(ContractNames.PRIMETOKEN);
-    this.bPrimeAddress = this.contractsService.getContractAddress(ContractNames.ConfigurableRightsPool);
     this.wethAddress = this.contractsService.getContractAddress(ContractNames.WETH);
   }
 

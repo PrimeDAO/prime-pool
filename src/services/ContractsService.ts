@@ -145,7 +145,7 @@ export class ContractsService {
     }
 
     const reuseContracts = // at least one random contract already exists
-      ContractsService.Contracts.get(ContractNames.ConfigurableRightsPool);
+      !!ContractsService.Contracts.get(ContractNames.CRPFactory);
 
     const signerOrProvider = this.createProvider();
 
