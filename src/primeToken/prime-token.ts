@@ -41,8 +41,24 @@ export class PrimeToken {
         this.eventAggregator.publish("pools.loading", true);
         await this.poolService.ensureInitialized();
       }
-      this.pool = this.poolService.pools.get(this.contractService.getContractAddress(ContractNames.ConfigurableRightsPool));
+
+
+      const pools = this.poolService.poolsArray;
+
       const primeTokenAddress = this.contractService.getContractAddress(ContractNames.PRIMETOKEN);
+
+      let staked = BigNumber.from(0);
+      for (const pool of pools) {
+        if (!pool.preview) {
+          const primeTokenInfo = pool.assetTokens.get(primeTokenAddress);
+          if (primeTokenInfo) {
+            staked = staked.add(primeTokenInfo.balanceInPool);
+          }
+        }
+      }
+
+      this.totalStaked = staked;
+
       this.tokenInfo = await this.tokenService.getTokenInfoFromAddress(primeTokenAddress);
       this.token = this.tokenService.getTokenContract(primeTokenAddress);
       // this.totalSupply = await this.token.totalSupply();
@@ -53,7 +69,6 @@ export class PrimeToken {
         });
 
       this.loading = true;
-      this.totalStaked = await this.pool.assetTokens.get(primeTokenAddress).balanceInPool;
       this.percentStaked = this.numberService.fromString(toBigNumberJs(this.totalStaked).div(toBigNumberJs(toWei(this.circulatingSupply))).times(100).toString());
     } catch (ex) {
       this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
