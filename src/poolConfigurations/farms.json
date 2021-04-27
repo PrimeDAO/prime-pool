@@ -7,8 +7,8 @@
         "farm": "0x6d598a2345AB00782010BA07A201e7aba8a9d1E7"
       },
       "mainnet": {
-        "pool": "",
-        "farm": ""
+        "pool": "0x51A2310B37ead1D8F8Fe01B89b4Cd68FA58992d0",
+        "farm": "0xE25faBF901Be98099b0FD8C8b3827A4c69F909E4"
       }
     }
   },
