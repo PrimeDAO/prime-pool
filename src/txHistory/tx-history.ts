@@ -103,7 +103,7 @@ export class TxHistory {
           SortService.evaluateDateTime(a.date.toISOString(), b.date.toISOString()));
 
       } catch (ex) {
-        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
+        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred getting pool histories", ex));
       }
       finally {
         this.loading = false;

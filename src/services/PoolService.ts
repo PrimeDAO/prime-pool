@@ -80,7 +80,7 @@ export class PoolService {
             })
             .catch((error) => {
               this.pools = new Map();
-              this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", error));
+              this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred loading pools", error));
               this.initializing = false;
               return reject();
             });

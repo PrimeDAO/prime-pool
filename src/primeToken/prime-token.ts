@@ -71,7 +71,7 @@ export class PrimeToken {
       this.loading = true;
       this.percentStaked = this.numberService.fromString(toBigNumberJs(this.totalStaked).div(toBigNumberJs(toWei(this.circulatingSupply))).times(100).toString());
     } catch (ex) {
-      this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
+      this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred getting circulating supply", ex));
     }
     finally {
       this.eventAggregator.publish("pools.loading", false);

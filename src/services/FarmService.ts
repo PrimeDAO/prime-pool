@@ -79,7 +79,7 @@ export class FarmService {
             })
             .catch((error) => {
               this.farms = new Map();
-              this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", error));
+              this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred loading farms", error));
               this.initializing = false;
               return reject();
             });

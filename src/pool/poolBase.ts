@@ -52,7 +52,7 @@ export abstract class PoolBase {
         }
         this.pool = this.poolService.pools.get(this.poolAddress);
       } catch (ex) {
-        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
+        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred awaiting a pool", ex));
       }
       finally {
         this.eventAggregator.publish("pools.loading", false);
@@ -71,7 +71,7 @@ export abstract class PoolBase {
         this.signaler.signal("updateSlippage");
         this.signaler.signal("updateShowTokenUnlock");
       } catch (ex) {
-        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
+        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred refreshing a pool", ex));
       }
       finally {
         this.eventAggregator.publish("pools.loading", false);
@@ -97,7 +97,7 @@ export abstract class PoolBase {
         this.signaler.signal("updateSlippage");
 
       } catch (ex) {
-        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
+        this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred getting pool user values", ex));
       }
       finally {
         if (!suppressModalLockout) {

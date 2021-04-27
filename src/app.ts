@@ -64,7 +64,7 @@ export class App {
           this.pools = this.poolService.poolsArray;
           this.initializing = false;
         } catch (ex) {
-          this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred", ex));
+          this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred awaiting pools", ex));
         }
       }, 0);
     }
