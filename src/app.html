@@ -29,7 +29,7 @@
               </a>
               <div if.to-view="row.config.name === 'pools'">
                 <div if.to-view="$parent.initializing" class="initialize">
-                  <loading-dots></loading-dots>
+                  <loading-dots tooltip="Loading Pools..."></loading-dots>
                 </div>
                 <div else class="poolItems">
                   <template repeat.for="pool of $parent.pools">
