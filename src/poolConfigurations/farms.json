@@ -1,14 +1,27 @@
 [
   {
-    "name": "PRIME/WETH",
+    "name": "PRIME Pool",
     "addresses": {
       "kovan": {
-        "pool": "0xeFbc366b57aa1c91dDE87b09367310F973D7aB8c",
-        "farm": "0xC5DB682Aeb48eF1dbF195E39C68A88E9D9d818a3"
+        "pool": "0x0BdAF6D38150B0Aed813634b1a1239E690e506f2",
+        "farm": "0x6d598a2345AB00782010BA07A201e7aba8a9d1E7"
       },
       "mainnet": {
-        "pool": "0x51A2310B37ead1D8F8Fe01B89b4Cd68FA58992d0",
-        "farm": "0xE25faBF901Be98099b0FD8C8b3827A4c69F909E4"
+        "pool": "",
+        "farm": ""
+      }
+    }
+  },
+  {
+    "name": "BLxPR Pool",
+    "addresses": {
+      "kovan": {
+        "pool": "0xd716d8298fc38Ba19E8F5b7c3d4Ad76448A9cB38",
+        "farm": "0x04f219CeE7F1F9037ba2d64EeDDf6646749B7f31"
+      },
+      "mainnet": {
+        "pool": "",
+        "farm": ""
       }
     }
   }
