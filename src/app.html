@@ -34,10 +34,10 @@
                 <div else class="poolItems">
                   <template repeat.for="pool of $parent.pools">
                     <a if.to-view="!pool.preview"
-                      class="item pool"
+                      class="item pool ${(pool === currentPool) ? 'active' : ''}"
                       href="#"
                       click.delegate="gotoPool(pool)">
-                      <div class="text"><img src="/PoolMenuBullet.svg" />${pool.name}</div>
+                      <div class="text"><img if.to-view="pool !== currentPool" src="/PoolMenuBullet.svg" /><img if.to-view="pool === currentPool" src="/PoolMenuBullet-active.svg" />${pool.name}</div>
                     </a>
                   </template>
                 </div>

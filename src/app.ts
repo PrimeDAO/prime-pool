@@ -25,6 +25,7 @@ export class App {
   initializing = true;
   pools = new Array<Pool>();
   showingMobileMenu = false;
+  currentPool: Pool = null;
 
   errorHandler = (ex: unknown): boolean => {
     this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an unexpected error occurred", ex));
@@ -158,6 +159,7 @@ export class App {
   gotoPool(pool: Pool): void {
     this.showingMobileMenu = false;
     this.router.navigate(`pool/${pool.address}`);
+    this.currentPool = pool;
   }
 
   toggleMobileMenu(): void {
@@ -167,5 +169,6 @@ export class App {
   navigate(href: string): void {
     this.showingMobileMenu = false;
     this.router.navigate(href);
+    this.currentPool = null;
   }
 }
