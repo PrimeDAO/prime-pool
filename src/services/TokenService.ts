@@ -115,11 +115,10 @@ export class TokenService {
         .then(async (response) => {
           tokenInfo = response.data;
           tokenInfo.address = address;
-          // TODO: remove these lint warnings
-          // tokenInfo.price =
-          //   tokenInfo.priceChangePercentage_24h =
-          //   tokenInfo.priceChangePercentage_7d =
-          //   tokenInfo.priceChangePercentage_30d = 0;
+          tokenInfo.price =
+            tokenInfo.priceChangePercentage_24h =
+            tokenInfo.priceChangePercentage_7d =
+            tokenInfo.priceChangePercentage_30d = 0;
           tokenInfo.id = await this.getTokenGeckoId(tokenInfo.name, tokenInfo.symbol);
 
           this.tokenInfos.set(address, tokenInfo);
