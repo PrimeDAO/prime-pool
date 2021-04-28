@@ -1,4 +1,4 @@
-<template bindable="pool">
+<template>
   <div class="poolOverview">
     <div class="heading heading3">Pool Overview</div>
     <div class="body">
@@ -21,6 +21,7 @@
         </div>
       </template>
     </div>
-    <div class="heading heading3">Exchange ETH and WETH</div>
-    <weth-eth-exchange></weth-eth-exchange>
+    <div class="heading heading3 exchange ${pool.isPrimePool ? '' : 'notPrimePool'}">Exchange</div>
+    <weth-eth-exchange if.to-view="pool.isPrimePool"></weth-eth-exchange>
+    <div else class="balancerLink button1" click.delegate="gotoBalancer()">Go to Balancer to Obtain Pool Asset Tokens</div>
 </template>

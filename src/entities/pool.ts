@@ -74,6 +74,7 @@ export class Pool implements IPoolConfig {
    * SVG icon for the pool
    */
   icon: string;
+  isPrimePool: boolean;
   name: string;
   /**
    * the pool doesn't actually exist yet, but we want to present a preview in the UI

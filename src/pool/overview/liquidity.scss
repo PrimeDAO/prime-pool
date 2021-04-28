@@ -26,6 +26,7 @@
     .poolOverview {
       .heading {
         color: $color-light-purple;
+        margin-bottom: 16px;
       }
       .body {
         margin-bottom: 20px;
@@ -96,8 +97,15 @@
         }
       }
 
-      .heading {
-        margin-bottom: 16px;
+      .balancerLink {
+        padding: 8px 25px;
+        white-space: normal;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .exchange.notPrimePool {
+        margin-bottom: 32px;
       }
     }
   }

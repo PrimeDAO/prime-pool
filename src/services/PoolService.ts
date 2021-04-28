@@ -13,6 +13,7 @@ interface IPoolConfigInternal {
   addresses: Array<{ [network: string]: string }>;
   description: string;
   icon: string;
+  isPrimePool: boolean;
   name: string;
   preview: boolean;
   story: string;
@@ -28,6 +29,7 @@ export interface IPoolConfig {
    * SVG icon for the pool
    */
   icon: string;
+  isPrimePool: boolean;
   name: string;
   /**
    * the pool doesn't actually exist yet, but we want to present a preview in the UI
@@ -93,6 +95,7 @@ export class PoolService {
       address: config.addresses[this.ethereumService.targetedNetwork],
       description: config.description,
       icon: config.icon,
+      isPrimePool: config.isPrimePool,
       name: config.name,
       preview: !config.addresses[this.ethereumService.targetedNetwork],
       story: config.story,
