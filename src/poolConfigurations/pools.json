@@ -8,7 +8,8 @@
       "kovan": "0x0BdAF6D38150B0Aed813634b1a1239E690e506f2",
       "mainnet": "0x51A2310B37ead1D8F8Fe01B89b4Cd68FA58992d0"
     },
-    "preview": false
+    "preview": false,
+    "isPrimePool": true
   },
   {
     "name": "BLxPR Pool",
@@ -19,7 +20,8 @@
       "kovan": "0xd716d8298fc38Ba19E8F5b7c3d4Ad76448A9cB38",
       "mainnet": ""
     },
-    "preview": true
+    "preview": true,
+    "isPrimePool": false
   },
   {
     "name": "Prime DeFi Index",
@@ -30,6 +32,7 @@
       "kovan": "",
       "mainnet": ""
     },
-    "preview": true
+    "preview": true,
+    "isPrimePool": false
   }
 ]
