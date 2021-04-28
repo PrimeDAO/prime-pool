@@ -13,6 +13,7 @@ import TransactionsService from "services/TransactionsService";
 import { AureliaHelperService } from "services/AureliaHelperService";
 import { PoolBase } from "pool/poolBase";
 import { IPoolTokenInfo } from "entities/pool";
+import { DisposableCollection } from "services/DisposableCollection";
 
 interface IPoolTokenInfoEx extends IPoolTokenInfo {
   inputAmount_remove: BigNumber;
@@ -24,6 +25,8 @@ const BALANCE_BUFFER = 0.01;
 @singleton(false)
 @autoinject
 export class LiquidityRemove extends PoolBase {
+
+  private subscriptions: DisposableCollection = new DisposableCollection();
 
   constructor(
     eventAggregator: EventAggregator,
@@ -57,6 +60,10 @@ export class LiquidityRemove extends PoolBase {
     this.subscriptions.push(this.aureliaHelperService.createCollectionWatch(this.selectedTokens, this.handleTokenSelected.bind(this)));
   }
 
+  deactivate(): void {
+    this.subscriptions.dispose();
+  }
+
   public canActivate(model: { poolAddress: Address }): Redirect | boolean | undefined {
     const pool = this.poolService?.pools?.get(model.poolAddress);
     if (!pool?.connected) {
@@ -70,7 +77,16 @@ export class LiquidityRemove extends PoolBase {
   protected async attached(): Promise<void> {
     const inited = !!this.pool;
     await super.attached();
-    if (!inited) {
+    if (!inited || this.changingPool) {
+      this.pool.assetTokensArray.map((token: any) => token.selected_remove = null);
+      this.pool.assetTokensArray.map((token: any) => token.inputAmount_remove = null);
+      this.poolTokenAmount = null;
+      this.selectedTokens.forEach(() => {
+        /**
+         * setTimeout so handleTokenSelected will be invoved one check operation at a time.
+         */
+        setTimeout(() => this.selectedTokens.pop(), 0);
+      });
       /**
        * default is all selected
        */

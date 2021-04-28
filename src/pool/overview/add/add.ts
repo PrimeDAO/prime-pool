@@ -14,6 +14,7 @@ import { IPoolTokenInfo } from "entities/pool";
 import { AureliaHelperService } from "services/AureliaHelperService";
 import { PoolBase } from "pool/poolBase";
 import TransactionsService from "services/TransactionsService";
+import { DisposableCollection } from "services/DisposableCollection";
 
 const BALANCE_BUFFER = 0.01;
 
@@ -25,6 +26,8 @@ interface IPoolTokenInfoEx extends IPoolTokenInfo {
 @singleton(false)
 @autoinject
 export class LiquidityAdd extends PoolBase {
+
+  private subscriptions: DisposableCollection = new DisposableCollection();
 
   constructor(
     eventAggregator: EventAggregator,
@@ -58,6 +61,10 @@ export class LiquidityAdd extends PoolBase {
     this.subscriptions.push(this.aureliaHelperService.createCollectionWatch(this.selectedTokens, this.handleTokenSelected.bind(this)));
   }
 
+  deactivate(): void {
+    this.subscriptions.dispose();
+  }
+
   public canActivate(model: { poolAddress: Address }): Redirect | boolean | undefined {
     const pool = this.poolService?.pools?.get(model.poolAddress);
     if (!pool?.connected) {
@@ -68,21 +75,22 @@ export class LiquidityAdd extends PoolBase {
     }
   }
 
-  // protected async attached(): Promise<void> {
-  //   const inited = !!this.pool;
-  //   await super.attached();
-  //   if (!inited) {
-  //     /**
-  //      * default is all selected
-  //      */
-  //     this.pool.assetTokensArray.forEach(tokenInfo => {
-  //     /**
-  //      * setTimeout so handleTokenSelected will be invoved one check operation at a time.
-  //      */
-  //       setTimeout(() => this.selectedTokens.push(tokenInfo as IPoolTokenInfoEx), 0);
-  //     });
-  //   }
-  // }
+  protected async attached(): Promise<void> {
+    super.attached();
+    if (this.changingPool) {
+      this.pool.assetTokensArray.map((token: any) => token.selected_add = null);
+      this.pool.assetTokensArray.map((token: any) => token.inputAmount_add = null);
+      this.poolTokens = null;
+
+      this.selectedTokens.forEach(() => {
+        /**
+         * setTimeout so handleTokenSelected will be invoved one check operation at a time.
+         */
+        setTimeout(() => this.selectedTokens.pop(), 0);
+      });
+
+    }
+  }
 
   private getShowTokenUnlock(token: IPoolTokenInfoEx): boolean {
     return !this.getInvalidTokenAdd(token) && !this.getTokenHasSufficientAllowance(token);
@@ -117,7 +125,7 @@ export class LiquidityAdd extends PoolBase {
           throw new Error("splice.removed.length should be 0 or 1");
         }
 
-        if (splice.removed.length > 0) {
+        if (splice.removed.length === 1) {
           // console.log(`The following values were removed from ${splice.index}: ${JSON.stringify(splice.removed)}`);
           token = splice.removed[0];
           token.selected_add = false;
@@ -207,7 +215,7 @@ export class LiquidityAdd extends PoolBase {
 
   private getSlippage(): string {
     this.refreshShowSlippage();
-    if (!this.showSlippage) {
+    if (!this.showSlippage || !this.pool) {
       return undefined;
     }
     const token = this.selectedToken;

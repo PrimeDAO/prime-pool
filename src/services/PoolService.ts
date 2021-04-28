@@ -94,7 +94,7 @@ export class PoolService {
       description: config.description,
       icon: config.icon,
       name: config.name,
-      preview: config.preview,
+      preview: !config.addresses[this.ethereumService.targetedNetwork],
       story: config.story,
     };
     const pool = this.container.get(Pool);

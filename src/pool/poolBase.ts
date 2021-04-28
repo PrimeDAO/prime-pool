@@ -6,18 +6,18 @@ import { EventConfigException } from "services/GeneralEvents";
 import { PoolService } from "services/PoolService";
 import { Pool } from "entities/pool";
 import { Utils } from "services/utils";
-import { DisposableCollection } from "services/DisposableCollection";
+import { activationStrategy, RoutableComponentDetermineActivationStrategy, NavigationInstruction, ActivationStrategyType, RouteConfig } from "aurelia-router";
 
 /**
  * base class for views that work with a pool, given `poolAddress` in the route model
  */
 @autoinject
-export abstract class PoolBase {
+export abstract class PoolBase implements RoutableComponentDetermineActivationStrategy {
   protected poolAddress: Address;
   protected pool: Pool;
+  protected changingPool = false;
   @computedFrom("pool.connected")
   protected get connected(): boolean { return this.pool?.connected; }
-  protected subscriptions: DisposableCollection = new DisposableCollection();
 
   constructor(
     protected eventAggregator: EventAggregator,
@@ -26,15 +26,25 @@ export abstract class PoolBase {
     protected signaler: BindingSignaler) {
   }
 
-  protected activate(model: { poolAddress: Address }): void {
-    this.poolAddress = model.poolAddress;
-    if (this.pool && (this.pool.address !== this.poolAddress)) {
-      throw new Error("internal error: cannot change pool address");
-    }
+  determineActivationStrategy(
+    params: { poolAddress: Address },
+    _routeConfig: RouteConfig,
+    _navigationInstruction: NavigationInstruction): ActivationStrategyType {
+    return (this.pool && (this.pool.address !== params.poolAddress)) ?
+      activationStrategy.replace : activationStrategy.noChange;
   }
 
-  deactivate(): void {
-    this.subscriptions.dispose();
+  protected activate(model: { poolAddress: Address }): void {
+    if (this.poolAddress && (this.poolAddress !== model.poolAddress)) {
+      this.changingPool = true;
+      this.pool = null;
+      // throw new Error("internal error: cannot change pool address");
+    } else {
+      this.changingPool = false;
+    }
+    if (this.poolAddress !== model.poolAddress) {
+      this.poolAddress = model.poolAddress;
+    }
   }
 
   protected async attached(): Promise<void> {

@@ -1,6 +1,6 @@
 <template>
   <require from="../poolOverview.html"></require>
-  <div class="animated-page au-animate liquidityContainer">
+  <div if.to-view="pool" class="animated-page au-animate liquidityContainer">
     <div class="leftColumn section">
       <poolOverview pool.to-view="pool"></poolOverview>
     </div>
