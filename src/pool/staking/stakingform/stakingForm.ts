@@ -98,7 +98,6 @@ export class StakingForm {
     if (this.farm.connected) {
       if (this.isValid() && this.assetsAreLocked()) {
         await this.farm.stake(this.amountToStake);
-        this.farm.hydrateUserValues();
       }
     }
   }

@@ -37,7 +37,7 @@ export class Farm implements IFarmConfig {
    */
   rewardTokenRewardable: BigNumber;
   /**
-   * amount of staking token that this contract currentlyholds for the user
+   * amount of staking token that this contract currently holds for the user
    */
   stakingTokenFarming: BigNumber;
   stakingTokenAllowance: BigNumber;
@@ -136,6 +136,7 @@ export class Farm implements IFarmConfig {
     if (this.connected) {
       await this.transactionsService.send(() => this.contract.getReward());
       this.hydrateUserValues();
+      this.pool.hydrateUserValues();
     }
   }
 
@@ -143,6 +144,7 @@ export class Farm implements IFarmConfig {
     if (this.connected) {
       await this.transactionsService.send(() => this.contract.exit());
       this.hydrateUserValues();
+      this.pool.hydrateUserValues();
     }
   }
 
@@ -150,6 +152,7 @@ export class Farm implements IFarmConfig {
     if (this.connected) {
       await this.transactionsService.send(() => this.contract.stake(amount));
       this.hydrateUserValues();
+      this.pool.hydrateUserValues();
     }
   }
 }
