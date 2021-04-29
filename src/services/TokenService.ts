@@ -119,6 +119,7 @@ export class TokenService {
             tokenInfo.priceChangePercentage_24h =
             tokenInfo.priceChangePercentage_7d =
             tokenInfo.priceChangePercentage_30d = 0;
+          tokenInfo.icon = "/genericToken.svg";
           tokenInfo.id = await this.getTokenGeckoId(tokenInfo.name, tokenInfo.symbol);
 
           this.tokenInfos.set(address, tokenInfo);
