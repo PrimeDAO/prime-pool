@@ -22,6 +22,8 @@
     padding-left: 44px;
     padding-right: 44px;
     padding-top: 38px;
+    background: $color-white;
+    background: radial-gradient(circle, $color-white 0%, $color-grey-1 50%, $color-grey-2 100%);
 
     .poolOverview {
       .heading {
@@ -30,6 +32,10 @@
       }
       .body {
         margin-bottom: 20px;
+      }
+
+      .body.notPrimePool {
+        margin-bottom: 44px;
       }
 
       .body > .dataGroup {
@@ -98,14 +104,11 @@
       }
 
       .balancerLink {
+        border-radius: 9px;
         padding: 8px 25px;
         white-space: normal;
         text-align: center;
         cursor: pointer;
-      }
-
-      .exchange.notPrimePool {
-        margin-bottom: 32px;
       }
     }
   }

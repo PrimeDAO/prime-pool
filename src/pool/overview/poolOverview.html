@@ -1,7 +1,7 @@
 <template>
   <div class="poolOverview">
     <div class="heading heading3">Pool Overview</div>
-    <div class="body">
+    <div class="body ${pool.isPrimePool ? '' : 'notPrimePool'}">
       <div class="dataGroup">
         <etherscanlink
           address.to-view="pool.address"
@@ -21,7 +21,9 @@
         </div>
       </template>
     </div>
-    <div class="heading heading3 exchange ${pool.isPrimePool ? '' : 'notPrimePool'}">Exchange</div>
-    <weth-eth-exchange if.to-view="pool.isPrimePool"></weth-eth-exchange>
-    <div else class="balancerLink button1" click.delegate="gotoBalancer()">Go to Balancer to Obtain Pool Asset Tokens</div>
+    <template if.to-view="pool.isPrimePool">
+      <div class="heading heading3">Exchange</div>
+      <weth-eth-exchange></weth-eth-exchange>
+    </template>
+    <div else class="balancerLink buttonBw" click.delegate="gotoBalancer()">Go to Balancer to Obtain Pool Asset Tokens</div>
 </template>
