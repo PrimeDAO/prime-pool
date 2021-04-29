@@ -7,7 +7,7 @@ import { EventAggregator } from "aurelia-event-aggregator";
 import TransactionsService from "services/TransactionsService";
 import { Address, EthereumService, Hash } from "services/EthereumService";
 import { BigNumber } from "ethers";
-import { SortService } from "services/SortService";
+import { SortOrder, SortService } from "services/SortService";
 import { TokenService } from "services/TokenService";
 import { EventConfigException } from "services/GeneralEvents";
 import { PoolService } from "services/PoolService";
@@ -100,7 +100,7 @@ export class TxHistory {
         }
 
         this.transactions = [].concat(...poolEvents).sort((a: ITransaction, b: ITransaction) =>
-          SortService.evaluateDateTime(a.date.toISOString(), b.date.toISOString()));
+          SortService.evaluateDateTime(a.date.toISOString(), b.date.toISOString(), SortOrder.DESC));
 
       } catch (ex) {
         this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred getting pool histories", ex));
