@@ -68,9 +68,11 @@ export class FarmService {
               const poolFarmsMap = new Map<Address, Farm>();
               for (const config of response.data as Array<IFarmConfigInternal>) {
                 const farm = await this.createFarmFromConfig(config);
+                if (farm) {
                 // assign random key to preview pools
-                farmsMap.set(farm.address, farm);
-                poolFarmsMap.set(farm.poolAddress, farm);
+                  farmsMap.set(farm.address, farm);
+                  poolFarmsMap.set(farm.poolAddress, farm);
+                }
               }
               this.farms = farmsMap;
               this.poolFarms = poolFarmsMap;
@@ -87,14 +89,22 @@ export class FarmService {
       });
   }
 
-  private createFarmFromConfig(config: IFarmConfigInternal): Promise<Farm> {
+  private async createFarmFromConfig(config: IFarmConfigInternal): Promise<Farm> {
     const farmConfig = {
       poolAddress: config.addresses[this.ethereumService.targetedNetwork].pool,
       address: config.addresses[this.ethereumService.targetedNetwork].farm,
       name: config.name,
     };
-    const farm = this.container.get(Farm);
-    return farm.initialize(farmConfig);
+
+    let newFarm: Farm;
+
+    if (farmConfig.address && farmConfig.poolAddress) {
+      const farm = this.container.get(Farm);
+      newFarm = await farm.initialize(farmConfig);
+    } else {
+      newFarm = null;
+    }
+    return newFarm;
   }
 
   public ensureInitialized(): Promise<void> {
