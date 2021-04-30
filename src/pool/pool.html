@@ -80,7 +80,7 @@
       </div>
       <div class="tabButtons">
         <template repeat.for="row of router.navigation">
-          <a class="button ${row.isActive ? 'active' : ''}" href.to-view="getTabButtonRoute(row)">${row.title}</a>
+          <a if.to-view="!row.settings.isFarm || !!farm" class="button ${row.isActive ? 'active' : ''}" href.to-view="getTabButtonRoute(row)">${row.title}</a>
         </template>
       </div>
       <div class="tabSection">
