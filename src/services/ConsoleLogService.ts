@@ -9,7 +9,7 @@ export class ConsoleLogService {
 
   // probably doesn't really need to be a disposable collection since this is a singleton service
   private subscriptions: DisposableCollection = new DisposableCollection();
-  private logger = LogManager.getLogger("PrimePool.eth");
+  private logger = LogManager.getLogger("Prime Pool");
 
   constructor (
     eventAggregator: EventAggregator,

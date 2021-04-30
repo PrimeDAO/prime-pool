@@ -18,7 +18,7 @@ describe("Stage App Component", () => {
       // const view = component.element;
       const homeElement = document.querySelector(".home");
       expect(homeElement).toBeDefined();
-      // expect(view.textContent.trim()).toBe("primepool.eth!");
+      // expect(view.textContent.trim()).toBe("Prime Pool");
       done();
     }).catch(e => {
       fail(e);
