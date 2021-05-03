@@ -63,29 +63,33 @@ export class PoolService {
     return this.createPools();
   }
 
-  private createPools(): Promise<void> {
+  private async createPools(): Promise<void> {
     return this.initializedPromise = new Promise(
-      (resolve: (value: void | PromiseLike<void>) => void,
+      // eslint-disable-next-line no-async-promise-executor
+      async (resolve: (value: void | PromiseLike<void>) => void,
         reject: (reason?: any) => void): Promise<void> => {
         if (!this.pools?.size) {
-          return axios.get("https://raw.githubusercontent.com/PrimeDAO/prime-pool-dapp/master/src/poolConfigurations/pools.json")
-            .then(async (response) => {
-              const poolsMap = new Map<Address, Pool>();
-              for (const config of response.data as Array<IPoolConfigInternal>) {
-                const pool = await this.createPoolFromConfig(config);
-                // assign random key to preview pools
-                poolsMap.set(pool.preview ? Math.random().toString() : pool.address, pool);
-              }
-              this.pools = poolsMap;
-              this.initializing = false;
-              return resolve();
-            })
-            .catch((error) => {
-              this.pools = new Map();
-              this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred loading pools", error));
-              this.initializing = false;
-              return reject();
-            });
+          try {
+            const poolsMap = new Map<Address, Pool>();
+            const poolsConfig = (process.env.NODE_ENV === "development") ?
+              require("poolConfigurations/pools.json") :
+              await axios.get("https://raw.githubusercontent.com/PrimeDAO/prime-pool-dapp/master/src/poolConfigurations/pools.json")
+                .then((response) => response.data);
+
+            for (const config of poolsConfig as Array<IPoolConfigInternal>) {
+              const pool = await this.createPoolFromConfig(config);
+              // assign random key to preview pools
+              poolsMap.set(pool.preview ? Math.random().toString() : pool.address, pool);
+            }
+            this.pools = poolsMap;
+            this.initializing = false;
+            resolve();
+          } catch (error) {
+            this.pools = new Map();
+            this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred loading pools", error));
+            this.initializing = false;
+            reject();
+          }
         }
       });
   }
