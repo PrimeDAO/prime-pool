@@ -6,7 +6,7 @@
   .body {
     .poolButtons {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       padding-right: 36px;
 
       .pool:not(:last-child) {
