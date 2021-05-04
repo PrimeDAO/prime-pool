@@ -34,7 +34,14 @@ export class DonutChart {
 }
 
 class Donut {
-  colors = ["#ff495b", "#8668fc", "#1ee0fc", "#95d86e", "#faa04a", "#39a1d8", "#57dea6", "#c08eff"];
+  backupTokenColors = ["#ff495b", "#1ee0fc", "#95d86e", "#faa04a", "#39a1d8", "#57dea6", "#c08eff"];
+  tokenColors = new Map<string, string>(
+    [
+      ["prime", "#8668fc"],
+      ["weth", "#757575"],
+      ["bal", "#000000"],
+    ],
+  );
   donutContainer;
   chartContainer;
   chartPadding;
@@ -58,9 +65,8 @@ class Donut {
 
   createCenter() {
 
-    const thisChart_r = this.chartRadius;
     const donut = this.donut;
-    const circleRadius = thisChart_r * 0.55;
+    const circleRadius = this.chartRadius * 0.55;
     const interiorBorderRadius = circleRadius * .66;
     const interiorBorderWidth = 3;
     const interiorBorderInteriorRadius = interiorBorderRadius - interiorBorderWidth;
@@ -143,9 +149,10 @@ class Donut {
 
   updateDonut() {
 
-    const thisChart_r = this.chartRadius;
     const thisPathAnim = this.pathAnim.bind(this);
     const thisShowCenterText = this.showCenterText.bind(this);
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const baseThis = this;
     const donut = this.donut;
 
     const pie = d3.layout.pie()
@@ -157,7 +164,7 @@ class Donut {
     const arc = d3.svg.arc()
       .innerRadius(this.innerCircleRadius)
       .outerRadius(function () {
-        return (d3.select(this).classed("clicked")) ? thisChart_r * this.donutSliceExpandFactor : thisChart_r;
+        return (d3.select(this).classed("clicked")) ? baseThis.chartRadius * this.donutSliceExpandFactor : baseThis.chartRadius;
       });
 
     // Start joining data with paths
@@ -175,8 +182,10 @@ class Donut {
     const enter = paths.enter()
       .append("svg:path")
       .attr("d", arc)
-      .style("fill", (_d, i) => {
-        return this.colors[i];
+      .style("fill", (d, i) => {
+        const tokenInfo = d.data as IPoolTokenInfo;
+        const color = baseThis.tokenColors.get(tokenInfo.symbol.toLowerCase()) ?? baseThis.backupTokenColors[i % baseThis.backupTokenColors.length];
+        return color;
       })
       .style("stroke", "#FFFFFF");
 
