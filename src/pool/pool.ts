@@ -4,7 +4,7 @@ import { autoinject, singleton } from "aurelia-framework";
 import "./pool.scss";
 import { PoolBase } from "./poolBase";
 import { EventAggregator } from "aurelia-event-aggregator";
-import { Address, EthereumService } from "services/EthereumService";
+import { EthereumService } from "services/EthereumService";
 import { PoolService } from "services/PoolService";
 import { Router, RouterConfiguration, NavModel } from "aurelia-router";
 import { FarmService } from "services/FarmService";
@@ -27,10 +27,14 @@ export class PoolDashboard extends PoolBase {
     super(eventAggregator, ethereumService, poolService, signaler);
   }
 
-  async activate(model: { poolAddress: Address }): Promise<void> {
-    await super.activate(model);
+  protected async attached(): Promise<void> {
+    await super.attached();
     await this.farmService.ensureInitialized();
     this.farm = this.farmService.poolFarms.get(this.poolAddress);
+    /**
+        * so `getTabButtonRoute` is called again
+        */
+    this.signaler.signal("updateFarmLink");
   }
 
   private configureRouter(config: RouterConfiguration, router: Router) {
@@ -89,5 +93,9 @@ export class PoolDashboard extends PoolBase {
       href = navRow.href;
     }
     return href;
+  }
+
+  getShowTab(navRow: NavModel): boolean {
+    return !navRow.settings.isFarm || !!this.farm;
   }
 }
