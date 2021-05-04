@@ -19,8 +19,8 @@
       <div class="poolRows">
         <template repeat.for="pool of pools">
           <div if.to-view="!pool.preview" class="poolRow">
-            <div class="name">${pool.name}</div>
-            <div class="donutchart" click.delegate="gotoPool(pool)">
+            <div class="name" click.delegate="gotoPool(pool)">${pool.name}</div>
+            <div class=" donutchart" click.delegate="gotoPool(pool)">
               <donut-chart pool.to-view="pool"></donut-chart>
             </div>
             <div class="marketCap">
