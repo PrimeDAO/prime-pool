@@ -61,7 +61,7 @@ export class PoolDashboard extends PoolBase {
         nav: true,
         name: "priceTracker",
         route: "priceTracker",
-        title: "Market Cap Tracker",
+        title: "Market Cap",
         settings: { isFarm: false },
       },
       {
