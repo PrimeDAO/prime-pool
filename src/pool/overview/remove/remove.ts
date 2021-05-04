@@ -132,7 +132,7 @@ export class LiquidityRemove extends PoolBase {
       }
 
       if (this.selectedTokens.length === 1) {
-        this.selectedToken = token;
+        this.selectedToken = this.selectedTokens[0];
         this.isMultiAsset = false;
         this.isSingleAsset = true;
       } else if (this.selectedTokens.length > 1) {
