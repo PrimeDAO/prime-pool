@@ -28,10 +28,10 @@
                 <div class="text"><img src="${row.settings.icon}" />${row.title}</div>
               </a>
               <div if.to-view="row.config.name === 'pools'">
-                <div if.to-view="$parent.initializing" class="initialize">
+                <div show.to-view="$parent.initializing" class="initialize">
                   <loading-dots tooltip="Loading Pools..."></loading-dots>
                 </div>
-                <div else class="poolItems">
+                <div if.to-view="!$parent.initializing" class="poolItems">
                   <template repeat.for="pool of $parent.pools">
                     <a if.to-view="!pool.preview"
                       class="item pool ${(pool === currentPool) ? 'active' : ''}"
