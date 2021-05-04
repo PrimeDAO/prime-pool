@@ -449,29 +449,30 @@ export class LiquidityAdd extends PoolBase {
 
   private async joinPool(poolAmountOut, maxAmountsIn): Promise<void> {
     if (this.ensureConnected()) {
-      await this.transactionsService.send(() => this.pool.crPool.joinPool(poolAmountOut, maxAmountsIn));
-
-      await this.refresh();
+      if (await this.transactionsService.send(() => this.pool.crPool.joinPool(poolAmountOut, maxAmountsIn))) {
+        await this.refresh();
+      }
     }
   }
 
   private async joinswapExternAmountIn(tokenIn, tokenAmountIn, minPoolAmountOut): Promise<void> {
     if (this.ensureConnected()) {
-      await this.transactionsService.send(() => this.pool.crPool.joinswapExternAmountIn(
+      if (await this.transactionsService.send(() => this.pool.crPool.joinswapExternAmountIn(
         tokenIn,
         tokenAmountIn,
-        minPoolAmountOut));
+        minPoolAmountOut))) {
 
-      this.refresh();
+        this.refresh();
+      }
     }
   }
 
   private async setTokenAllowance(token: IPoolTokenInfoEx): Promise<void> {
     if (this.ensureConnected()) {
 
-      await this.transactionsService.send(() => token.tokenContract.approve(this.pool.address, token.inputAmount_add));
-
-      this.getUserBalances();
+      if (await this.transactionsService.send(() => token.tokenContract.approve(this.pool.address, token.inputAmount_add))) {
+        this.getUserBalances();
+      }
     }
   }
 

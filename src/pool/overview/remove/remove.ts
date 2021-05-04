@@ -346,7 +346,7 @@ export class LiquidityRemove extends PoolBase {
       else if (this.poolTokenAmount.gt(this.pool.userPoolTokenBalance)) {
         message = `You can't return this amount of ${this.pool.poolToken.symbol} because it exceeds your balance`;
       }
-    } else {
+    } else if (!this.isMultiAsset) {
       message = `To redeem ${this.pool.poolToken.symbol} you must select at least one asset you wish receive`;
     }
 
@@ -392,15 +392,17 @@ export class LiquidityRemove extends PoolBase {
 
   async exitPool(poolAmountIn: BigNumber, minAmountsOut: Array<string>): Promise<void> {
     if (this.ensureConnected()) {
-      await this.transactionsService.send(() => this.pool.crPool.exitPool(poolAmountIn, minAmountsOut));
-      this.refresh();
+      if (await this.transactionsService.send(() => this.pool.crPool.exitPool(poolAmountIn, minAmountsOut))) {
+        this.refresh();
+      }
     }
   }
 
   async exitswapPoolAmountIn(tokenOutAddress: Address, poolAmountIn: BigNumber, minTokenAmountOut: string): Promise<void> {
     if (this.ensureConnected()) {
-      await this.transactionsService.send(() => this.pool.crPool.exitswapPoolAmountIn(tokenOutAddress, poolAmountIn, minTokenAmountOut));
-      this.refresh();
+      if (await this.transactionsService.send(() => this.pool.crPool.exitswapPoolAmountIn(tokenOutAddress, poolAmountIn, minTokenAmountOut))) {
+        this.refresh();
+      }
     }
   }
 

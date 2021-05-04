@@ -134,25 +134,28 @@ export class Farm implements IFarmConfig {
 
   public async stakingHarvest(): Promise<void> {
     if (this.connected) {
-      await this.transactionsService.send(() => this.contract.getReward());
-      this.hydrateUserValues();
-      this.pool.hydrateUserValues();
+      if (await this.transactionsService.send(() => this.contract.getReward())) {
+        this.hydrateUserValues();
+        this.pool.hydrateUserValues();
+      }
     }
   }
 
   public async stakingExit(): Promise<void> {
     if (this.connected) {
-      await this.transactionsService.send(() => this.contract.exit());
-      this.hydrateUserValues();
-      this.pool.hydrateUserValues();
+      if (await this.transactionsService.send(() => this.contract.exit())) {
+        this.hydrateUserValues();
+        this.pool.hydrateUserValues();
+      }
     }
   }
 
   public async stake(amount: BigNumber): Promise<void> {
     if (this.connected) {
-      await this.transactionsService.send(() => this.contract.stake(amount));
-      this.hydrateUserValues();
-      this.pool.hydrateUserValues();
+      if (await this.transactionsService.send(() => this.contract.stake(amount))) {
+        this.hydrateUserValues();
+        this.pool.hydrateUserValues();
+      }
     }
   }
 }

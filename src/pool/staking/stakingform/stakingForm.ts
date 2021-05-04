@@ -122,8 +122,9 @@ export class StakingForm {
 
   private async unlock() {
     if (this.farm.connected) {
-      await this.transactionsService.send(() => this.farm.stakingTokenContract.approve(this.farm.address, this.amountToStake));
-      this.farm.hydrateUserValues();
+      if (await this.transactionsService.send(() => this.farm.stakingTokenContract.approve(this.farm.address, this.amountToStake))) {
+        this.farm.hydrateUserValues();
+      }
     }
   }
 

@@ -68,9 +68,10 @@ export class WethEthExchange {
       else if (this.ethWethAmount.gt(this.userEthBalance)) {
         this.eventAggregator.publish("handleValidationError", new EventConfigFailure("You don't have enough ETH to wrap the amount you requested"));
       } else {
-        await this.transactionsService.send(() => this.weth.deposit({ value: this.ethWethAmount }));
-        this.getUserBalances();
-        this.eventAggregator.publish("ethWethExchanged");
+        if (await this.transactionsService.send(() => this.weth.deposit({ value: this.ethWethAmount }))) {
+          this.getUserBalances();
+          this.eventAggregator.publish("ethWethExchanged");
+        }
       }
     }
   }
@@ -83,9 +84,10 @@ export class WethEthExchange {
       else if (this.wethEthAmount.gt(this.userWethBalance)) {
         this.eventAggregator.publish("handleValidationError", new EventConfigFailure("You don't have enough WETH to unwrap the amount you requested"));
       } else {
-        await this.transactionsService.send(() => this.weth.withdraw(this.wethEthAmount));
-        this.getUserBalances();
-        this.eventAggregator.publish("ethWethExchanged");
+        if (await this.transactionsService.send(() => this.weth.withdraw(this.wethEthAmount))) {
+          this.getUserBalances();
+          this.eventAggregator.publish("ethWethExchanged");
+        }
       }
     }
   }
