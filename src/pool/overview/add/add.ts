@@ -88,7 +88,6 @@ export class LiquidityAdd extends PoolBase {
          */
         setTimeout(() => this.selectedTokens.pop(), 0);
       });
-
     }
   }
 

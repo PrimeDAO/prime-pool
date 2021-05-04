@@ -12,8 +12,10 @@ import TransactionsService from "services/TransactionsService";
 @autoinject
 export class StakingForm {
 
+  farmAddress: Address;
   farm: Farm;
   amountToStake: BigNumber;
+  changingFarm: boolean;
 
   get userRewardTokenBalance(): BigNumber {
     return this.farm.pool.assetTokens.get(this.farm.rewardTokenAddress).userBalance;
@@ -32,7 +34,23 @@ export class StakingForm {
   ) { }
 
   public async activate(model: { farmAddress: Address }): Promise<void> {
-    this.farm = this.farmService.farms.get(model.farmAddress);
+    if (this.farmAddress && (this.farmAddress !== model.farmAddress)) {
+      this.changingFarm = true;
+      this.farm = null;
+      // throw new Error("internal error: cannot change farm address");
+    } else {
+      this.changingFarm = false;
+    }
+    if (this.farmAddress !== model.farmAddress) {
+      this.farmAddress = model.farmAddress;
+      this.farm = this.farmService.farms.get(model.farmAddress);
+    }
+  }
+
+  public async attached(): Promise<void> {
+    if (this.changingFarm) {
+      this.amountToStake = null;
+    }
   }
 
   public canActivate(model: { farmAddress: Address }): Redirect | boolean | undefined {
