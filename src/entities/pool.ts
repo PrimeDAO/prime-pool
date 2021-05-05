@@ -221,14 +221,20 @@ export class Pool implements IPoolConfig {
           ContractNames.BPOOL,
           await this.crPool.bPool());
 
-        this.poolToken = (await this.tokenService.getTokenInfoFromAddress(this.address)) as IPoolTokenInfo;
+        /**
+         * clone the token because it is going to have pool-specific modifications
+         */
+        this.poolToken = Object.assign({}, (await this.tokenService.getTokenInfoFromAddress(this.address)) as IPoolTokenInfo);
 
         const assetTokenAddresses = await this.bPool.getCurrentTokens();
         assetTokens = new Map<Address, IPoolTokenInfo>();
 
         for (const tokenAddress of assetTokenAddresses) {
           const tokenInfo = (await this.tokenService.getTokenInfoFromAddress(tokenAddress)) as IPoolTokenInfo;
-          assetTokens.set(tokenAddress, tokenInfo);
+          /**
+           * clone the token because it is going to have pool-specific modifications
+           */
+          assetTokens.set(tokenAddress, Object.assign({}, tokenInfo));
         }
 
         assetTokensArray = Array.from(assetTokens.values());
