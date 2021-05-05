@@ -8,7 +8,7 @@ const { AureliaPlugin, ModuleDependenciesPlugin } = require('aurelia-webpack-plu
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { EnvironmentPlugin } = require("webpack");
-require("dotenv").config();
+require("dotenv").config({ path: `${process.env.DOTENV_CONFIG_PATH}` });
 
 // config helpers:
 const ensureArray = (config) => config && (Array.isArray(config) ? config : [config]) || [];
