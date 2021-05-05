@@ -75,9 +75,9 @@ export class LiquidityRemove extends PoolBase {
   }
 
   protected async attached(): Promise<void> {
-    const inited = !!this.pool;
+    const changingPool = !this.pool;
     await super.attached();
-    if (!inited || this.changingPool) {
+    if (changingPool) {
       this.pool.assetTokensArray.map((token: any) => token.selected_remove = null);
       this.pool.assetTokensArray.map((token: any) => token.inputAmount_remove = null);
       this.poolTokenAmount = null;

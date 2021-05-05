@@ -76,8 +76,11 @@ export class LiquidityAdd extends PoolBase {
   }
 
   protected async attached(): Promise<void> {
-    super.attached();
-    if (this.changingPool) {
+    const changingPool = !this.pool;
+
+    await super.attached();
+
+    if (changingPool) {
       this.pool.assetTokensArray.map((token: any) => token.selected_add = null);
       this.pool.assetTokensArray.map((token: any) => token.inputAmount_add = null);
       this.poolTokens = null;
@@ -257,16 +260,22 @@ export class LiquidityAdd extends PoolBase {
     const ratio = toBigNumberJs(changedAmount).div(changedTokenBalance);
     const poolTokenShares = toBigNumberJs(this.pool.poolTokenTotalSupply);
 
+    this.amounts.set(token.address, changedAmount.toString());
+
     if (this.isMultiAsset) {
       this.poolTokens = calcPoolTokensByRatio(
         toBigNumberJs(ratio),
         toBigNumberJs(poolTokenShares));
     } else if (this.isSingleAsset) {
       const tokenIn = this.selectedToken;
-      const amount = toBigNumberJs(tokenIn.inputAmount_add);
+      const amount = toBigNumberJs(tokenIn.inputAmount_add ? tokenIn.inputAmount_add : "0");
       const tokenInBalanceIn = toBigNumberJs(tokenIn.balanceInPool);
       const maxInRatio = 1 / 2;
+
       if (amount.div(tokenInBalanceIn).gt(maxInRatio)) {
+        /**
+         * don't compute this.poolTokens cuz calcPoolOutGivenSingleIn will hang
+         */
         return;
       }
 
@@ -283,8 +292,6 @@ export class LiquidityAdd extends PoolBase {
         toBigNumberJs(this.pool.swapfee))
         .toString();
     }
-
-    this.amounts.set(token.address, changedAmount.toString());
 
     if (this.isMultiAsset) {
 

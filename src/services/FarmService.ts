@@ -59,32 +59,37 @@ export class FarmService {
 
   private createFarms(): Promise<void> {
     return this.initializedPromise = new Promise(
-      (resolve: (value: void | PromiseLike<void>) => void,
+      // eslint-disable-next-line no-async-promise-executor
+      async (resolve: (value: void | PromiseLike<void>) => void,
         reject: (reason?: any) => void): Promise<void> => {
         if (!this.farms?.size) {
-          return axios.get("https://raw.githubusercontent.com/PrimeDAO/prime-pool-dapp/master/src/poolConfigurations/farms.json")
-            .then(async (response) => {
-              const farmsMap = new Map<Address, Farm>();
-              const poolFarmsMap = new Map<Address, Farm>();
-              for (const config of response.data as Array<IFarmConfigInternal>) {
-                const farm = await this.createFarmFromConfig(config);
-                if (farm) {
+          try {
+            const farmsMap = new Map<Address, Farm>();
+            const poolFarmsMap = new Map<Address, Farm>();
+            const farmsConfig = (process.env.NODE_ENV === "development") ?
+              require("poolConfigurations/farms.json") :
+              await axios.get("https://raw.githubusercontent.com/PrimeDAO/prime-pool-dapp/master/src/poolConfigurations/farms.json")
+                .then((response) => response.data);
+
+            for (const config of farmsConfig as Array<IFarmConfigInternal>) {
+              const farm = await this.createFarmFromConfig(config);
+              if (farm) {
                 // assign random key to preview pools
-                  farmsMap.set(farm.address, farm);
-                  poolFarmsMap.set(farm.poolAddress, farm);
-                }
+                farmsMap.set(farm.address, farm);
+                poolFarmsMap.set(farm.poolAddress, farm);
               }
-              this.farms = farmsMap;
-              this.poolFarms = poolFarmsMap;
-              this.initializing = false;
-              return resolve();
-            })
-            .catch((error) => {
-              this.farms = new Map();
-              this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred loading farms", error));
-              this.initializing = false;
-              return reject();
-            });
+            }
+            this.farms = farmsMap;
+            this.poolFarms = poolFarmsMap;
+            this.initializing = false;
+            resolve();
+          } catch (error) {
+            this.farms = new Map();
+            this.poolFarms = new Map();
+            this.eventAggregator.publish("handleException", new EventConfigException("Sorry, an error occurred loading farms", error));
+            this.initializing = false;
+            reject();
+          }
         }
       });
   }

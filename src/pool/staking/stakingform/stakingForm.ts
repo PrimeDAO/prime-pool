@@ -33,22 +33,11 @@ export class StakingForm {
     private farmService: FarmService,
   ) { }
 
+
   public async activate(model: { farmAddress: Address }): Promise<void> {
-    if (this.farmAddress && (this.farmAddress !== model.farmAddress)) {
-      this.changingFarm = true;
-      this.farm = null;
-      // throw new Error("internal error: cannot change farm address");
-    } else {
-      this.changingFarm = false;
-    }
     if (this.farmAddress !== model.farmAddress) {
       this.farmAddress = model.farmAddress;
       this.farm = this.farmService.farms.get(model.farmAddress);
-    }
-  }
-
-  public async attached(): Promise<void> {
-    if (this.changingFarm) {
       this.amountToStake = null;
     }
   }
