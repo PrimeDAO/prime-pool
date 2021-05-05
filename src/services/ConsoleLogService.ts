@@ -50,6 +50,7 @@ export class ConsoleLogService {
   public handleException(config: EventConfigException | any): void {
     let message;
     let ex;
+    let stack;
     if (!(config instanceof EventConfigException)) {
       ex = config as any;
       message = `${ex?.message ? ex.message : ex}`;
@@ -57,9 +58,10 @@ export class ConsoleLogService {
       config = config as EventConfigException;
       ex = config.exception;
       message = config.message;
+      stack = ex.stack ?? ex.error?.stack;
     }
 
-    this.logger.error(`${message}${ex?.stack ? `\n${ex.stack}` : ""}`);
+    this.logger.error(`${message}${stack ? `\n${stack}` : ""}`);
   }
 
   public handleFailure(config: EventConfig | string): void {
