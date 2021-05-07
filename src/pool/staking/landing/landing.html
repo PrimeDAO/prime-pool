@@ -4,10 +4,11 @@
       <div class="icon"><img src="/TvChart.svg" /></div>
       <div class="icon"><img src="/Basket.svg" /></div>
       <div class="icon"><img src="/Shovel.svg" /></div>
-      <div class="value" if.to-view="currentAPY !== undefined">$<formatted-number value.to-view="currentAPY"
+      <div class="value" if.to-view="currentAPY !== undefined">
+        <formatted-number value.to-view="currentAPY"
           average="false"
           mantissa="2"
-          thousands-separated></formatted-number>
+          thousands-separated></formatted-number>%
       </div>
       <div class="value" else>N/A</div>
       <div class="value">
