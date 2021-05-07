@@ -1,3 +1,4 @@
+import { NumberService } from "services/numberService";
 import { IFarmConfig } from "services/FarmService";
 import { autoinject } from "aurelia-framework";
 import { ContractNames, ContractsService } from "services/ContractsService";
@@ -25,7 +26,6 @@ export class Farm implements IFarmConfig {
   contract: any;
   pool: Pool;
   public connected = false;
-  private subscriptions: DisposableCollection = new DisposableCollection();
   rewardTokenAddress: Address;
   rewardTokenInfo: ITokenInfo;
   rewardTokenContract: any;
@@ -41,6 +41,12 @@ export class Farm implements IFarmConfig {
    */
   stakingTokenFarming: BigNumber;
   stakingTokenAllowance: BigNumber;
+  /**
+   * in seconds
+   **/
+  duration: number;
+
+  private subscriptions: DisposableCollection = new DisposableCollection();
 
   public constructor(
     private contractsService: ContractsService,
@@ -48,6 +54,7 @@ export class Farm implements IFarmConfig {
     private eventAggregator: EventAggregator,
     private poolService: PoolService,
     private tokenService: TokenService,
+    private numberService: NumberService,
     private transactionsService: TransactionsService,
   ) {
 
@@ -108,6 +115,7 @@ export class Farm implements IFarmConfig {
 
       this.rewardTokenInfo = (await this.tokenService.getTokenInfoFromAddress(this.rewardTokenAddress)) as ITokenInfo;
       this.stakingTokenInfo = (await this.tokenService.getTokenInfoFromAddress(this.stakingTokenAddress)) as ITokenInfo;
+      this.duration = await this.contract.DURATION();
     }
 
     await this.hydrateUserValues();

@@ -42,9 +42,13 @@ export class StakingLanding {
     }
 
     const rewardTokenPrice = this.farm.rewardTokenInfo.price;
+    /**
+     * convert to days
+     */
+    const duration = this.farm.duration / 86400;
 
     this.currentAPY = liquidity ?
-      (((this.numberService.fromString(fromWei((await this.farm.contract.initreward()))) / 30) * rewardTokenPrice * 36500) / liquidity)
+      (((this.numberService.fromString(fromWei((await this.farm.contract.initreward()))) / duration) * rewardTokenPrice * 36500) / liquidity)
       : undefined;
 
     await this.hydrateUserValues();
