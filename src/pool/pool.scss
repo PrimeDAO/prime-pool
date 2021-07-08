@@ -189,6 +189,14 @@
         }
       }
 
+      .shutdownMessage {
+        border: 2px solid $color-red;
+        color: $color-red;
+        border-radius: 20px;
+        padding: 32px;
+        margin-bottom: 24px;
+      }
+
       .story {
         > .heading {
           color: $color-light-purple;

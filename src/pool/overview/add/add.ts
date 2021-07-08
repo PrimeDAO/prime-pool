@@ -66,6 +66,7 @@ export class LiquidityAdd extends PoolBase {
   }
 
   public canActivate(model: { poolAddress: Address }): Redirect | boolean | undefined {
+    return false; // because pools are shutdown
     const pool = this.poolService?.pools?.get(model.poolAddress);
     if (!pool?.connected) {
       // this.eventAggregator.publish("handleInfo", "Please connect to a wallet");

@@ -1,17 +1,18 @@
 <template>
   <div class="liquidityButtons">
     <template if.to-view="pool">
-      <div class="liquidityButton" show.to-view="pool.connected">
+      <!-- <div class="liquidityButton" show.to-view="pool.connected">
         <button class="button3" click.delegate="gotoAddLiquidity()">Buy ${pool.poolToken.symbol}</button>
-      </div>
+      </div> -->
       <div class="liquidityButton" show.to-view="pool.connected">
         <button class="button" click.delegate="gotoRemoveLiquidity()">Redeem ${pool.poolToken.symbol}</button>
       </div>
       <div class="liquidityButton" show.to-view="!pool.connected">
-        <button class="button1 connect" click.delegate="connect()">Connect to Buy and Redeem</button>
+        <!-- <button class="button1 connect" click.delegate="connect()">Connect to Buy and Redeem</button> -->
+        <button class="button1 connect" click.delegate="connect()">Connect to Redeem</button>
       </div>
     </template>
-    <template if.to-view="farm">
+    <!-- <template if.to-view="farm">
       <div class="liquidityButton" show.to-view="farm.connected">
         <button class="button1 stakeBPrime" click.delegate="stake()">Farm ${farm.pool.poolToken.symbol} Tokens</button>
       </div>
@@ -24,6 +25,6 @@
       <div class="liquidityButton" show.to-view="!farm.connected">
         <button class="button1 connect" click.delegate="connect()">Connect to Stake ${farm.pool.poolToken.symbol} Tokens</button>
       </div>
-    </template>
+    </template> -->
   </div>
 </template>

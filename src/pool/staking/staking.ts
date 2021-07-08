@@ -8,6 +8,10 @@ export class StakingLanding {
 
   private router: Router;
 
+  canActivate(): boolean {
+    return false; // disabled
+  }
+
   private configureRouter(config: RouterConfiguration, router: Router) {
     config.map([
       {

@@ -62,9 +62,9 @@
         grid-template-columns: 160px repeat(6, 1fr);
         grid-template-rows: auto;
         grid-template-areas:
-          "name name name name name name name"
-          "donutchart marketCap priceDelta1 priceDelta2 priceDelta3 chart addLiquidity"
-          "donutchart price assets assets assets assets assets";
+          "name name name name name name"
+          "donutchart marketCap priceDelta1 priceDelta2 priceDelta3 chart" // addLiquidity
+          "donutchart price assets assets assets assets";
         column-gap: 30px;
         row-gap: 24px;
 
@@ -186,9 +186,9 @@
         .poolRow {
           grid-template-columns: 160px repeat(3, 1fr);
           grid-template-areas:
-            "name name name name"
-            "donutchart marketCap chart addLiquidity"
-            "donutchart price assets assets";
+            "name name name"
+            "donutchart marketCap chart"
+            "donutchart price assets";
           row-gap: 18px;
 
           .addLiquidity {
@@ -215,7 +215,7 @@
           grid-template-columns: 160px repeat(2, 1fr);
           grid-template-areas:
             "name name name"
-            "donutchart marketCap addLiquidity"
+            "donutchart marketCap marketCap" // addLiquidity
             "donutchart price assets";
 
           .addLiquidity {
@@ -269,7 +269,8 @@
             "name name"
             "donutchart donutchart"
             "marketCap price"
-            "addLiquidity addLiquidity";
+            // "addLiquidity addLiquidity"
+;
 
           .donutchart {
             width: 160px;

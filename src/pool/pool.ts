@@ -68,15 +68,16 @@ export class PoolDashboard extends PoolBase {
         title: "Market Cap",
         settings: { isFarm: false },
       },
-      {
-        moduleId: PLATFORM.moduleName("./staking/staking"),
-        nav: true,
-        name: "staking",
-        route: "farm/:farmAddress",
-        title: "Farm",
-        href: "#", // just to satisfy the router
-        settings: { isFarm: true },
-      },
+      // ,
+      // {
+      //   moduleId: PLATFORM.moduleName("./staking/staking"),
+      //   nav: true,
+      //   name: "staking",
+      //   route: "farm/:farmAddress",
+      //   title: "Farm",
+      //   href: "#", // just to satisfy the router
+      //   settings: { isFarm: true },
+      // },
     ];
 
     config.map(routes);
