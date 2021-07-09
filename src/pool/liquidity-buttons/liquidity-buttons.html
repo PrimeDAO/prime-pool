@@ -12,19 +12,22 @@
         <button class="button1 connect" click.delegate="connect()">Connect to Redeem</button>
       </div>
     </template>
-    <!-- <template if.to-view="farm">
-      <div class="liquidityButton" show.to-view="farm.connected">
+    <template if.to-view="farm">
+      <!-- <div class="liquidityButton" show.to-view="farm.connected">
         <button class="button1 stakeBPrime" click.delegate="stake()">Farm ${farm.pool.poolToken.symbol} Tokens</button>
-      </div>
+      </div> -->
       <div class="liquidityButton" show.to-view="farm.connected">
         <button class="button2 harvestYield" click.delegate="stakingHarvest()">Withdraw Rewards</button>
       </div>
       <div class="liquidityButton" show.to-view="farm.connected">
         <button class="button3 harvestAndWithdraw" click.delegate="stakingExit()">Withdraw Rewards &amp; Farmed Tokens</button>
       </div>
-      <div class="liquidityButton" show.to-view="!farm.connected">
+      <!-- <div class="liquidityButton" show.to-view="!farm.connected">
         <button class="button1 connect" click.delegate="connect()">Connect to Stake ${farm.pool.poolToken.symbol} Tokens</button>
+      </div> -->
+      <div class="liquidityButton" show.to-view="!farm.connected">
+        <button class="button1 connect" click.delegate="connect()">Connect to Withdraw</button>
       </div>
-    </template> -->
+    </template>
   </div>
 </template>
