@@ -193,8 +193,12 @@
         border: 2px solid $color-red;
         color: $color-red;
         border-radius: 20px;
-        padding: 32px;
+        padding: 10px 32px;
         margin-bottom: 24px;
+
+        .warning {
+          font-weight: bold;
+        }
       }
 
       .story {
